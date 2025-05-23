@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { useCounterStore } from '../stores/counter';
+import { useI18n } from 'vue-i18n';
 
 const counterStore = useCounterStore();
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="home">
-    <h1>首页</h1>
-    <p>计数器: {{ counterStore.count }}</p>
-    <p>双倍计数: {{ counterStore.doubleCount }}</p>
+    <h1>{{ t('common.home') }}</h1>
+    <p>{{ t('home.counter') }}: {{ counterStore.count }}</p>
+    <p>{{ t('home.doubleCounter') }}: {{ counterStore.doubleCount }}</p>
     <div>
       <button @click="counterStore.increment">
-        增加
+        {{ t('home.increase') }}
       </button>
       <button @click="counterStore.decrement">
-        减少
+        {{ t('home.decrease') }}
       </button>
     </div>
     <div class="mt-4">
       <router-link to="/about">
-        前往关于页面
+        {{ t('common.about') }}
       </router-link>
     </div>
   </div>
