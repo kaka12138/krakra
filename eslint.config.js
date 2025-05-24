@@ -43,7 +43,7 @@ export default defineConfig([
   {
     rules: {
       // 错误预防
-      'no-console': 'warn',
+      // 'no-console': 'warn',
       'no-debugger': 'warn',
       'no-unused-vars': 'off', // 由TypeScript处理
       '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
