@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import InputCom from './InputCom.vue'
 import TextareaCom from './TextareaCom.vue'
 import SwitchCom from './SwitchCom.vue'
+import RadioGroupCom from './RadioGroupCom.vue'
 import {
   FormControl,
   FormField,
@@ -61,6 +62,11 @@ const onSubmit = form.handleSubmit((values) => {
               </template>
               <template v-else-if="field.comType === 'switch'">
                 <SwitchCom v-bind="{ ...componentField, ...field }" />
+              </template>
+              <template v-else-if="field.comType === 'radio'">
+                <RadioGroupCom
+                  v-bind="{ ...componentField, ...field }"
+                />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />

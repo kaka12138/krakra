@@ -52,13 +52,13 @@ export const OC_FORM_FIELDS = [
     fieldName: 'viewPermission',
     label: '高级权限',
     title: '允许展示范围',
-    radioList: PERMISSION_LIST,
+    options: PERMISSION_LIST,
   },
   {
     comType: 'radio',
     fieldName: 'createPermission',
     title: '允许来自以下来源的同人扩链作品提交',
-    radioList: PERMISSION_LIST,
+    options: PERMISSION_LIST,
   },
   {
     comType: 'switch',
