@@ -66,7 +66,7 @@ export const OC_FORM_FIELDS = [
     label: '标记为敏感内容',
   },
   {
-    comType: 'add-label',
+    comType: 'add-tag',
     fieldName: 'tags',
     label: '添加标签',
   },

@@ -7,6 +7,7 @@ import InputCom from './InputCom.vue'
 import TextareaCom from './TextareaCom.vue'
 import SwitchCom from './SwitchCom.vue'
 import RadioGroupCom from './RadioGroupCom.vue'
+import AddTagCom from './AddTagCom.vue'
 import {
   FormControl,
   FormField,
@@ -67,6 +68,10 @@ const onSubmit = form.handleSubmit((values) => {
                 <RadioGroupCom
                   v-bind="{ ...componentField, ...field }"
                 />
+              </template>
+              <template v-else-if="field.comType === 'add-tag'">
+                {{ componentField }}
+                <AddTagCom v-model="componentField.modelValue" />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />

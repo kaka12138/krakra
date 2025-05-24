@@ -11,7 +11,9 @@ export const OC_FORM_RULES = z.object({
   motto: z.string().nonempty({ message: '请输入座右铭' }),
   description: z.string().nonempty({ message: '请输入介绍' }),
   ocUrl: z.string().nonempty({ message: '请输入角色网址' }),
-  tags: z.array(z.string()).nonempty({ message: '请添加标签' }),
+  tags: z.array(z.object({
+    desc: z.string().nonempty({ message: '请输入标签' }),
+  })).nonempty({message: '请添加标签'}),
 })
 
 export const FORM_RULES_MAP = {
