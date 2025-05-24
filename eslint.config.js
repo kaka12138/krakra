@@ -51,9 +51,9 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'off',
 
       // Vue相关规则
-      'vue/multi-word-component-names': 'warn',
+      'vue/multi-word-component-names': 'off',
       'vue/no-unused-components': 'warn',
-      'vue/require-default-prop': 'warn',
+      'vue/require-default-prop': 'off',
       'vue/attributes-order': ['warn', {
         'order': [
           'DEFINITION',
@@ -77,7 +77,7 @@ export default defineConfig([
 
       // 格式规则
       'indent': ['warn', 2],
-      'semi': ['warn', 'always'],
+      // 'semi': ['warn', 'always'],
       'quotes': ['warn', 'single'],
       'comma-dangle': ['warn', 'always-multiline'],
       'no-trailing-spaces': 'warn',
