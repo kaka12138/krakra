@@ -4,6 +4,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 
 import { Button } from '@/components/ui/button'
 import InputCom from './InputCom.vue'
+import TextareaCom from './TextareaCom.vue'
+import SwitchCom from './SwitchCom.vue'
 import {
   FormControl,
   FormField,
@@ -53,6 +55,12 @@ const onSubmit = form.handleSubmit((values) => {
             <FormControl>
               <template v-if="field.comType === 'input'">
                 <InputCom :is-error="errorMessage.length > 0" v-bind="{ ...componentField, ...field }" />
+              </template>
+              <template v-else-if="field.comType === 'textarea'">
+                <TextareaCom :is-error="errorMessage.length > 0" v-bind="{ ...componentField, ...field }" />
+              </template>
+              <template v-else-if="field.comType === 'switch'">
+                <SwitchCom v-bind="{ ...componentField, ...field }" />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />

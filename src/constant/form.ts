@@ -21,7 +21,12 @@ export const PERMISSION_LIST = [
   },
 ]
 
-export const CREATE_OC_ROLE = {
+export const LOGIN_FORM_INITIAL_VALUES = {
+  email: '',
+  password: '',
+}
+
+export const OC_FORM_INITIAL_VALUES = {
   coverFileId: '', // 作品封面(oc)
   name: '', // 作品名称
   description: '', // 作品描述
@@ -35,26 +40,10 @@ export const CREATE_OC_ROLE = {
   isDerivative: 0, // 0: 否 1: 是 (是否二次创作)
 }
 
-export const CREATE_AU_PRODUCT = {
-  imageFileIds: [], // 作品图片
-  name: '', // 作品名称
-  description: '', // 作品描述
-  tags: [], // 作品标签
-  type: 1, // 1: oc 2: au
-  isDerivative: 0, // 0: 否 1: 是 (是否二次创作)
-  viewPermission: 1, // 浏览权限
-  createPermission: 1, // 创作权限
-}
+export const AU_FORM_INITIAL_VALUES = Object.assign({}, OC_FORM_INITIAL_VALUES, {
+  type: 2,
+})
 
-export const LOGIN_FORM_INITIAL_VALUES = {
-  email: '',
-  password: '',
-}
-
-export const INIT_FORMDATA_MAP = {
-  oc_form: CREATE_OC_ROLE,
-  au_form: CREATE_AU_PRODUCT,
-}
 
 export const FORM_TITLE_MAP = {
   oc_form: '新角色',
@@ -62,7 +51,7 @@ export const FORM_TITLE_MAP = {
 }
 
 export const FORM_INITIAL_VALUES_MAP = {
-  oc_form: CREATE_OC_ROLE,
-  au_form: CREATE_AU_PRODUCT,
   login_form: LOGIN_FORM_INITIAL_VALUES,
+  oc_form: OC_FORM_INITIAL_VALUES,
+  au_form: AU_FORM_INITIAL_VALUES,
 }

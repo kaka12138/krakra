@@ -1,5 +1,6 @@
 <template>
   <div class="relative">
+    <label v-if="label" class="block text-sm font-medium text-purple-500 mb-1">{{ label }}</label>
     <Input
       v-bind="componentField"
       :type="inputOriginTypeComputed"
@@ -46,6 +47,7 @@ const props = defineProps<{
   isError: boolean,
   inputOriginType: string, // TODO: 配置
   placeholder: string,
+  label?: string,
 }>()
 const componentField = useAttrs()
 
