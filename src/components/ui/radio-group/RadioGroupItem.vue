@@ -33,7 +33,7 @@ const forwardedProps = useForwardProps(delegatedProps)
       data-slot="radio-group-indicator"
       class="relative flex items-center justify-center"
     >
-      <CircleIcon class="fill-purple-500 absolute top-1/2 left-1/2 size-5 -translate-x-1/2 -translate-y-1/2" />
+      <CircleIcon class="fill-[#9370DB] absolute top-1/2 left-1/2 size-5 -translate-x-1/2 -translate-y-1/2" />
     </RadioGroupIndicator>
   </RadioGroupItem>
 </template>

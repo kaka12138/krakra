@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-2">
-    <label v-if="label" class="block text-sm font-medium text-neutral-700 dark:text-neutral-200">{{ label }}</label>
+    <label v-if="label" class="block text-sm font-medium text-[#9370DB] dark:text-neutral-200">{{ label }}</label>
     <RadioGroup
       :model-value="componentField.modelValue"
       class="space-y-2"
@@ -15,7 +15,7 @@
         <div class="mr-3">
           <RadioGroupItem
             :value="option.value"
-            class="size-6 data-[state=checked]:border-purple-500 data-[state=checked]:text-purple-500"
+            class="size-6 data-[state=checked]:border-[#9370DB] data-[state=checked]:text-[#9370DB]"
           />
         </div>
         <div>

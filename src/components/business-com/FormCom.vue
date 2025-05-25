@@ -71,7 +71,7 @@ const onSubmit = form.handleSubmit((values) => {
               </template>
               <template v-else-if="field.comType === 'add-tag'">
                 {{ componentField }}
-                <AddTagCom v-model="componentField.modelValue" />
+                <AddTagCom v-model="componentField.modelValue" v-bind="field" />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />

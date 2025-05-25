@@ -1,12 +1,12 @@
 <template>
   <div class="relative">
-    <label v-if="label" class="block text-sm font-medium text-purple-500 mb-1">{{ label }}</label>
+    <label v-if="label" class="block text-sm font-medium text-[#9370DB] mb-1">{{ label }}</label>
     <Input
       v-bind="componentField"
       :type="inputOriginTypeComputed"
       :placeholder="placeholder"
       class="h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
-      :class="isError ? 'border-red-500 ring-1 ring-red-500/30' : 'focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20'"
+      :class="isError ? 'border-red-500 ring-1 ring-red-500/30' : 'focus:border-[#9370DB] focus:ring-2 focus:ring-[#9370DB]/20'"
     />
     <template v-if="inputOriginType === 'password'">
       <button
