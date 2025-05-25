@@ -15,24 +15,39 @@ export interface LoginParams {
   password: string;
 }
 
+export interface SigninParams {
+  username: string;
+  password: string;
+  email: string;
+  code: string;
+}
+
 export interface LoginResult {
   token: string;
   userInfo: UserInfo;
 }
 
 /**
+ * 注册
+ */
+
+export function signinApi(params: SigninParams): Promise<SigninResult> {
+  return post<SigninResult>('/user', params);
+}
+
+/**
  * 用户登录
  * @param params 登录参数
  */
-export function login(params: LoginParams): Promise<LoginResult> {
-  return post<LoginResult>('/user/login', params);
+export function loginApi(params: LoginParams): Promise<LoginResult> {
+  return post<LoginResult>('/auth/token', params);
 }
 
 /**
  * 获取用户信息
  */
-export function getUserInfo(): Promise<UserInfo> {
-  return get<UserInfo>('/user/info');
+export function getUserInfoApi(userId: string | number): Promise<UserInfo> {
+  return get<UserInfo>(`/user/${userId}`);
 }
 
 /**

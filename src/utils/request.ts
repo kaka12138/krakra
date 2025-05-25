@@ -1,23 +1,27 @@
-import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import config from '../config';
+import axios, { type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import { toast } from 'vue-sonner'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: config.apiBaseUrl, // 使用配置的基础URL
-  timeout: config.requestTimeout, // 使用配置的超时时间
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-  },
+  baseURL: import.meta.env.VITE_API_BASE_URL, // 使用配置的基础URL
+  withCredentials: true,
+  timeout: import.meta.env.VITE_API_TIMEOUT, // 使用配置的超时时间
 });
 
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    if(config.url.includes('/storage/file')) {
+      config.baseURL = import.meta.env.VITE_API_UPLOAD_BASE_URL
+    } else if(config.url.startsWith('/user') || config.url.startsWith('/auth')) {
+      config.baseURL = import.meta.env.VITE_API_USER_BASE_URL
+    }
+
     // 在请求发送前可以进行一些处理，比如添加token
     const token = localStorage.getItem('token');
     if (token) {
       config.headers = config.headers || {};
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = `${token}`;
     }
     return config;
   },
@@ -31,7 +35,13 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    const { data } = response;
+    console.log('response', response)
+    const { data, config } = response;
+
+    // 处理文件
+    if(config.url.includes('/storage/file')) {
+      return data
+    }
 
     // 根据实际接口返回结构调整
     // 假设接口返回的数据结构为 { code: number, data: any, message: string }
@@ -39,7 +49,8 @@ service.interceptors.response.use(
       return data.data;
     } else {
       // 处理业务错误
-      console.error('业务错误:', data.message);
+      // console.error('业务错误:', data.message);
+      toast.error(data.message)
       return Promise.reject(new Error(data.message || '未知错误'));
     }
   },
@@ -71,6 +82,7 @@ service.interceptors.response.use(
       message = '服务器无响应';
     }
     console.error(message, error);
+    toast.error(message)
     return Promise.reject(error);
   },
 );

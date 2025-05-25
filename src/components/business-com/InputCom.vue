@@ -1,11 +1,11 @@
 <template>
+  <label v-if="label" class="block text-sm font-medium text-[#9370DB] mb-1">{{ label }}</label>
   <div class="relative">
-    <label v-if="label" class="block text-sm font-medium text-[#9370DB] mb-1">{{ label }}</label>
     <Input
       v-bind="componentField"
       :type="inputOriginTypeComputed"
       :placeholder="placeholder"
-      class="h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
+      class="bg-background h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
       :class="isError ? 'border-red-500 ring-1 ring-red-500/30' : 'focus:border-[#9370DB] focus:ring-2 focus:ring-[#9370DB]/20'"
     />
     <template v-if="inputOriginType === 'password'">
@@ -36,20 +36,39 @@
         </svg>
       </button>
     </template>
+    <template v-if="inputOriginType === 'code'">
+      <div
+        class="
+        absolute right-0 top-1 text-white bg-[#FFC300] rounded-3xl px-4 py-2 cursor-pointer
+        "
+        :class="isSendCode ? 'bg-gray-400' : 'bg-[#FFC300]'"
+        @click="handleSendCode"
+      >
+        {{ isSendCode ? `${countDown}秒后重新发送` : '发送验证码' }}
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Input } from '../ui/input'
-import { useAttrs, ref, computed } from 'vue'
+import { toast } from 'vue-sonner'
+import { useAttrs, ref, computed, onUnmounted } from 'vue'
+import { sendSmsCode } from '@/api/common'
 
 const props = defineProps<{
   isError: boolean,
   inputOriginType: string, // TODO: 配置
   placeholder: string,
   label?: string,
+  formData: any,
 }>()
 const componentField = useAttrs()
+
+
+const isSendCode = ref(false)
+const countDown = ref(0)
+const timer = ref(null)
 
 
 const showPassword = ref(false)
@@ -66,5 +85,34 @@ const inputOriginTypeComputed = computed(() => {
   return type
 })
 
+const handleSendCode = () => {
+  if(countDown.value > 0) return
+  console.log(props.formData)
+  const { email } = props.formData
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if(!emailRegex.test(email)) {
+    toast('请输入正确的邮箱')
+    return
+  }
+  sendSmsCode(email).then(res => {
+    console.log('发送成功', res)
+    toast.success('发送成功')
+    isSendCode.value = true
+    countDown.value = 60
+    const timerId = setInterval(() => {
+      countDown.value--
+      if(countDown.value <= 0) {
+        clearInterval(timerId)
+        isSendCode.value = false
+      }
+    }, 1000)
+    timer.value = timerId
+  }).catch(err => {
+    console.log('发送失败', err)
+  })
+}
 
+onUnmounted(() => {
+  clearInterval(timer.value)
+})
 </script>

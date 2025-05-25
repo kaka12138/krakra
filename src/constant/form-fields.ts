@@ -3,9 +3,10 @@ import { PERMISSION_LIST } from './form.js'
 export const LOGIN_FORM_FIELDS = [
   {
     comType: 'input',
-    fieldName: 'email',
+    fieldName: 'username',
     inputOriginType: 'text',
-    placeholder: '请输入邮箱账号',
+    placeholder: '请输入用户名',
+    label: '登录帐号',
   },
   {
     comType: 'input',
@@ -15,11 +16,43 @@ export const LOGIN_FORM_FIELDS = [
   },
 ]
 
+export const SIGNIN_FORM_FIELDS = [
+  {
+    comType: 'input',
+    fieldName: 'username',
+    inputOriginType: 'text',
+    placeholder: '请输入用户名',
+    label: '用户名',
+  },
+  {
+    comType: 'input',
+    fieldName: 'email',
+    inputOriginType: 'text',
+    placeholder: '请输入邮箱账号',
+    label: '邮箱账号',
+  },
+  {
+    comType: 'input',
+    fieldName: 'password',
+    inputOriginType: 'password',
+    placeholder: '请输入密码',
+    label: '密码',
+  },
+  {
+    comType: 'input',
+    fieldName: 'code',
+    inputOriginType: 'code',
+    placeholder: '请输入验证码',
+    label: '验证码',
+  },
+]
+
 export const OC_FORM_FIELDS = [
   {
     comType: 'upload',
     fieldName: 'coverFileId',
     limit: 1,
+    label: '上传封面',
   },
   {
     comType: 'input',
@@ -53,12 +86,14 @@ export const OC_FORM_FIELDS = [
     label: '高级权限',
     title: '允许展示范围',
     options: PERMISSION_LIST,
+    optionsDec: '允许展示范围',
   },
   {
     comType: 'radio',
     fieldName: 'createPermission',
     title: '允许来自以下来源的同人扩链作品提交',
     options: PERMISSION_LIST,
+    optionsDec: '允许来自以下来源的同人扩链作品提交',
   },
   {
     comType: 'switch',
@@ -80,4 +115,5 @@ export const FORM_FIELDS_MAP = {
   oc_form: OC_FORM_FIELDS,
   au_form: AU_FORM_FIELDS,
   login_form: LOGIN_FORM_FIELDS,
+  signin_form: SIGNIN_FORM_FIELDS,
 }

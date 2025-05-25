@@ -4,7 +4,7 @@ export default {
   apiBaseUrl: '/api',
 
   // 请求超时时间（毫秒）
-  requestTimeout: 15000,
+  requestTimeout: ,
 
   // 是否开启请求日志
   enableRequestLog: true,

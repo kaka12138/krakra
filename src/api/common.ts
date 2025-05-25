@@ -22,16 +22,8 @@ export interface PageResult<T> {
  * @param file 文件对象
  * @param type 文件类型，例如：avatar, attachment
  */
-export function uploadFile(file: File, type = 'common'): Promise<string> {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('type', type);
-
-  return post<string>('/upload', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+export function uploadFileApi(file: FormData): Promise<string> {
+  return post('/storage/file', file)
 }
 
 /**
@@ -50,11 +42,11 @@ export function getServerTime(): Promise<number> {
 }
 
 /**
- * 发送短信验证码
- * @param phone 手机号
+ * 发送邮箱验证码
+ * @param email 邮箱
  */
-export function sendSmsCode(phone: string): Promise<void> {
-  return post('/sms/send', { phone });
+export function sendSmsCode(email: string): Promise<void> {
+  return post('/user/sendCode', { email });
 }
 
 /**

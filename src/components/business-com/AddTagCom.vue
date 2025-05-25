@@ -7,7 +7,7 @@
     <Input
       v-model="inputLabel"
       placeholder="请输入标签"
-      class="h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
+      class="bg-background h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
       @change="handleInputChange"
     />
     <div class="flex flex-wrap mt-2">
@@ -24,7 +24,6 @@ import { Input } from '@/components/ui/input'
 import { toast } from 'vue-sonner'
 import { ref } from 'vue'
 const props = defineProps({
-  prop: String,
   label: String,
   modelValue: Array,
 })
