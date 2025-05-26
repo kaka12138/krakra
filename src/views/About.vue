@@ -1,13 +1,13 @@
 <template>
   <div class="flex h-4/5 p-10">
     <div class="w-80  h-full mr-10">
-      <UserInfoCom />
+      <UserInfoCom @create-work="handleCreateWork" @create-gua-shi="handleCreateGuaShi" />
     </div>
-    <div class="flex-1 h-full relative">
+    <div class="flex-1 h-full">
       <div class="w-full mb-2">
         <TabsCom v-model="currentTab" :tabs="tabs" class-str="max-w-none" />
       </div>
-      <div class="m-4 bg-background">
+      <div class="m-4 p-6 bg-background relative">
         <!-- 池塘 -->
         <div v-if="currentTab === -1">
           <Waterfall :list="tableData">
@@ -18,7 +18,7 @@
             </template>
           </Waterfall>
 
-          <div class="w-full absolute bottom-0 left-0">
+          <div class="py-4 w-full absolute bottom-0 left-0">
             <Pagination
               v-model:page="pageNum"
               v-slot="{ page }"
@@ -45,23 +45,39 @@
             </Pagination>
           </div>
         </div>
-        <template v-if="currentTab === 2">
-          <MyOCList />
+        <!-- 瓜市 -->
+        <template v-else-if="currentTab === 0">
+          <MyGuaShiList ref="myGuaShiListRef" />
         </template>
         <!-- OC -->
-        <!-- 瓜市 -->
+        <template v-else-if="currentTab === 2">
+          <MyOCList />
+        </template>
       </div>
     </div>
   </div>
+  <GenFormCom
+    key="1"
+    ref="genFormComRef"
+    form-type="work_form"
+    @create-form-success="handleCreateSuccess"
+  />
+  <GenFormCom
+    key="2"
+    ref="guashiFormComRef"
+    form-type="guashi_form"
+    @create-form-success="handleCreateSuccess"
+  />
 </template>
 
 <script setup lang="ts">
 import UserInfoCom from '@/components/business-com/UserInfoCom.vue'
 import TabsCom from '@/components/business-com/TabsCom.vue'
-// import AUItem from '@/components/business-com/AUItem.vue'
 import MyOCList from '@/components/business-com/MyOCList.vue'
+import MyGuaShiList from '@/components/business-com/MyGuaShiList.vue'
 
 import WorkItem from '@/components/business-com/WorkItem.vue'
+import GenFormCom from '@/components/business-com/GenFormCom.vue'
 import { getOC_AU_WorkList_Api } from '@/api/work'
 import { ref, watch } from 'vue'
 
@@ -95,6 +111,7 @@ const totalVal = ref(0)
 const tag = ref(-1)
 const isNSFW = ref(-1)
 
+
 const getTableData = async () => {
   const res = await getOC_AU_WorkList_Api({
     pageNum: pageNum.value,
@@ -106,8 +123,28 @@ const getTableData = async () => {
   const { records, total } = res
   totalVal.value = total
   // TODO: 测试数据
-  records[0].coverFileId = 'http://gips2.baidu.com/it/u=195724436,3554684702&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960'
+  tableData.value = []
   tableData.value.push(...records)
+}
+
+const genFormComRef = ref<InstanceType<typeof GenFormCom>>()
+const guashiFormComRef = ref<InstanceType<typeof GenFormCom>>()
+const myGuaShiListRef = ref<InstanceType<typeof MyGuaShiList>>()
+
+const handleCreateWork = () => {
+  genFormComRef.value?.open()
+}
+
+const handleCreateGuaShi = () => {
+  guashiFormComRef.value?.open()
+}
+
+const handleCreateSuccess = () => {
+  if (currentTab.value === -1 ) {
+    getTableData()
+  } else if (currentTab.value === 0) {
+    myGuaShiListRef.value?.reload()
+  }
 }
 
 watch(pageNum,  () => { getTableData() }, { immediate: true })

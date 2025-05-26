@@ -19,3 +19,7 @@ export function createGuashi_Api(data: any) {
 export function getOC_AU_WorkList_Api(params: GetOC_AU_WorkListParams) {
   return get('/creation', params)
 }
+
+export function getGuashiList_Api(params: GetGuashiListParams) {
+  return get('/post', params)
+}

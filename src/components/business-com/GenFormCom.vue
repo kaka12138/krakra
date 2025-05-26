@@ -32,6 +32,8 @@ const props = defineProps({
   formType: String,
 })
 
+const emit = defineEmits(['createFormSuccess'])
+
 // oc Form
 const formFieldsConfig = ref(FORM_FIELDS_MAP[props.formType])
 const formInitialValues = ref(FORM_INITIAL_VALUES_MAP[props.formType])
@@ -44,13 +46,13 @@ const isOpen = ref(false)
 const handleSubmit = (values: Record<string, unknown>, initialValues: Record<string, unknown>) => {
   const data = Object.assign({}, initialValues, values)
   if(data.coverFileId?.length) {
-    data.coverFileId = data.coverFileId[0].id
+    data.coverFileId = data.coverFileId[0].url
   }
 
   data.tags = data.tags.map(t => t.desc)
 
   if(data.imageFileIds?.length) {
-    data.imageFileIds = data.imageFileIds.map(item => item.id)
+    data.imageFileIds = data.imageFileIds.map(item => item.url)
   }
   const apiFunc = props.formType === 'guashi_form' ? createGuashi_Api : createOC_AU_Work_Api
 
@@ -58,6 +60,7 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
     console.log('res', res)
     toast.success('创建成功')
     isOpen.value = false
+    emit('createFormSuccess')
   })
 }
 

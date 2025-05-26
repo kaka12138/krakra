@@ -107,6 +107,15 @@
             <span>Pixiv</span>
           </a>
         </div>
+
+        <div class="space-x-4">
+          <button class="cursor-pointer bg-gradient-to-r from-purple-400 to-purple-600 text-white px-4 py-1 rounded-full font-medium mt-10" @click="() => { emit('createWork') }">
+            创建作品
+          </button>
+          <button class="cursor-pointer bg-gradient-to-r from-purple-400 to-purple-600 text-white px-4 py-1 rounded-full font-medium mt-10" @click="() => { emit('createGuaShi') }">
+            创建瓜市
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -118,5 +127,8 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 
 const userInfo = computed(() => userStore.userInfo)
-console.log('userInfo', userInfo.value)
+
+const emit = defineEmits(['createWork', 'createGuaShi'])
+
+
 </script>
