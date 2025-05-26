@@ -1,13 +1,12 @@
 
 <template>
   <Toaster position="top-right" />
-  <div class="app-container">
-    <main>
-      <!-- 搜索 -->
-      <div><SearchCom /></div>
-      <router-view />
-    </main>
-  </div>
+
+  <main class="app-container bg-[#F0F0F0] w-full h-screen min-h-screen">
+    <!-- 搜索 -->
+    <div><SearchCom /></div>
+    <router-view />
+  </main>
 </template>
 
 <script setup lang="ts">

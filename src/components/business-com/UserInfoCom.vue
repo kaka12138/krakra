@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center items-center min-h-screen bg-gray-100">
-    <div class="w-full bg-white rounded-3xl shadow-lg overflow-hidden">
+  <div class="h-full">
+    <div class="w-full h-full bg-white rounded-3xl shadow-lg overflow-hidden">
       <!-- 用户头像和操作按钮 -->
       <div class="relative p-6">
         <div class="flex justify-between items-start mb-4">

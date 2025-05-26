@@ -43,25 +43,25 @@
       <div v-for="(image, index) in displayImages" :key="index" class="relative aspect-square rounded-md overflow-hidden">
         <img :src="image" class="w-full h-full object-cover">
       </div>
-      <div v-if="hasMoreImages" class="relative aspect-square rounded-md overflow-hidden">
+      <!-- <div v-if="hasMoreImages" class="relative aspect-square rounded-md overflow-hidden">
         <img :src="images[8]" class="w-full h-full object-cover brightness-50">
         <div class="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
           +{{ images.length - 8 }}
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- 互动区域 -->
-    <div class="flex items-center justify-between text-gray-500">
-      <div class="flex items-center gap-1">
+    <div class="pt-4 flex items-center justify-center gap-x-20 text-gray-500">
+      <div class="flex items-center cursor-pointer">
         <MessageCircleMoreIcon />
         <span class="text-sm">{{ likes }}</span>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="flex items-center cursor-pointer">
         <ExternalLinkIcon />
         <span class="text-sm">{{ comments }}</span>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="flex items-center cursor-pointer">
         <ThumbsUpIcon />
         <span class="text-sm">{{ shares }}</span>
       </div>

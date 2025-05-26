@@ -12,7 +12,7 @@ export interface ApiResponse<T = any> {
  * 分页参数接口
  */
 export interface PaginationParams {
-  page: number;
+  pageNum: number;
   pageSize: number;
 }
 

@@ -13,15 +13,20 @@
       <div class="w-9 h-9 bg-[url(/imgs/no-notification.png)] bg-no-repeat bg-contain " />
       <div class="w-8 h-8 bg-[url(/imgs/no-chat.png)] bg-no-repeat bg-contain " />
       <div class="w-8 h-8 bg-[url(/imgs/no-message.png)] bg-no-repeat bg-contain " />
-      <div class="w-26 h-10 flex items-center justify-between p-2 bg-[#FFD700] rounded-full">
+      <div class="w-26 h-10 flex items-center justify-between p-2 bg-[#FFD700] rounded-full cursor-pointer">
         <div
           v-if="!isLogin"
-          class="w-8 h-8 rounded-full text-center text-2xl cursor-pointer"
+          class="w-8 h-8 rounded-full text-center text-2xl"
           @click="loginSigninComRef?.open()"
         >
-          +
+          <UserIcon />
         </div>
-        <img v-else class="w-8 h-8 rounded-full" :src="userStore.userInfo.avatarUrl">
+        <img
+          v-else
+          class="w-8 h-8 rounded-full"
+          :src="userStore.userInfo.avatarUrl"
+          @click="toMyHome"
+        >
         <img class="w-6 h-6" src="/imgs/more-user.png">
       </div>
     </div>
@@ -31,11 +36,16 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { UserIcon } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
 import SearchCombobox from './SearchCombobox.vue'
 import LoginSigninCom from './LoginSigninCom.vue'
-const loginSigninComRef = ref<InstanceType<typeof LoginSigninCom>>()
-
+import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
+const loginSigninComRef = ref<InstanceType<typeof LoginSigninCom>>()
+const router = useRouter()
 const isLogin = computed(() => userStore.token)
+const toMyHome = () => {
+  router.push('/about')
+}
 </script>
