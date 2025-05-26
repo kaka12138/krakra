@@ -43,6 +43,7 @@ export const OC_FORM_INITIAL_VALUES = Object.assign({}, BASE_FORM_INITIAL_VALUES
   motto: '', // 座右铭
   ocUrl: '', // 角色链接
   viewPermission: 1, // 浏览权限
+  createPermission: 1, // 创作权限
   isNsfw: 0, // 0: 否 1: 是 (是否敏感)
   type: 1, // 1: oc 2: au
   isDerivative: 0, // 0: 否 1: 是 (是否二次创作)
@@ -53,18 +54,30 @@ export const AU_FORM_INITIAL_VALUES = Object.assign({}, OC_FORM_INITIAL_VALUES, 
 })
 
 export const WORK_FORM_INITIAL_VALUES = Object.assign({}, BASE_FORM_INITIAL_VALUES, {
+  card: '', // 卡片
   viewPermission: 1, // 浏览权限
-  createPermission: 1, // 创作权限
+  imageFileIds: [], // 上传的作品图片
   isNsfw: 0, // 0: 否 1: 是 (是否敏感)
   isDerivative: 0, // 0: 否 1: 是 (是否二次创作)
-  imageFileIds: [], // 上传的作品图片
   type: 3, // 0: 作品 1: oc 2: au
 })
+
+export const GUA_SHI_FORM_INITIAL_VALUES = {
+  name: '',
+  content: '',
+  card: '',
+  tags: [],
+  viewPermission: 1,
+  isNsfw: 0,
+  imageFileIds: [],
+}
 
 
 export const FORM_TITLE_MAP = {
   oc_form: '新角色',
-  au_form: '作品',
+  au_form: '新角色',
+  work_form: '新作品',
+  guashi_form: '呱市',
 }
 
 export const FORM_INITIAL_VALUES_MAP = {
@@ -72,4 +85,6 @@ export const FORM_INITIAL_VALUES_MAP = {
   signin_form: SIGNIN_FORM_INITIAL_VALUES,
   oc_form: OC_FORM_INITIAL_VALUES,
   au_form: AU_FORM_INITIAL_VALUES,
+  work_form: WORK_FORM_INITIAL_VALUES,
+  guashi_form: GUA_SHI_FORM_INITIAL_VALUES,
 }

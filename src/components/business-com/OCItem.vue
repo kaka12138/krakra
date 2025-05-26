@@ -1,39 +1,28 @@
 <template>
-  <div class="flex items-center bg-background w-[600px] h-[180px] rounded-3xl p-4">
-    <!-- 左侧头像 -->
-    <div class="flex-shrink-0 w-[120px] h-[120px] rounded-full overflow-hidden">
-      <img src="..." alt="头像" class="w-full h-full object-cover">
-    </div>
-
-    <!-- 中间文本内容 -->
-    <div class="flex flex-col ml-6 flex-grow">
-      <h2 class="text-2xl font-bold mb-2">
-        桃桃子
-      </h2>
-      <p class="text-gray-500 text-lg">
-        当"好猫"在静定谧的纸箱里
+  <div class="w-full flex p-6 rounded-xl bg-[#F7F7F7]">
+    <img :src="userInfo.avatarUrl" class="min-w-30 max-w-30 w-30 h-30 rounded-full object-cover">
+    <div class="flex-1 flex flex-col justify-center mx-4">
+      <p class="line-clamp-1 text-black text-2xl">
+        桃子桃子桃子桃子桃子桃子桃子
       </p>
-      <p class="text-gray-500 text-lg">
-        进行光合午休时墨动
+      <p class="line-clamp-3 text-[#999999] text-base">
+        当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动当"好猫"在薛定谔的纸箱里进行光合午休时墨动
       </p>
     </div>
-
-    <!-- 右侧图片 -->
-    <div class="flex flex-col items-end ml-4">
-      <div class="w-[120px] h-[120px] rounded-xl overflow-hidden">
-        <img src="..." alt="世界观名称" class="w-full h-full object-cover">
+    <div>
+      <div class="border-l-1 p-2">
+        <img :src="userInfo.avatarUrl" class="min-w-22 max-w-22 w-22 h-22 rounded-xl object-cover">
+        <p class="line-clamp-1 text-[#999999] text-center text-base">
+          世界观名称
+        </p>
       </div>
-      <p class="text-gray-500 mt-2 text-lg">
-        世界观名称
-      </p>
     </div>
   </div>
 </template>
 
-<script setup>
-// 组件逻辑可以在这里添加
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+const userInfo = computed(() => userStore.userInfo);
 </script>
-
-<style scoped>
-/* 额外样式可以在这里添加 */
-</style>

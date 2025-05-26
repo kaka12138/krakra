@@ -47,20 +47,24 @@ const form = useForm({
 
 // 表单提交处理
 const onSubmit = form.handleSubmit((values) => {
-  emit('submit', values)
+  emit('submit', values, props.formInitialValues)
 })
 </script>
 
 <template>
   <div>
-    <form class="space-y-5 sm:space-y-6" @submit="onSubmit">
+    <form class="space-y-5 sm:space-y-6">
       <template v-for="field in formFieldsConfig" :key="field.fieldName">
         <FormField v-slot="{ componentField, errorMessage='' }" :name="field.fieldName">
           <FormItem>
             <FormControl>
               <template v-if="field.comType === 'input'">
                 <!-- TODO: bug 密码泄露，需要优化传值方式 -->
-                <InputCom :is-error="errorMessage.length > 0" :form-data="form.values" v-bind="{ ...componentField, ...field }" />
+                <InputCom
+                  :is-error="errorMessage.length > 0"
+                  :form-data="form.values"
+                  v-bind="{ ...componentField, ...field }"
+                />
               </template>
               <template v-else-if="field.comType === 'textarea'">
                 <TextareaCom :is-error="errorMessage.length > 0" v-bind="{ ...componentField, ...field }" />
@@ -77,14 +81,14 @@ const onSubmit = form.handleSubmit((values) => {
                 <AddTagCom v-model="componentField.modelValue" v-bind="field" />
               </template>
               <template v-else-if="field.comType === 'upload'">
-                <UploadCom v-model="componentField.modelValue" v-bind="field" />
+                <UploadCom v-model="componentField.modelValue" :upload-id="field.fieldName" v-bind="field" />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />
           </FormItem>
         </FormField>
       </template>
-      <Button type="submit" class="w-full bg-[#9370DB] text-white rounded-3xl text-2xl py-6">
+      <Button type="button" class="w-full bg-[#9370DB] text-white rounded-3xl text-2xl py-6" @click="onSubmit">
         {{ submitText }}
       </Button>
     </form>

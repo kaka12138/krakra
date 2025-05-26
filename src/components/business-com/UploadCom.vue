@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="overflow-hidden">
     <div class="flex">
       <Input
-        id="upload-file"
+        :id="uploadId"
         type="file"
         class="hidden"
         @change="handleFileChange"
       />
-      <label v-if="fileList.length < limit" for="upload-file" class="cursor-pointer relative">
+      <label v-if="fileList.length < limit" :for="uploadId" class="cursor-pointer relative">
         <div class="w-30 h-30 flex items-center justify-center rounded-lg bg-gray-200 text-white text-4xl">
           +
         </div>
       </label>
-      <div class="flex flex-1 h-36 overflow-x-auto overflow-y-hidden ml-2 gap-x-2">
+      <div class="flex flex-1 max-w-2/3 h-36 overflow-x-auto overflow-y-hidden ml-2 gap-x-2">
         <div v-for="item in fileList" :key="item.id" class="group relative">
           <img class="object-cover min-w-30 min-h-30 w-30 h-30 rounded-2xl" :src="item.url">
           <div
@@ -39,6 +39,7 @@ import { toast } from 'vue-sonner'
 import { uploadFileApi } from '@/api/common'
 
 const props = defineProps({
+  uploadId: String,
   modelValue: Array,
   label: String,
   limit: Number,
@@ -64,12 +65,13 @@ const handleFileChange = (e: Event) => {
   formData.append('file', file)
   uploadFileApi(formData).then(res => {
     console.log('res', res)
-    const {  id, url, ext } = res
+    const {  id, url } = res
     fileList.value.push({
       id,
-      url: `${url}.${ext}`,
+      url,
     })
     emit('update:modelValue', fileList.value)
+    console.log('fileList', fileList.value)
   }).finally(() => {
     (e.target as HTMLInputElement).value = ''
   })

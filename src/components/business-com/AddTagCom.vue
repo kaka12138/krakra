@@ -10,7 +10,7 @@
       class="bg-background h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
       @change="handleInputChange"
     />
-    <div class="flex flex-wrap mt-2">
+    <div class="flex flex-wrap my-2 gap-2">
       <div v-for="tag in labelList" :key="tag.id" class="flex items-center mr-2 justify-center gap-2 rounded-full bg-[#9370DB] px-3 py-1 text-white font-medium text-lg">
         <span @click="handleDel(tag.id)">X</span>
         <span>{{ tag.desc }}</span>

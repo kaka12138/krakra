@@ -52,7 +52,7 @@ export const OC_FORM_FIELDS = [
     comType: 'upload',
     fieldName: 'coverFileId',
     limit: 1,
-    label: '上传封面',
+    label: '上传图片',
   },
   {
     comType: 'input',
@@ -109,6 +109,105 @@ export const OC_FORM_FIELDS = [
 
 export const AU_FORM_FIELDS = [...OC_FORM_FIELDS]
 
+export const WORK_FORM_FIELDS = [
+  {
+    comType: 'upload',
+    fieldName: 'coverFileId',
+    limit: 1,
+    label: '上传封面',
+  },
+  {
+    comType: 'upload',
+    fieldName: 'imageFileIds',
+    limit: 9,
+    label: '上传作品',
+  },
+  {
+    comType: 'input',
+    fieldName: 'name',
+    inputOriginType: 'text',
+    placeholder: '请输入标题名称',
+    label: '标题名称',
+  },
+  {
+    comType: 'textarea',
+    fieldName: 'description',
+    label: '简介',
+    placeholder: '请输入简介',
+  },
+  {
+    comType: 'add-tag',
+    fieldName: 'tags',
+    label: '添加标签',
+  },
+  {
+    comType: 'input',
+    inputOriginType: 'text',
+    placeholder: '请输入卡片名称',
+    fieldName: 'card',
+    label: '添加卡片',
+  },
+  {
+    comType: 'radio',
+    fieldName: 'viewPermission',
+    label: '高级权限',
+    title: '允许展示范围',
+    options: PERMISSION_LIST,
+    optionsDec: '允许展示范围',
+  },
+  {
+    comType: 'switch',
+    fieldName: 'isNsfw',
+    label: '标记为敏感内容',
+  },
+]
+
+export const GUA_SHI_FORM_FIELDS = [
+  {
+    comType: 'upload',
+    fieldName: 'imageFileIds',
+    limit: 9,
+    label: '作品上传',
+  },
+  {
+    comType: 'input',
+    fieldName: 'name',
+    inputOriginType: 'text',
+    placeholder: '请输入标题名称',
+    label: '标题名称',
+  },
+  {
+    comType: 'textarea',
+    fieldName: 'content',
+    label: '简介',
+    placeholder: '请输入内容',
+  },
+  {
+    comType: 'add-tag',
+    fieldName: 'tags',
+    label: '添加标签',
+  },
+  {
+    comType: 'input',
+    fieldName: 'card',
+    inputOriginType: 'text',
+    placeholder: '请输入卡片名称',
+    label: '添加卡片',
+  },
+  {
+    comType: 'radio',
+    fieldName: 'viewPermission',
+    label: '高级权限',
+    title: '允许展示范围',
+    options: PERMISSION_LIST,
+    optionsDec: '允许展示范围',
+  },
+  {
+    comType: 'switch',
+    fieldName: 'isNsfw',
+    label: '标记为敏感内容',
+  },
+]
 
 
 export const FORM_FIELDS_MAP = {
@@ -116,4 +215,6 @@ export const FORM_FIELDS_MAP = {
   au_form: AU_FORM_FIELDS,
   login_form: LOGIN_FORM_FIELDS,
   signin_form: SIGNIN_FORM_FIELDS,
+  work_form: WORK_FORM_FIELDS,
+  guashi_form: GUA_SHI_FORM_FIELDS,
 }
