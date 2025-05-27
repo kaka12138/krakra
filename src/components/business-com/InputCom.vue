@@ -6,7 +6,7 @@
       :type="inputOriginTypeComputed"
       :placeholder="placeholder"
       class="bg-background h-11 sm:h-12 rounded-lg transition-all duration-300 pr-10"
-      :class="isError ? 'border-red-500 ring-1 ring-red-500/30' : 'focus:border-[#9370DB] focus:ring-2 focus:ring-[#9370DB]/20'"
+      :class="isError ? 'border-red-500 ring-1 ring-red-500/30' :'focus:border-[#9370DB]'"
     />
     <template v-if="inputOriginType === 'password'">
       <button
@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { Input } from '../ui/input'
 import { toast } from 'vue-sonner'
-import { useAttrs, ref, computed, onUnmounted } from 'vue'
+import { useAttrs, ref, computed, onUnmounted, inject } from 'vue'
 import { sendSmsCode } from '@/api/common'
 
 const props = defineProps<{
@@ -61,8 +61,8 @@ const props = defineProps<{
   inputOriginType: string, // TODO: 配置
   placeholder: string,
   label?: string,
-  formData: any,
 }>()
+const formData = inject('form')
 const componentField = useAttrs()
 
 
@@ -87,8 +87,7 @@ const inputOriginTypeComputed = computed(() => {
 
 const handleSendCode = () => {
   if(countDown.value > 0) return
-  console.log(props.formData)
-  const { email } = props.formData
+  const { email } = formData
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if(!emailRegex.test(email)) {
     toast('请输入正确的邮箱')

@@ -1,8 +1,7 @@
 <template>
-  <div class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden">
+  <div class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden" v-if="artwork">
     <div class="relative">
       <img
-        v-if="artwork?.coverFileId"
         :src="artwork.coverFileId"
         alt="Artwork Image"
         class="w-full h-auto"
@@ -21,8 +20,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <img
-            v-if="artwork?.avatar"
-            :src="artwork?.avatar"
+            :src="artwork.avatar"
             alt="Author Avatar"
             class="w-8 h-8 sm:w-10 sm:h-10 rounded-full mr-2 sm:mr-3 border border-gray-200"
           >

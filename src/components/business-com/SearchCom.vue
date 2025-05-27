@@ -10,16 +10,15 @@
       <SearchCombobox />
     </div>
     <div class="flex items-center gap-1">
-      <div class="w-9 h-9 bg-[url(/imgs/no-notification.png)] bg-no-repeat bg-contain " />
-      <div class="w-8 h-8 bg-[url(/imgs/no-chat.png)] bg-no-repeat bg-contain " />
-      <div class="w-8 h-8 bg-[url(/imgs/no-message.png)] bg-no-repeat bg-contain " />
+      <BellIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
+      <MessageCircleMoreIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
       <div class="w-26 h-10 flex items-center justify-between p-2 bg-[#FFD700] rounded-full cursor-pointer">
         <div
           v-if="!isLogin"
-          class="w-8 h-8 rounded-full text-center text-2xl"
-          @click="loginSigninComRef?.open()"
+          class="flex items-center justify-center w-8 h-8 rounded-full text-center text-2xl bg-[#9370DB]"
+          @click="open()"
         >
-          <UserIcon />
+          <UserIcon color="#fff" />
         </div>
         <img
           v-else
@@ -27,22 +26,25 @@
           :src="userStore.userInfo.avatarUrl"
           @click="toMyHome"
         >
-        <img class="w-6 h-6" src="/imgs/more-user.png">
+        <AlignJustifyIcon class="w-8 h-8" color="#9370DB" />
       </div>
     </div>
   </div>
-  <LoginSigninCom ref="loginSigninComRef" />
+  <!-- <LoginSigninCom ref="loginSigninComRef" /> -->
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { UserIcon } from 'lucide-vue-next'
+import {  computed } from 'vue'
+import { UserIcon, BellIcon, MessageCircleMoreIcon, AlignJustifyIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import SearchCombobox from './SearchCombobox.vue'
-import LoginSigninCom from './LoginSigninCom.vue'
+
+import { useLoginSignin } from '@/hooks/useLoginSignin'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
-const loginSigninComRef = ref<InstanceType<typeof LoginSigninCom>>()
+
+const { open } = useLoginSignin()
+
 const router = useRouter()
 const isLogin = computed(() => userStore.token)
 const toMyHome = () => {

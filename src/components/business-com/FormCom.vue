@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { provide } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 
@@ -45,6 +46,8 @@ const form = useForm({
 })
 
 
+provide('form', form.values)
+
 // 表单提交处理
 const onSubmit = form.handleSubmit((values) => {
   emit('submit', values, props.formInitialValues)
@@ -62,7 +65,6 @@ const onSubmit = form.handleSubmit((values) => {
                 <!-- TODO: bug 密码泄露，需要优化传值方式 -->
                 <InputCom
                   :is-error="errorMessage.length > 0"
-                  :form-data="form.values"
                   v-bind="{ ...componentField, ...field }"
                 />
               </template>
