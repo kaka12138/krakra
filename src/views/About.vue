@@ -1,13 +1,15 @@
 <template>
-  <div class="flex h-4/5 p-10">
+  <div class="flex w-8/9 mx-auto h-full py-10">
     <div class="w-80  h-full mr-10">
       <UserInfoCom />
     </div>
-    <div class="flex-1 h-full">
-      <div class="w-full mb-2">
+    <div class="flex-1 h-full flex flex-col">
+      <div class="w-full">
         <TabsCom :active="active" :tabs="tabs" @tab-click="handleTabClick" />
       </div>
-      <router-view />
+      <div class="flex-1 max-h-full overflow-auto bg-background rounded-lg">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

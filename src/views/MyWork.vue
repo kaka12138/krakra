@@ -1,14 +1,11 @@
 <template>
-  <div>
-    work
-    <Waterfall :list="tableData">
-      <template #default="{ item }">
-        <div class="card">
-          <WorkItem :artwork="item" />
-        </div>
-      </template>
-    </Waterfall>
-  </div>
+  <Waterfall :list="tableData">
+    <template #default="{ item }">
+      <div class="card">
+        <WorkItem :artwork="item" />
+      </div>
+    </template>
+  </Waterfall>
 </template>
 
 <script setup lang="ts">

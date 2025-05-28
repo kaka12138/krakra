@@ -1,18 +1,14 @@
 <template>
   <div class="bg-[#F0F0F0]">
-    <div class="flex justify-center gap-x-10 my-10">
+    <div class="flex justify-center gap-x-10 mb-6">
       <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
       <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
     </div>
-    <Waterfall :list="tableData" background-color="#F0F0F0">
+    <WaterFall :items="tableData">
       <template #default="{ item }">
-        <div class="card">
-          <!-- <LazyImg :url="coverFileId" /> -->
-          <WorkItem :artwork="item" />
-        </div>
+        <WorkItem :artwork="item" />
       </template>
-    </Waterfall>
-
+    </WaterFall>
     <div class="p y-10">
       <Pagination
         v-model:page="pageNum"
@@ -47,6 +43,7 @@ import TabsCom from '@/components/business-com/TabsCom.vue'
 import WorkItem from '@/components/business-com/WorkItem.vue'
 import { getOC_AU_WorkList_Api } from '@/api/work'
 import { ref, watch } from 'vue'
+import WaterFall from '@/components/business-com/WaterFall.vue'
 
 import {
   Pagination,
@@ -56,8 +53,6 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 
-import {Waterfall } from 'vue-waterfall-plugin-next'
-import 'vue-waterfall-plugin-next/dist/style.css'
 
 const tabsTag = ref([
   { value: -1, name: '全部' },
@@ -76,7 +71,6 @@ const tableData = ref([])
 const pageNum = ref(1)
 const pageSize = ref(10)
 const totalVal = ref(0)
-
 const getTableData = async () => {
   const res = await getOC_AU_WorkList_Api({
     pageNum: pageNum.value,
@@ -84,7 +78,6 @@ const getTableData = async () => {
     type: 0,
     isNsfw: isNSFW.value,
   })
-  // console.log(res)
   const { records, total } = res
   totalVal.value = total
   // TODO: 测试数据
