@@ -1,8 +1,6 @@
 <template>
-  <div class="h-150 overflow-y-auto">
-    <div v-for="item in tableData" :key="item.id" class="mx-5 my-4">
-      <GUAShiItem :guashi-info="item" />
-    </div>
+  <div v-for="item in tableData" :key="item.id">
+    <GUAShiItem :guashi-info="item" />
   </div>
 </template>
 
@@ -25,6 +23,7 @@ const getTableData = async () => {
 
 getTableData()
 
+// TODO：刷新
 defineExpose({
   reload: getTableData,
 })

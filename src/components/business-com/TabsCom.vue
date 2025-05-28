@@ -1,34 +1,35 @@
 <template>
-  <div class="w-full max-w-100 flex items-center justify-center space-x-1 rounded-full bg-gray-200 p-1" :class="[classStr]">
+  <div class="w-full flex items-center justify-center space-x-1 rounded-full bg-gray-200 p-1">
     <button
       v-for="tab in tabs"
       :key="tab.value"
       :class="[
         'flex-1 px-6 py-2 rounded-full text-sm font-medium transition-colors duration-150 ease-in-out focus:outline-none cursor-pointer',
-        selectedTab === tab.value
+        active === tab.value
           ? 'bg-[#926DDE] text-white shadow-md'
           : 'text-[#926DDE] hover:bg-purple-100 hover:text-purple-600',
       ]"
-      @click="() => {emit('update:modelValue', tab.value); selectedTab = tab.value}"
+      @click="handleClick(tab.value)"
     >
       {{ tab.name }}
     </button>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-
+<script setup lang="ts">
 const props = defineProps({
   tabs: Array,
-  classStr: String,
-  modelValue: Number,
+  active: String || Number,
 })
 
-const emit = defineEmits(['update:modelValue'])
+console.log(props.active)
 
+const emit = defineEmits(['tab-click'])
 
-const selectedTab = ref(-1); // 默认选中 "全部"
+const handleClick = (value: string) => {
+  emit('tab-click', value)
+}
+
 </script>
 
 <style scoped>
