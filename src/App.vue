@@ -3,8 +3,9 @@
   <Toaster position="top-right" />
 
   <main class="app-container bg-[#F0F0F0] w-full h-screen min-h-screen">
-    <!-- 搜索 -->
-    <div><SearchCom /></div>
+    <div class="fixed top-0 left-0 right-0 z-999">
+      <SearchCom />
+    </div>
     <router-view />
   </main>
 </template>

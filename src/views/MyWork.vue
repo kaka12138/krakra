@@ -1,19 +1,19 @@
 <template>
-  <Waterfall :list="tableData">
-    <template #default="{ item }">
-      <div class="card">
+  <div class="h">
+    <WaterFall :items="tableData">
+      <template #default="{ item }">
         <WorkItem :artwork="item" />
-      </div>
-    </template>
-  </Waterfall>
+      </template>
+    </WaterFall>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import WorkItem from '@/components/business-com/WorkItem.vue'
-import { Waterfall } from 'vue-waterfall-plugin-next'
-import 'vue-waterfall-plugin-next/dist/style.css'
 import { getOC_AU_WorkList_Api } from '@/api/work'
+
+import WaterFall from '@/components/business-com/WaterFall.vue'
 
 const tableData = ref([])
 const pageNum = ref(1)

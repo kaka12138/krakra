@@ -23,16 +23,19 @@ import FormCom from '@/components/business-com/FormCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
 import { createOC_AU_Work_Api, createGuashi_Api } from '@/api/work'
 import { toast } from 'vue-sonner'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { FORM_FIELDS_MAP } from '@/constant/form-fields'
 import { FORM_INITIAL_VALUES_MAP, FORM_TITLE_MAP } from '@/constant/form'
 import { FORM_RULES_MAP } from '@/constant/form-rules'
 
 const props = defineProps({
   formType: String,
+  open: Boolean,
 })
 
-const emit = defineEmits(['createFormSuccess'])
+const emit = defineEmits(['createFormSuccess', 'closed'])
+
+const isOpen = ref(props.open)
 
 // oc Form
 const formFieldsConfig = ref(FORM_FIELDS_MAP[props.formType])
@@ -41,7 +44,6 @@ const formRules = ref(FORM_RULES_MAP[props.formType])
 
 const formTitle = computed(() => FORM_TITLE_MAP[props.formType])
 
-const isOpen = ref(false)
 
 const handleSubmit = (values: Record<string, unknown>, initialValues: Record<string, unknown>) => {
   const data = Object.assign({}, initialValues, values)
@@ -64,14 +66,11 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
   })
 }
 
-defineExpose({
-  open: () => {
-    isOpen.value = true
-  },
-  close: () => {
-    isOpen.value = false
-  },
+// TODO:暂时的，去了解shadcn-vue, 优化传递方式
+watch(isOpen, (newVal) => {
+  if(!newVal) {
+    emit('closed')
+  }
 })
-
 
 </script>

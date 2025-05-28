@@ -10,7 +10,7 @@ import {
 
 <template>
   <Dialog>
-    <DialogContent class="w-175 grid-rows-[auto_minmax(0,1fr)_auto] p-6 max-h-[90dvh]">
+    <DialogContent class="w-160 grid-rows-[auto_minmax(0,1fr)_auto] p-6 max-h-[70dvh]">
       <DialogHeader>
         <DialogTitle />
         <DialogDescription />
