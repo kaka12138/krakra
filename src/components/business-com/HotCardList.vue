@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6 max-h-3/4">
+  <div class="p-4">
     <div class="max-w-md mx-auto">
       <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6">
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 relative">
@@ -8,7 +8,7 @@
         </span>
       </h1>
 
-      <div class="flex justify-between items-center mb-5">
+      <!-- <div class="flex justify-between items-center mb-5">
         <div class="flex space-x-2">
           <button
             :class="[
@@ -37,20 +37,21 @@
           <RefreshCcw />
           <span class="text-xs sm:text-sm">点击刷新</span>
         </button>
-      </div>
+      </div> -->
 
-      <div class="space-y-3 h-140 overflow-y-auto ">
+      <div class="space-y-3 h-152 overflow-y-auto ">
         <div
-          v-for="item in items"
+          v-for="item in hotCardList"
           :key="item.id"
           class="bg-white/80 backdrop-blur-sm rounded-3xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow"
+          @click="handleClickCard(item.id)"
         >
           <div>
             <h3 class="text-base sm:text-lg font-semibold text-purple-700">
-              {{ item.tag }}
+              #{{ item.name }}
             </h3>
             <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
-              {{ item.stats }}
+              {{ item.createdCount || 1 }} 篇内容 {{ item.seeCount || 1 }} 浏览
             </p>
           </div>
           <button class="bg-yellow-400 hover:bg-yellow-500 text-white rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shadow transition-colors">
@@ -71,40 +72,27 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { RefreshCcw } from 'lucide-vue-next';
+<script setup lang="ts">
 
-const activeTab = ref('weekly'); // 'weekly' or 'monthly'
+defineProps({
+  hotCardList: {
+    type: Array,
+    default: () => [],
+  },
+})
 
-const items = ref([
-  { id: 1, tag: '#初音未来3451', stats: '10万+篇内容 · 133.2万浏览' },
-  { id: 2, tag: '#夏日潮流搭配', stats: '8万+篇内容 · 98.5万浏览' },
-  { id: 3, tag: '#Vue3学习笔记', stats: '5万+篇内容 · 75.1万浏览' },
-  { id: 4, tag: '#咖啡探店指南', stats: '12万+篇内容 · 201.0万浏览' },
-  { id: 5, tag: '#周末去哪儿玩', stats: '9.5万+篇内容 · 150.6万浏览' },
-  { id: 6, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 7, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 8, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 9, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 10, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 11, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 12, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 13, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-  { id: 14, tag: '#AI绘画作品', stats: '20万+篇内容 · 300.2万浏览' },
-]);
+const emit = defineEmits(['clickCard'])
 
-// 在实际应用中，切换 tab 或点击刷新时，你会重新获取数据
-// const refreshData = () => {
-//   console.log(`Refreshing data for ${activeTab.value}...`);
-//   // API call to fetch new items
-// };
+const handleClickCard = (id: number) => {
+  emit('clickCard', id)
+}
+
 </script>
 
-  <style scoped>
-  /* 添加一些自定义样式以更好地匹配图片中的标题效果 */
-  h1 span span { /* This targets the pseudo-underline for the title */
-    filter: blur(1px); /* Optional: Adds a slight blur to the underline */
-  }
-  /* You may need to ensure your Tailwind config supports backdrop-blur if it's not working */
-  </style>
+<style scoped>
+/* 添加一些自定义样式以更好地匹配图片中的标题效果 */
+h1 span span { /* This targets the pseudo-underline for the title */
+  filter: blur(1px); /* Optional: Adds a slight blur to the underline */
+}
+/* You may need to ensure your Tailwind config supports backdrop-blur if it's not working */
+</style>

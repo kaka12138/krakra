@@ -5,19 +5,16 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('../views/Home.vue'),
-    redirect: '/work',
-    children: [
-      {
-        path: 'guashi',
-        name: 'guashi',
-        component: () => import('../views/GuaShi.vue'),
-      },
-      {
-        path: 'work',
-        name: 'work',
-        component: () => import('../views/Work.vue'),
-      },
-    ],
+  },
+  {
+    path: '/guashi',
+    name: 'guashi',
+    component: () => import('../views/GuaShi.vue'),
+  },
+  {
+    path: '/chaindetail',
+    name: 'chaindetail',
+    component: () => import('../views/ChainDetail.vue'),
   },
   {
     path: '/about/:id',

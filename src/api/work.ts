@@ -23,3 +23,7 @@ export function getOC_AU_WorkList_Api(params: GetOC_AU_WorkListParams) {
 export function getGuashiList_Api(params: GetGuashiListParams) {
   return get('/post', params)
 }
+
+export function getHotCardList_Api() {
+  return get('/card/hotCards')
+}

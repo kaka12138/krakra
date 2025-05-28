@@ -1,11 +1,11 @@
 
 <template>
   <Toaster position="top-right" />
-
-  <main class="app-container bg-[#F0F0F0] w-full h-screen min-h-screen">
+  <main class="bg-[#F0F0F0] h-screen overflow-hidden">
     <div class="fixed top-0 left-0 right-0 z-999">
       <SearchCom />
     </div>
+    <div class="h-20" />
     <router-view />
   </main>
 </template>

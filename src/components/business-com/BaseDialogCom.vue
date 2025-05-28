@@ -6,18 +6,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+
+defineProps({
+  classArr: Array,
+})
 </script>
 
 <template>
   <Dialog>
-    <DialogContent class="w-160 grid-rows-[auto_minmax(0,1fr)_auto] p-6 max-h-[70dvh]">
+    <DialogContent class="p-6 " :class="classArr">
       <DialogHeader>
         <DialogTitle />
         <DialogDescription />
       </DialogHeader>
-      <div class="overflow-y-auto">
-        <slot />
-      </div>
+      <slot />
     </DialogContent>
   </Dialog>
 </template>

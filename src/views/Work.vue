@@ -1,39 +1,41 @@
 <template>
-  <div class="bg-[#F0F0F0]">
-    <div class="flex justify-center gap-x-10 mb-6">
+  <div class="bg-[#F0F0F0] flex-1 flex flex-col">
+    <div class="flex justify-center gap-x-10 my-6">
       <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
       <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
     </div>
-    <WaterFall :items="tableData">
-      <template #default="{ item }">
-        <WorkItem :artwork="item" />
-      </template>
-    </WaterFall>
-    <div class="p y-10">
-      <Pagination
-        v-model:page="pageNum"
-        v-slot="{ page }"
-        :items-per-page="pageSize"
-        :total="totalVal"
-        :default-page="1"
-      >
-        <PaginationContent v-slot="{ items }">
-          <PaginationPrevious />
+    <div class="flex-1 max-h-200 overflow-auto">
+      <!-- TODO: 暂时写200 -->
+      <WaterFall :items="tableData">
+        <template #default="{ item }">
+          <WorkItem :artwork="item" />
+        </template>
+      </WaterFall>
+      <div class="mb-30">
+        <Pagination
+          v-model:page="pageNum"
+          v-slot="{ page }"
+          :items-per-page="pageSize"
+          :total="totalVal"
+          :default-page="1"
+        >
+          <PaginationContent v-slot="{ items }">
+            <PaginationPrevious />
 
-          <template v-for="(item, index) in items" :key="index">
-            <PaginationItem
-              v-if="item.type === 'page'"
-              :value="item.value"
-              :is-active="item.value === page"
-            >
-              {{ item.value }}
-            </PaginationItem>
-          </template>
+            <template v-for="(item, index) in items" :key="index">
+              <PaginationItem
+                v-if="item.type === 'page'"
+                :value="item.value"
+                :is-active="item.value === page"
+              >
+                {{ item.value }}
+              </PaginationItem>
+            </template>
 
-
-          <PaginationNext />
-        </PaginationContent>
-      </Pagination>
+            <PaginationNext />
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -76,7 +78,7 @@ const getTableData = async () => {
     pageNum: pageNum.value,
     pageSize: pageSize.value,
     type: 0,
-    isNsfw: isNSFW.value,
+    isNsfw: isNSFW.value < 0 ? undefined : isNSFW.value,
   })
   const { records, total } = res
   totalVal.value = total
