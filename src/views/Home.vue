@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full pt-30 flex flex-col">
+  <div class="flex-1 flex flex-col py-10 bg-[#F0F0F0]">
     <div class="flex gap-x-10 justify-center">
       <div
         class="w-62 h-14  flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
@@ -9,6 +9,7 @@
         池 塘
       </div>
       <div
+        data-current="2"
         class="w-62 h-14 flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
         :class="currentTab === 2 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
         @click="handleTabClick('guashi', 2)"
@@ -16,7 +17,9 @@
         呱 市
       </div>
     </div>
-    <Work />
+    <div>
+      <Work />
+    </div>
   </div>
 </template>
 
@@ -34,7 +37,5 @@ const handleTabClick = (tab: string, val) => {
     path: tab,
   })
 }
-
-
 
 </script>

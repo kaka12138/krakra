@@ -26,37 +26,51 @@
 import Input from '@/components/ui/input/Input.vue'
 import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
+import { commentApi } from '@/api/work'
 
-defineProps({
+const props = defineProps({
   placeholder: {
     type: String,
     default: '发布你的评论',
   },
   commentId: {
     type: Number,
-    default: 0,
+  },
+  replyId: {
+    type: Number,
   },
 })
 
-const emit = defineEmits(['finishComment'])
+const emit = defineEmits(['finishComment', 'closeCommentInput'])
 
 const userStore = useUserStore()
 const comment = ref('')
 const focusCommentInput = () => {
   const inputElement = document.getElementById('myInput');
-  // placeholder.value = ''
+
   if (inputElement) {
     inputElement.focus();
   }
 }
 
-const submitComment = () => {
-  console.log(comment.value)
-  emit('finishComment')
+const submitComment =  async () => {
+  const res = await commentApi(props.commentId, {
+    replyId: props.replyId ? props.replyId : undefined,
+    content: comment.value,
+  })
+  console.log('res', res)
+  emit('finishComment', {
+    id: props.commentId,
+    content: comment.value,
+    avatar: userStore.userInfo.avatarUrl,
+    username: userStore.userInfo.username,
+  })
+  emit('closeCommentInput')
 }
 
 const cancelComment = () => {
   comment.value = ''
+  emit('closeCommentInput')
 }
 
 defineExpose({

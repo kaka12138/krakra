@@ -27,3 +27,26 @@ export function getGuashiList_Api(params: GetGuashiListParams) {
 export function getHotCardList_Api() {
   return get('/card/hotCards')
 }
+
+export function getWorkDetail_Api(id: string) {
+  return get(`/creation/${id}/detail`)
+}
+
+// 评论，收藏，点赞
+
+export function commentApi(id: string, data: any) {
+  return post(`/creation/${id}/comment`, data)
+}
+
+export function getCommentListApi(id: string) {
+  return get(`/creation/${id}/comments`)
+}
+
+export function thumbUpWorkApi( data: any) {
+  return post('/creation/like', data)
+}
+
+// chain
+export function getChainDetailApi(id: string) {
+  return get('/creation/chainDetail', { creationId: id })
+}

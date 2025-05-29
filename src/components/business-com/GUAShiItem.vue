@@ -1,5 +1,5 @@
 <template>
-  <div v-if="guashiInfo" class="w-full bg-background rounded-xl p-4">
+  <div v-if="guashiInfo" class="w-full bg-[#FAFAFA] rounded-xl p-4">
     <!-- 用户信息区域 -->
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center gap-2">
@@ -25,13 +25,13 @@
     <!-- 内容区域 -->
     <div class="mb-3">
       <p class="text-sm text-gray-800 mb-2">
-        {{ guashiInfo.description }}
+        {{ guashiInfo.content }}
       </p>
     </div>
 
     <!-- 标签区域 -->
     <div class="flex gap-2 mb-3">
-      <span v-for="(tag, index) in guashiInfo.tags" :key="index" class="text-xs text-purple-500">#{{ tag }}</span>
+      <span v-for="tag in guashiInfo.tags" :key="tag.id" class="text-xs text-purple-500">#{{ tag.name }}</span>
       <!-- <span class="ml-auto text-xs text-gray-500">收回</span> -->
     </div>
 
@@ -50,7 +50,8 @@
       </div>
       <div class="flex items-center cursor-pointer">
         <ThumbsUpIcon />
-        <span class="text-sm">{{ guashiInfo.likes }}</span>
+        <!-- TODO: 缺点赞字段 -->
+        <span class="text-sm">{{ guashiInfo.directions }}</span>
       </div>
     </div>
     <!-- 评论 -->

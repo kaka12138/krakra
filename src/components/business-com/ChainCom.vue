@@ -2,21 +2,23 @@
   <div class="w-full space-y-2">
     <div class="flex relative items-center justify-between overflow-hidden">
       <div
-        v-for="(item, idx) in chainList"
+        v-for="item in chainListComputed"
         :key="item.id"
-        class="rounded-full border-4 relative"
-        :class="[idx === 0 ? 'border-[#FFD700]' : 'border-[#9370DB]', idx == 0 || idx === chainList.length - 1 ? 'w-16 h-16 opacity-100' : 'w-10 h-10 opacity-50']"
-      />
-      <div class="w-full h-1 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#9370DB] opacity-50" />
+        class="rounded-full border-3 relative overflow-hidden"
+        :class="[item.isHighlight? 'border-[#FFD700] w-16 h-16 opacity-100' : 'h-10 w-10 border-[#9370DB] opacity-50', item.isCurrent ? 'w-16 h-16 opacity-100' : '']"
+      >
+        <img :src="item.coverFileId" class="w-full h-full object-cover">
+      </div>
+      <div class="w-full h-1 absolute z-[-1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#9370DB] opacity-50" />
     </div>
-    <div class="flex items-center justify-between">
+    <div v-if="showTag" class="flex items-center justify-between">
       <div
         v-for="(item, idx) in firstAndLastChain"
         :key="item.id"
         class="px-4 py-1 rounded-2xl font-bold"
         :class="[ idx === 0 ? 'bg-[#FFD700] text-[#9370DB]' : 'bg-[#9370DB] text-white']"
       >
-        {{ item.name }}
+        {{ idx === 0 ? "零号位" : "当前创作" }}
       </div>
     </div>
   </div>
@@ -29,13 +31,30 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
+  highlightNodes: {
+    type: Array,
+    default: () => ([]),
+  },
+  currentNodeId: {
+    type: Number,
+  },
+  showTag: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const chainListComputed = computed(() => {
+  return props.chainList.map(item => ({
+    ...item,
+    isHighlight: props.highlightNodes.includes(item.id),
+    isCurrent: item.id === props.currentNodeId,
+  }))
 })
 
 const firstAndLastChain = computed(() => {
-  if (props.chainList.length > 0) {
-    return [props.chainList[0], props.chainList[props.chainList.length - 1]]
-  }
-  return []
+  if(!props.showTag) return []
+  return [props.chainList.value[0], props.chainList.value[props.chainList.value.length - 1]]
 })
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden" v-if="artwork">
+  <div v-if="artwork" class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden" @click="handleClick">
     <div class="relative">
       <img
         :src="artwork.coverFileId"
@@ -52,14 +52,23 @@
 
 <script setup>
 import {CopyIcon, BookmarkIcon, HeartIcon } from 'lucide-vue-next';
-
-
-defineProps({
+// TODO: 每个组件都有一个弹窗？？？
+import { useWorkDetail } from '@/hooks/useWorkDetial';
+const props = defineProps({
   artwork: {
     type: Object,
     required: true,
   },
 });
+
+const { open } = useWorkDetail()
+
+const handleClick = () => {
+  console.log('handleClick', props.artwork.id)
+  if (!props.artwork.id) return
+  // open(props.artwork.id)
+  open('55')
+}
 
 </script>
 

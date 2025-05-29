@@ -1,104 +1,143 @@
-<template>
-  <div class="grid" :style="gridContainerStyle">
-    <div
-      v-for="(columnItems, columnIndex) in distributedItems"
-      :key="`column-${columnIndex}`"
-      class="flex flex-col"
-      :style="{ gap: `${gap / 4}rem` }"
-    >
-      <div
-        v-for="item in columnItems"
-        :key="item.id"
-        class=" rounded-lg shadow-md overflow-hidden break-inside-avoid-column"
-      >
-        <slot :item="item" />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { ref, computed, defineProps, toRefs, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 const props = defineProps({
-  items: {
+  // 列数
+  columns: {
+    type: Number,
+    default: 2,
+  },
+  // 列间距
+  columnGap: {
+    type: Number,
+    default: 20,
+  },
+  // 行间距
+  rowGap: {
+    type: Number,
+    default: 20,
+  },
+  // 数据列表
+  list: {
     type: Array,
     default: () => [],
   },
-  columns: {
-    type: Number,
-    default: 5,
-    validator: (val) => val > 0,
+  // 是否需要无限滚动
+  infiniteScroll: {
+    type: Boolean,
+    default: false,
   },
-  gap: { // Tailwind spacing unit (e.g., 4 = 1rem, 6 = 1.5rem)
+  // 距离底部多少像素触发加载更多
+  threshold: {
     type: Number,
-    default: 4, // 默认 1rem
+    default: 200,
   },
 });
 
-const { items, columns, gap } = toRefs(props);
+const emit = defineEmits(['loadMore']);
 
-// 响应式地存储带有实际或估算高度的 items
-// 在实际场景中，图片加载后，其高度可能会更新
-const processedItems = ref([]);
+// 瀑布流容器元素
+const waterfall = ref(null);
+// 各列高度
+const columnHeights = ref([]);
+// 各列元素
+const columnItems = ref([]);
+// 是否正在加载
+const loading = ref(false);
 
+// 初始化列数据
+const initColumns = () => {
+  columnHeights.value = new Array(props.columns).fill(0);
+  columnItems.value = new Array(props.columns).fill(null).map(() => []);
+};
 
+// 布局瀑布流
+const layout = () => {
+  if (!props.list.length) return;
 
-watch(
-  items,
-  (newItems) => {
-    processedItems.value = newItems.map(item => ({
-      ...item,
-      _displayHeight: item.height,
-    }));
-  },
-  { immediate: true, deep: true },
-);
+  initColumns();
 
-
-const gridContainerStyle = computed(() => ({
-  display: 'grid',
-  gridTemplateColumns: `repeat(${columns.value}, minmax(0, 1fr))`, // `minmax(0, 1fr)` 防止内容溢出
-  gap: `${gap.value / 4}rem`,
-}));
-
-const distributedItems = computed(() => {
-  if (!processedItems.value.length || columns.value <= 0) {
-    return [];
-  }
-
-  const newDistributedItems = Array.from({ length: columns.value }, () => []);
-  const columnHeights = Array(columns.value).fill(0);
-
-  processedItems.value.forEach((item) => {
-    // 找到当前高度最小的列
-    let shortestColumnIndex = 0;
-    for (let i = 1; i < columns.value; i++) {
-      if (columnHeights[i] < columnHeights[shortestColumnIndex]) {
-        shortestColumnIndex = i;
-      }
-    }
-
-    // 将 item 放入该列
-    newDistributedItems[shortestColumnIndex].push(item);
-    // 更新该列的高度 (使用 item._displayHeight)
-    columnHeights[shortestColumnIndex] += item._displayHeight;
+  props.list.forEach((item) => {
+    // debugger
+    // 找出高度最小的列
+    const minHeightIndex = columnHeights.value.indexOf(Math.min(...columnHeights.value));
+    console.log(minHeightIndex)
+    // 将元素添加到高度最小的列
+    columnItems.value[minHeightIndex].push(item);
+    // 更新列高度
+    columnHeights.value[minHeightIndex] += item.height || 0;
   });
-  console.log('111', newDistributedItems)
-  return newDistributedItems;
+};
+
+// 处理滚动事件
+const handleScroll = () => {
+  if (!props.infiniteScroll || loading.value) return;
+
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const clientHeight = document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight;
+
+  if (scrollHeight - scrollTop - clientHeight < props.threshold) {
+    loading.value = true;
+    emit('loadMore');
+  }
+};
+
+// 监听数据变化
+watch(() => props.list, () => {
+  nextTick(() => {
+    layout();
+    loading.value = false;
+  });
+}, { deep: true });
+
+// 监听列数变化
+watch(() => props.columns, () => {
+  nextTick(layout);
 });
 
+onMounted(() => {
+  layout();
+  if (props.infiniteScroll) {
+    window.addEventListener('scroll', handleScroll);
+  }
+});
 
+onUnmounted(() => {
+  if (props.infiniteScroll) {
+    window.removeEventListener('scroll', handleScroll);
+  }
+});
 </script>
 
-  <style scoped>
-  /* Tailwind CSS v4 不需要显式的 @tailwind 指令在 style 标签中 */
-  /* `break-inside-avoid-column` 是一个标准的 CSS 属性，有助于防止元素在打印或多列布局中跨列断开。
-     虽然我们这里是JS控制列内容，但加上也无妨，某些边缘情况可能有益。
-     对于纯JS控制的Grid布局，这个属性可能不是严格必需的。*/
-  .break-inside-avoid-column {
-    break-inside: avoid-column;
-    -webkit-column-break-inside: avoid; /* Safari & Chrome old versions */
-            page-break-inside: avoid; /* Firefox old versions */
-  }
-  </style>
+<template>
+  <div
+    ref="waterfall"
+    class="relative w-full"
+  >
+    <div class="flex w-full">
+      <div
+        v-for="(column, columnIndex) in columnItems"
+        :key="columnIndex"
+        class="flex-1"
+        :style="{
+          marginRight: columnIndex < props.columns - 1 ? `${props.columnGap}px` : '0'
+        }"
+      >
+        <div
+          v-for="(item, itemIndex) in column"
+          :key="item.id || itemIndex"
+          class="w-full overflow-hidden"
+          :style="{ marginBottom: `${props.rowGap}px` }"
+        >
+          <slot :item="item" :column-index="columnIndex" :item-index="itemIndex" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 加载更多提示 -->
+    <div v-if="props.infiniteScroll && loading" class="w-full py-4 text-center">
+      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent text-blue-600 motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+    </div>
+  </div>
+</template>

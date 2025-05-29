@@ -1,51 +1,82 @@
 <template>
-  <div class="bg-[#F0F0F0] flex-1 flex flex-col">
-    <div class="flex justify-center gap-x-10 my-6">
-      <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
-      <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
+  <div class="flex gap-x-10 justify-center bg-[#F0F0F0]">
+    <div
+      class="w-62 h-14  flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
+      :class="currentTab === 1 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
+      @click="handleTabClick('work', 1)"
+    >
+      池 塘
     </div>
-    <div class="flex-1 max-h-200 overflow-auto">
-      <!-- TODO: 暂时写200 -->
-      <WaterFall :items="tableData">
-        <template #default="{ item }">
-          <WorkItem :artwork="item" />
-        </template>
-      </WaterFall>
-      <div class="mb-30">
-        <Pagination
-          v-model:page="pageNum"
-          v-slot="{ page }"
-          :items-per-page="pageSize"
-          :total="totalVal"
-          :default-page="1"
-        >
-          <PaginationContent v-slot="{ items }">
-            <PaginationPrevious />
-
-            <template v-for="(item, index) in items" :key="index">
-              <PaginationItem
-                v-if="item.type === 'page'"
-                :value="item.value"
-                :is-active="item.value === page"
-              >
-                {{ item.value }}
-              </PaginationItem>
-            </template>
-
-            <PaginationNext />
-          </PaginationContent>
-        </Pagination>
-      </div>
+    <div
+      data-current="2"
+      class="w-62 h-14 flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
+      :class="currentTab === 2 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
+      @click="handleTabClick('guashi', 2)"
+    >
+      呱 市
     </div>
   </div>
+  <div class="flex justify-center gap-x-10 my-6">
+    <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
+    <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
+  </div>
+  <div class="bg-[#F0F0F0] pb-10">
+    <v3-waterfall
+      :list="tableData"
+      :col-width="280"
+      :virtual-time="400"
+      :is-mounted="isMounted"
+      class="waterfall"
+    >
+      <template #default="{ item }">
+        <div
+          @dragover="e => e.preventDefault()"
+          @dragenter="e => e.preventDefault()"
+          @dragleave="e => e.preventDefault()"
+          @drop="handleDrop(item)"
+        >
+          <WorkItem :artwork="item" />
+        </div>
+      </template>
+    </v3-waterfall>
+
+    <Pagination
+      v-model:page="pageNum"
+      v-slot="{ page }"
+      :items-per-page="pageSize"
+      :total="totalVal"
+      :default-page="1"
+    >
+      <PaginationContent v-slot="{ items }">
+        <PaginationPrevious />
+
+        <template v-for="(item, index) in items" :key="index">
+          <PaginationItem
+            v-if="item.type === 'page'"
+            :value="item.value"
+            :is-active="item.value === page"
+          >
+            {{ item.value }}
+          </PaginationItem>
+        </template>
+
+        <PaginationNext />
+      </PaginationContent>
+    </Pagination>
+  </div>
+  <BallMenuCom />
 </template>
 
 <script setup lang="ts">
 import TabsCom from '@/components/business-com/TabsCom.vue'
 import WorkItem from '@/components/business-com/WorkItem.vue'
 import { getOC_AU_WorkList_Api } from '@/api/work'
-import { ref, watch } from 'vue'
-import WaterFall from '@/components/business-com/WaterFall.vue'
+import { ref, watch, onMounted } from 'vue'
+
+import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
+import { useRouter } from 'vue-router'
+
+
 
 import {
   Pagination,
@@ -54,6 +85,27 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+
+
+const isMounted = ref(false)
+
+onMounted(() => {
+  isMounted.value = true
+})
+
+
+
+
+const router = useRouter()
+
+const currentTab = ref(1)
+
+const handleTabClick = (tab: string, val) => {
+  currentTab.value = val
+  router.push({
+    path: tab,
+  })
+}
 
 
 const tabsTag = ref([
@@ -86,6 +138,18 @@ const getTableData = async () => {
   tableData.value = []
   tableData.value.push(...records)
 }
+
+const getNext = () => {
+  // TODO:
+  console.log('getNext')
+  // pageNum.value++
+  // getTableData()
+}
+
+const handleDrop = (item) => {
+  console.log('handleDrop', item)
+}
+
 
 watch(pageNum,  () => { getTableData() }, { immediate: true })
 watch(isNSFW, () => { getTableData() })

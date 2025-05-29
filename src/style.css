@@ -121,3 +121,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+html, body, #app, main {
+  height: 100%;
+  width: 100%;
+  /* overflow: hidden; */
+  box-sizing: border-box;
+}
