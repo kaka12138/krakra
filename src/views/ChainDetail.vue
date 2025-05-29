@@ -94,7 +94,7 @@ import ChainCom from '@/components/business-com/ChainCom.vue';
 import { getChainDetailApi } from '@/api/work';
 import { useRoute } from 'vue-router';
 import WorkItem from '@/components/business-com/WorkItem.vue';
-import GuashiItem from '@/components/business-com/GuashiItem.vue';
+import GuashiItem from '@/components/business-com/GUAShiItem.vue';
 
 const route = useRoute()
 
