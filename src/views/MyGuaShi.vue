@@ -7,12 +7,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import GUAShiItem from '@/components/business-com/GUAShiItem.vue'
-import { getGuashiList_Api } from '@/api/work'
+import { getGuashiListApi } from '@/api/guashi'
 
 const tableData = ref([])
 
 const getTableData = async () => {
-  const res = await getGuashiList_Api({
+  const res = await getGuashiListApi({
     pageNum: 1,
     pageSize: 9999,
   })

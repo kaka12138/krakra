@@ -1,40 +1,40 @@
 <template>
-  <div class="flex-1 flex flex-col py-10 bg-[#F0F0F0]">
+  <div class="h-full pt-30 bg-[#F0F0F0] box-border flex flex-col">
     <div class="flex gap-x-10 justify-center">
       <div
         class="w-62 h-14  flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
-        :class="currentTab === 1 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
-        @click="handleTabClick('work', 1)"
+        :class="currentPath === '/work' ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
+        @click="handleTabClick('/work')"
       >
         池 塘
       </div>
       <div
         data-current="2"
         class="w-62 h-14 flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
-        :class="currentTab === 2 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
-        @click="handleTabClick('guashi', 2)"
+        :class="currentPath === '/guashi' ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
+        @click="handleTabClick('/guashi')"
       >
         呱 市
       </div>
     </div>
-    <div>
-      <Work />
+    <div class="h-[calc(100vh-12rem)] flex-1">
+      <router-view />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import Work from './Work.vue'
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 
-const currentTab = ref(1)
+const currentPath = ref(route.path)
 
-const handleTabClick = (tab: string, val) => {
-  currentTab.value = val
+const handleTabClick = (path) => {
+  currentPath.value = path
   router.push({
-    path: tab,
+    path: currentPath.value,
   })
 }
 

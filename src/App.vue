@@ -1,7 +1,7 @@
 
 <template>
   <Toaster position="top-right" />
-  <main class="bg-[#F0F0F0] pt-20 flex flex-col">
+  <main class="h-full bg-[#F0F0F0] box-border">
     <div class="fixed top-0 left-0 right-0 z-999">
       <SearchCom />
     </div>

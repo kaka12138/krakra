@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import FormCom from '@/components/business-com/FormCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
-import { createOC_AU_Work_Api, createGuashi_Api } from '@/api/work'
+import { createOC_AU_Work_Api, createGuashiApi } from '@/api/work'
 import { toast } from 'vue-sonner'
 import { ref, computed, watch } from 'vue'
 import { FORM_FIELDS_MAP } from '@/constant/form-fields'
@@ -56,7 +56,7 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
   if(data.imageFileIds?.length) {
     data.imageFileIds = data.imageFileIds.map(item => item.url)
   }
-  const apiFunc = props.formType === 'guashi_form' ? createGuashi_Api : createOC_AU_Work_Api
+  const apiFunc = props.formType === 'guashi_form' ? createGuashiApi : createOC_AU_Work_Api
 
   apiFunc(data).then(res => {
     console.log('res', res)

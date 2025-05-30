@@ -39,7 +39,7 @@
         </button>
       </div> -->
 
-      <div class="space-y-3 h-152 overflow-y-auto ">
+      <div class="space-y-3 h-full">
         <div
           v-for="item in hotCardList"
           :key="item.id"
@@ -51,7 +51,7 @@
               #{{ item.name }}
             </h3>
             <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
-              {{ item.createdCount || 1 }} 篇内容 {{ item.seeCount || 1 }} 浏览
+              {{ item.createdCount || 0 }} 篇内容 {{ item.seeCount || 0 }} 浏览
             </p>
           </div>
           <button class="bg-yellow-400 hover:bg-yellow-500 text-white rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shadow transition-colors">

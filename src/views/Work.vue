@@ -1,21 +1,4 @@
 <template>
-  <div class="flex gap-x-10 justify-center bg-[#F0F0F0]">
-    <div
-      class="w-62 h-14  flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
-      :class="currentTab === 1 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
-      @click="handleTabClick('work', 1)"
-    >
-      池 塘
-    </div>
-    <div
-      data-current="2"
-      class="w-62 h-14 flex  items-center justify-center text-[#926DDE] text-4xl rounded-4xl border-2 border-[#926DDE] cursor-pointer"
-      :class="currentTab === 2 ? 'bg-[#FFD900] border-[#FFD900]' : 'bg-transparent opacity-50 border-[#926DDE]'"
-      @click="handleTabClick('guashi', 2)"
-    >
-      呱 市
-    </div>
-  </div>
   <div class="flex justify-center gap-x-10 my-6">
     <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
     <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
@@ -74,8 +57,6 @@ import { getOC_AU_WorkList_Api } from '@/api/work'
 import { ref, watch, onMounted } from 'vue'
 
 import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
-import { useRouter } from 'vue-router'
-
 
 
 import {
@@ -92,21 +73,6 @@ const isMounted = ref(false)
 onMounted(() => {
   isMounted.value = true
 })
-
-
-
-
-const router = useRouter()
-
-const currentTab = ref(1)
-
-const handleTabClick = (tab: string, val) => {
-  currentTab.value = val
-  router.push({
-    path: tab,
-  })
-}
-
 
 const tabsTag = ref([
   { value: -1, name: '全部' },

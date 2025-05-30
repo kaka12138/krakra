@@ -25,20 +25,38 @@
 <script setup lang="ts">
 import Input from '@/components/ui/input/Input.vue'
 import { useUserStore } from '@/stores/user'
-import { ref } from 'vue'
-import { commentApi } from '@/api/work'
+import { ref, computed } from 'vue'
+import { createWorkCommentApi } from '@/api/work'
+import { createGuashiCommentApi } from '@/api/guashi'
+import { toast } from 'vue-sonner'
 
 const props = defineProps({
+  id: {
+    type: [Number, String],
+    required: true,
+  },
   placeholder: {
     type: String,
     default: '发布你的评论',
   },
-  commentId: {
-    type: Number,
-  },
   replyId: {
-    type: Number,
+    type: [Number, String],
   },
+  apiType: {
+    type: String,
+    default: '',
+  },
+})
+
+const commentApi = computed(() => {
+  switch (props.apiType) {
+  case 'guashi':
+    return createGuashiCommentApi
+  case 'work':
+    return createWorkCommentApi
+  default:
+    return undefined
+  }
 })
 
 const emit = defineEmits(['finishComment', 'closeCommentInput'])
@@ -54,18 +72,25 @@ const focusCommentInput = () => {
 }
 
 const submitComment =  async () => {
-  const res = await commentApi(props.commentId, {
+  if (!comment.value) {
+    toast.error('请输入评论内容')
+    return
+  }
+  if (!commentApi.value) return
+  const res = await commentApi.value(props.id, {
     replyId: props.replyId ? props.replyId : undefined,
     content: comment.value,
   })
+  // TODO:评论id
   console.log('res', res)
   emit('finishComment', {
-    id: props.commentId,
+    id: props.replyId,
     content: comment.value,
     avatar: userStore.userInfo.avatarUrl,
-    username: userStore.userInfo.username,
+    nickname: userStore.userInfo.nickname,
   })
   emit('closeCommentInput')
+  comment.value = ''
 }
 
 const cancelComment = () => {

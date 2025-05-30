@@ -3,20 +3,21 @@
     <!-- 用户信息区域 -->
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center gap-2">
-        <div class="w-10 h-10 rounded-full overflow-hidden">
+        <div class="w-13 h-13 rounded-full overflow-hidden">
           <img :src="guashiInfo.avatar" alt="用户头像" class="w-full h-full object-cover">
         </div>
         <div>
           <div class="flex items-center gap-1">
-            <span class="font-medium text-sm">{{ guashiInfo.username }}</span>
+            <span class="font-medium texrt-[#333] text-2xl">{{ guashiInfo.username || '匿名用户' }}</span>
             <div class="w-4 h-4 rounded-full bg-purple-500" />
             <div class="w-4 h-4 rounded-full bg-yellow-400" />
           </div>
-          <div class="text-xs text-gray-500">
+          <div class="text-xl text-[#999]">
             {{ guashiInfo.name }}
           </div>
         </div>
       </div>
+      <!-- TODO: -->
       <button class="text-sm px-3 py-1 rounded-full border border-yellow-400 text-yellow-500">
         + 关注
       </button>
@@ -24,19 +25,19 @@
 
     <!-- 内容区域 -->
     <div class="mb-3">
-      <p class="text-sm text-gray-800 mb-2">
+      <p class="text-2xl text-gray-800 mb-2">
         {{ guashiInfo.content }}
       </p>
     </div>
 
     <!-- 标签区域 -->
-    <div class="flex gap-2 mb-3">
-      <span v-for="tag in guashiInfo.tags" :key="tag.id" class="text-xs text-purple-500">#{{ tag.name }}</span>
+    <div class="flex flex-wrap gap-2 mb-3">
+      <span v-for="tag in guashiInfo.tags" :key="tag.id" class="text-xl text-purple-500">#{{ tag.name }}</span>
       <!-- <span class="ml-auto text-xs text-gray-500">收回</span> -->
     </div>
 
     <!-- 图片网格 -->
-    <div class="grid grid-cols-3 gap-1 mb-3">
+    <div class="grid grid-cols-3 gap-4 mb-3">
       <div v-for="(image, index) in guashiInfo.imageFileIds" :key="index" class="relative aspect-square rounded-md overflow-hidden">
         <img :src="image" class="w-full h-full object-cover">
       </div>
@@ -44,42 +45,50 @@
 
     <!-- 互动区域 -->
     <div class="pt-4 flex items-center justify-center gap-x-20 text-gray-500">
-      <div class="flex items-center cursor-pointer">
+      <div class="flex items-center cursor-pointer" @click="viewComments">
         <MessageCircleMoreIcon />
         <span class="text-sm">{{ guashiInfo.comments }}</span>
       </div>
-      <div class="flex items-center cursor-pointer">
-        <ThumbsUpIcon />
+      <div class="flex items-center cursor-pointer" @click="handleThumbUpGuashi(guashiInfo)">
+        <ThumbsUpIcon :fill="guashiInfo.isThumbsUp ? 'red' : 'none'" stroke-width="1" />
         <!-- TODO: 缺点赞字段 -->
-        <span class="text-sm">{{ guashiInfo.directions }}</span>
+        <span class="text-sm">{{ guashiInfo.followers }}</span>
+      </div>
+      <div class="flex items-center cursor-pointer">
+        <ShareIcon />
+        <!-- TODO: 缺少分享字段 -->
+        <span class="text-sm">{{ guashiInfo.shareCount || 0 }}</span>
       </div>
     </div>
     <!-- 评论 -->
-    <div>
+    <div v-if="showComments">
       <CommentInputCom
-        ref="inputRef"
-        :comment-id="commentId"
+        :id="guashiInfo.id"
+        ref="commentInputComRef"
         :placeholder="placeholder"
+        :reply-id="replyId"
+        api-type="guashi"
+        @close-comment-input="showComments = false"
         @finish-comment="finishComment"
       />
-      <div class="h-40 overflow-y-auto mt-6">
-        <div v-for="item in 10" :key="item" class="border-b border-gray-200 py-2">
-          <div class="flex items-center gap-x-2 my-3">
-            <img src="https://picsum.photos/200/300" class="w-10 h-10 rounded-full">
-            <div>
-              <p class="text-base text-[#333]">
-                张三
-              </p>
-              <p>这是一个测试内容</p>
-            </div>
+    </div>
+    <div class="mt-6">
+      <div v-for="item in commentList" :key="item.id" class="border-b border-gray-200 py-2">
+        <div class="flex items-center gap-x-2 my-3">
+          <img :src="item.avatar" class="w-10 h-10 min-w-10 min-h-10 rounded-full">
+          <div>
+            <p class="text-base text-[#333]">
+              {{ item.nickname || '匿名用户' }}
+            </p>
+            <p>{{ item.content }}</p>
           </div>
-          <div class="ml-12 flex gap-x-10">
-            <div class="flex items-center gap-x-2 cursor-pointer">
-              <HeartIcon /> <span>100</span>
-            </div>
-            <div class="flex items-center gap-x-2 cursor-pointer" @click="handleReply(replyId)">
-              <MessageCircleMoreIcon /> <span>评论</span>
-            </div>
+        </div>
+        <div class="ml-12 flex gap-x-10">
+          <div class="flex items-center gap-x-2 cursor-pointer" @click="handleThumbUpComment(item)">
+            <HeartIcon :fill="item.isThumbsUp ? 'red' : 'none'" stroke-width="1" /><span>{{ item.thumbsUps || 0 }}</span>
+          </div>
+          <div class="flex items-center gap-x-2 cursor-pointer" @click="handleReply(item)">
+            <MessageCircleMoreIcon /> <span>评论</span>
           </div>
         </div>
       </div>
@@ -88,25 +97,75 @@
 </template>
 
 <script setup lang="ts">
-import { MessageCircleMoreIcon, ThumbsUpIcon, HeartIcon } from 'lucide-vue-next'
+import { MessageCircleMoreIcon, ThumbsUpIcon, HeartIcon, ShareIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 import CommentInputCom from '@/components/business-com/CommentInputCom.vue'
+import { getGuashiCommentsApi, thumbUpGuashiApi } from '@/api/guashi'
+import { thumbUpCommentApi } from '@/api/comment'
+import { useDebounceFn } from '@vueuse/core'
+import { getUrlId } from '@/utils/common'
 
 const props = defineProps({
   guashiInfo: Object,
 })
 const commentList = ref([])
-const inputRef = ref(null)
-const commentId = ref(props.guashiInfo.id)
+const showComments = ref(false)
+const commentInputComRef = ref(null)
+const replyId = ref(null)
 const placeholder = ref('发布你的评论')
 
-const handleReply = (replyId: number) => {
-  console.log(replyId)
-  commentId.value = replyId
-  inputRef.value?.focusCommentInput()
+const handleReply = ({ id, nickname }) => {
+  showComments.value = true
+  replyId.value = id
+  placeholder.value = `回复 ${nickname || '匿名用户'}:`
+  commentInputComRef.value?.focusCommentInput()
 }
 
-const finishComment = () => {
-  commentId.value = props.guashiInfo.id
+const finishComment = (data: any) => {
+  console.log('finishComment', data)
+  commentList.value.unshift(data)
+  replyId.value = null
 }
+
+const thumbUpCommentDebounce = useDebounceFn((item) => {
+  const { id: commentId, userId: acceptId, content } = item
+  thumbUpCommentApi({
+    commentId,
+    acceptId,
+    content,
+  })
+}, 1000)
+
+const handleThumbUpComment = (item) => {
+  item.isThumbsUp = !item.isThumbsUp
+  item.thumbsUps = item.isThumbsUp ? item.thumbsUps + 1 : item.thumbsUps - 1
+  thumbUpCommentDebounce(item)
+}
+
+const thumbUpGuashiDebounce = useDebounceFn((item) => {
+  const { id, creatorId, imageFileIds } = item
+  thumbUpGuashiApi({
+    postId: id,
+    acceptId: creatorId,
+    coverFileId: getUrlId(imageFileIds[0]),
+  })
+}, 1000)
+
+const handleThumbUpGuashi = (item) => {
+  item.isThumbsUp = !item.isThumbsUp
+  item.followers = item.isThumbsUp ? item.followers + 1 : item.followers - 1
+  thumbUpGuashiDebounce(item)
+}
+
+const viewComments = async () => {
+  showComments.value = true
+  const res = await getGuashiCommentsApi(props.guashiInfo.id)
+  // 注入前端点赞标识
+  res.forEach((item) => {
+    item.isThumbsUp = false
+  })
+  commentList.value = res || []
+
+}
+
 </script>
