@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center gap-x-10 my-6">
-    <TabsCom key="1" v-model="tag" :tabs="tabsTag" />
-    <TabsCom key="2" v-model="isNSFW" :tabs="tabsIsNSFW" />
+    <TabsCom key="1" :tabs="tabsGroup" @tab-click="handleGroupClick" />
+    <TabsCom key="2" :tabs="tabsIsNSFW" @tab-click="handleIsNSFWClick" />
   </div>
   <div class="bg-[#F0F0F0] pb-10">
     <v3-waterfall
@@ -10,6 +10,7 @@
       :virtual-time="400"
       :is-mounted="isMounted"
       class="waterfall"
+      @scroll-reach-bottom="getNext"
     >
       <template #default="{ item }">
         <div
@@ -22,30 +23,6 @@
         </div>
       </template>
     </v3-waterfall>
-
-    <Pagination
-      v-model:page="pageNum"
-      v-slot="{ page }"
-      :items-per-page="pageSize"
-      :total="totalVal"
-      :default-page="1"
-    >
-      <PaginationContent v-slot="{ items }">
-        <PaginationPrevious />
-
-        <template v-for="(item, index) in items" :key="index">
-          <PaginationItem
-            v-if="item.type === 'page'"
-            :value="item.value"
-            :is-active="item.value === page"
-          >
-            {{ item.value }}
-          </PaginationItem>
-        </template>
-
-        <PaginationNext />
-      </PaginationContent>
-    </Pagination>
   </div>
   <BallMenuCom />
 </template>
@@ -58,35 +35,34 @@ import { ref, watch, onMounted } from 'vue'
 
 import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
 
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination'
-
-
+// waterfall
 const isMounted = ref(false)
-
 onMounted(() => {
   isMounted.value = true
 })
 
-const tabsTag = ref([
-  { value: -1, name: '全部' },
-  { value: 2, name: '同人' },
-  { value: 3, name: '原创' },
+// tabs
+const tabsGroup = ref([
+  { value: undefined, name: '全部' },
+  { value: 1, name: '同人' },
+  { value: 2, name: '原创' },
 ])
 const tabsIsNSFW = ref([
-  { value: -1, name: '全部' },
+  { value: undefined, name: '全部' },
   { value: 1, name: 'NSFW' },
   { value: 0, name: 'SFW' },
 ])
-const tag = ref(-1)
-const isNSFW = ref(-1)
 
+const groupId = ref(undefined)
+const isNSFW = ref(undefined)
+const handleGroupClick = (value: string) => {
+  groupId.value = value
+}
+const handleIsNSFWClick = (value: string) => {
+  isNSFW.value = value
+}
+
+// list
 const tableData = ref([])
 const pageNum = ref(1)
 const pageSize = ref(10)
@@ -96,20 +72,19 @@ const getTableData = async () => {
     pageNum: pageNum.value,
     pageSize: pageSize.value,
     type: 0,
-    isNsfw: isNSFW.value < 0 ? undefined : isNSFW.value,
+    groupId: groupId.value,
+    isNsfw: isNSFW.value,
   })
   const { records, total } = res
   totalVal.value = total
-  // TODO: 测试数据
-  tableData.value = []
-  tableData.value.push(...records)
+  tableData.value = tableData.value.concat(...records || [])
 }
 
 const getNext = () => {
   // TODO:
   console.log('getNext')
-  // pageNum.value++
-  // getTableData()
+  pageNum.value++
+  getTableData()
 }
 
 const handleDrop = (item) => {
@@ -117,7 +92,10 @@ const handleDrop = (item) => {
 }
 
 
-watch(pageNum,  () => { getTableData() }, { immediate: true })
-watch(isNSFW, () => { getTableData() })
+watch([groupId, isNSFW], () => {
+  tableData.value = []
+  pageNum.value = 1
+  getTableData()
+})
 
 </script>
