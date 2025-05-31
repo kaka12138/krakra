@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { VisuallyHidden } from 'reka-ui'
 
 defineProps({
   classArr: Array,
@@ -15,10 +16,13 @@ defineProps({
 <template>
   <Dialog>
     <DialogContent class="p-6 " :class="classArr">
-      <DialogHeader>
-        <DialogTitle />
-        <DialogDescription />
-      </DialogHeader>
+      <VisuallyHidden>
+        <DialogHeader>
+          <DialogTitle />
+          <DialogDescription />
+        </DialogHeader>
+      </VisuallyHidden>
+      <slot name="header" />
       <slot />
     </DialogContent>
   </Dialog>

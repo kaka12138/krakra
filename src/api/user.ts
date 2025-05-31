@@ -1,13 +1,21 @@
 import { get, post } from '../utils/request';
 
 export interface UserInfo {
-  id: number;
-  username: string;
+  userId: number | string;
   nickname: string;
-  avatar: string;
-  email: string;
-  roles: string[];
-  permissions: string[];
+  avatarUrl: string;
+  followings: number;
+  followers: number;
+  likes: number;
+  description: string;
+  // TODO: 这是什么？
+  nationalityId: number;
+  // TODO: oc是多个
+  ocId: number;
+  urls: {
+    url: string;
+    name: string;
+  }[];
 }
 
 export interface LoginParams {

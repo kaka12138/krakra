@@ -21,7 +21,8 @@
 <script setup lang="ts">
 import FormCom from '@/components/business-com/FormCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
-import { createOC_AU_Work_Api, createGuashiApi } from '@/api/work'
+import { createOC_AU_Work_Api  } from '@/api/work'
+import { createGuashiApi } from '@/api/guashi'
 import { toast } from 'vue-sonner'
 import { ref, computed, watch } from 'vue'
 import { FORM_FIELDS_MAP } from '@/constant/form-fields'

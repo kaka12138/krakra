@@ -34,15 +34,26 @@ export function getCommentListApi(id: string) {
   return get(`/creation/${id}/comments`)
 }
 
-// export function thumbUpWorkApi( data: any) {
-//   return post('/creation/like', data)
-// }
+export function thumbUpWorkApi(data: any) {
+  return post('/creation/follower', data)
+}
 
 // chain
 export function getChainDetailApi(id: string) {
   return get('/creation/chainDetail', { creationId: id })
 }
 
-export function thumbUpWorkApi(data: any) {
-  return post('/creation/follower', data)
+
+// 获取全部分类
+export function getCustomGroupsApi(creatorId: string | number) {
+  return get('/creation/group', {
+    pageNum: 1,
+    pageSize: 999,
+    creatorId,
+  })
+}
+
+// 创建分类/分组
+export function createCustomGroupApi(data: any) {
+  return post('/creation/group', data)
 }

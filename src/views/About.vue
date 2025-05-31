@@ -1,11 +1,11 @@
 <template>
   <div class="flex w-8/9 mx-auto h-full py-10 pt-30">
-    <div class="w-80  h-full mr-10">
-      <UserInfoCom />
+    <div class="w-1/4 min-w-1/4 h-full mr-6">
+      <UserInfoCom :user-info-from-request="userInfoFromRequest" />
     </div>
     <div class="flex-1 h-full flex flex-col">
       <div class="w-full">
-        <TabsCom :active="active" :tabs="tabs" @tab-click="handleTabClick" />
+        <NavsInAbout :active="active" :tabs="tabs" @tab-click="handleTabClick" />
       </div>
       <div class="flex-1 max-h-full overflow-auto bg-background rounded-lg p-4">
         <router-view />
@@ -25,17 +25,18 @@
 
 <script setup lang="ts">
 import UserInfoCom from '@/components/business-com/UserInfoCom.vue'
-import TabsCom from '@/components/business-com/TabsCom.vue'
+import NavsInAbout from '@/components/business-com/NavsInAbout.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watchEffect } from 'vue'
 import { useGenForm } from '@/hooks/useGenForm'
+import { getUserInfoApi } from '@/api/user'
+import type { UserInfo } from '@/api/user'
 
 const route = useRoute()
-console.log(route)
 const active = ref('mywork')
 const router = useRouter()
 const tabs = ref([
-  { value: 'mywork', name: 'A池塘' },
+  { value: 'mywork', name: '池塘' },
   { value: 'myguashi', name: '呱市' },
   { value: 'myorder', name: '委托' },
   { value: 'myoc', name: 'OC' },
@@ -44,9 +45,22 @@ const tabs = ref([
   { value: 'mycollection', name: '合集' },
 ])
 
+const userInfoFromRequest = ref<UserInfo>({})
+
+const getUserInfo = async (id: string) => {
+  userInfoFromRequest.value = await getUserInfoApi(id)
+  const nickname = userInfoFromRequest.value.nickname || ''
+  tabs.value[0].name = nickname ? `${nickname}的池塘` : '池塘'
+}
+
 watchEffect(() => {
-  active.value = route.name
+  const { name, params } = route
+  active.value = name
+  if (params.id) {
+    getUserInfo(params.id)
+  }
 })
+
 
 const handleTabClick = (value: string) => {
   active.value = value
