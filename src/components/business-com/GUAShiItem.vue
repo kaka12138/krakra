@@ -50,7 +50,7 @@
         <span class="text-sm">{{ guashiInfo.comments }}</span>
       </div>
       <div class="flex items-center cursor-pointer" @click="handleThumbUpGuashi(guashiInfo)">
-        <ThumbsUpIcon :fill="guashiInfo.isThumbsUp ? 'red' : 'none'" stroke-width="1" />
+        <ThumbsUpIcon :fill="guashiInfo.followerFlag ? 'red' : 'none'" stroke-width="1" />
         <!-- TODO: 缺点赞字段 -->
         <span class="text-sm">{{ guashiInfo.followers }}</span>
       </div>
@@ -137,8 +137,8 @@ const thumbUpCommentDebounce = useDebounceFn((item) => {
 }, 1000)
 
 const handleThumbUpComment = (item) => {
-  item.isThumbsUp = !item.isThumbsUp
-  item.thumbsUps = item.isThumbsUp ? item.thumbsUps + 1 : item.thumbsUps - 1
+  item.followerFlag = !item.followerFlag
+  item.thumbsUps = item.followerFlag ? item.thumbsUps + 1 : item.thumbsUps - 1
   thumbUpCommentDebounce(item)
 }
 
@@ -152,18 +152,14 @@ const thumbUpGuashiDebounce = useDebounceFn((item) => {
 }, 1000)
 
 const handleThumbUpGuashi = (item) => {
-  item.isThumbsUp = !item.isThumbsUp
-  item.followers = item.isThumbsUp ? item.followers + 1 : item.followers - 1
+  item.followerFlag = !item.followerFlag
+  item.followers = item.followerFlag ? item.followers + 1 : item.followers - 1
   thumbUpGuashiDebounce(item)
 }
 
 const viewComments = async () => {
   showComments.value = true
   const res = await getGuashiCommentsApi(props.guashiInfo.id)
-  // 注入前端点赞标识
-  res.forEach((item) => {
-    item.isThumbsUp = false
-  })
   commentList.value = res || []
 
 }

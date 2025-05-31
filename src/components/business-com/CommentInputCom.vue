@@ -83,8 +83,9 @@ const submitComment =  async () => {
   })
   // TODO:评论id
   console.log('res', res)
+  const { id } = res
   emit('finishComment', {
-    id: props.replyId,
+    id: id,
     content: comment.value,
     avatar: userStore.userInfo.avatarUrl,
     nickname: userStore.userInfo.nickname,

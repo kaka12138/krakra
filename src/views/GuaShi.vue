@@ -5,23 +5,27 @@
       <HotCardList :hot-card-list="hotCardList" @click-card="handleClickCard" />
     </div>
 
-    <div class="overflow-auto flex flex-col gap-10">
+    <div ref="guashiListRef" class="overflow-auto flex flex-col gap-10">
       <GUAShiItem v-for="item in list" :key="item.id" :guashi-info="item" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import HotCardList from '@/components/business-com/HotCardList.vue'
 import GUAShiItem from '@/components/business-com/GUAShiItem.vue'
 import { getHotCardListApi } from '@/api/card'
 import { getGuashiListApi } from '@/api/guashi'
-
+import { useScrollToBottom } from '@/hooks/useScrollBottom'
 
 const hotCardList = ref([])
 const list = ref([])
+const pageSize = ref(10)
+const pageNum = ref(1)
+const guashiListRef = ref(null)
 
+const { isBottom } = useScrollToBottom(guashiListRef)
 
 const handleClickCard = (id: number) => {
   console.log(id)
@@ -29,20 +33,23 @@ const handleClickCard = (id: number) => {
 
 const getGuashiList = async () => {
   const res = await getGuashiListApi({
-    pageNum: 1,
+    pageNum: pageNum.value,
     // TODO: 分页
-    pageSize: 9999,
+    pageSize: pageSize.value,
   })
-  // 前端注入点赞标识
-  list.value = res.records.map(item => ({
-    ...item,
-    isThumbsUp: false,
-  }))
+  list.value.push(...(res.records || []))
 }
 
 getHotCardListApi().then(data => {
   hotCardList.value = data || []
 })
 
-getGuashiList()
+
+watch(() => isBottom.value, (newVal) => {
+  if (newVal) {
+    getGuashiList()
+    pageNum.value++
+  }
+})
+
 </script>
