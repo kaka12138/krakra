@@ -1,5 +1,5 @@
 <template>
-  <div class="border-b border-gray-200 py-2">
+  <div class="py-2 border-b-1 border-[#ccc]">
     <div class="flex gap-x-2 my-3">
       <img v-if="commentInfo.avatar" :src="commentInfo.avatar" class="w-8 h-8 max-h-8 rounded-full">
       <div v-else class="border-1 border-[#333] rounded-full max-h-8">
@@ -16,8 +16,8 @@
       </div>
     </div>
     <div class="ml-12 flex gap-x-10">
-      <div class="flex items-center gap-x-2 cursor-pointer">
-        <HeartIcon /> <span>{{ commentInfo.thumbsUps }}</span>
+      <div class="flex items-center gap-x-2 cursor-pointer" @click="handleThumbUpComment">
+        <HeartIcon :fill="item.followerFlag ? 'red' : 'none'" stroke-width="1" /> <span>{{ commentInfo.thumbsUps }}</span>
       </div>
       <div class="flex items-center gap-x-2 cursor-pointer" @click="handleReply">
         <MessageCircleMoreIcon /> <span>评论</span>
@@ -32,10 +32,14 @@ const props = defineProps({
   commentInfo: Object,
 })
 
-const emit = defineEmits(['reply'])
+const emit = defineEmits(['reply', 'thumbUp'])
 
 const handleReply = () => {
   emit('reply', props.commentInfo)
+}
+
+const handleThumbUpComment = () => {
+  emit('thumbUp', props.commentInfo)
 }
 
 </script>

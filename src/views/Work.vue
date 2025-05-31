@@ -77,14 +77,14 @@ const getTableData = async () => {
   })
   const { records, total } = res
   totalVal.value = total
-  tableData.value = tableData.value.concat(...records || [])
+  tableData.value = tableData.value.concat(records)
 }
 
 const getNext = () => {
   // TODO:
   console.log('getNext')
-  pageNum.value++
   getTableData()
+  pageNum.value++
 }
 
 const handleDrop = (item) => {

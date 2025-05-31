@@ -85,7 +85,7 @@
         </div>
         <div class="ml-12 flex gap-x-10">
           <div class="flex items-center gap-x-2 cursor-pointer" @click="handleThumbUpComment(item)">
-            <HeartIcon :fill="item.isThumbsUp ? 'red' : 'none'" stroke-width="1" /><span>{{ item.thumbsUps || 0 }}</span>
+            <HeartIcon :fill="item.followerFlag ? 'red' : 'none'" stroke-width="1" /><span>{{ item.thumbsUps || 0 }}</span>
           </div>
           <div class="flex items-center gap-x-2 cursor-pointer" @click="handleReply(item)">
             <MessageCircleMoreIcon /> <span>评论</span>
@@ -159,6 +159,8 @@ const handleThumbUpGuashi = (item) => {
 
 const viewComments = async () => {
   showComments.value = true
+  // TODO: 这里需要优化，暂时处理
+  placeholder.value = '发布你的评论'
   const res = await getGuashiCommentsApi(props.guashiInfo.id)
   commentList.value = res || []
 

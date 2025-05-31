@@ -15,7 +15,7 @@
       <div
         v-for="(item, idx) in firstAndLastChain"
         :key="item.id"
-        class="px-4 py-1 rounded-2xl font-bold"
+        class="px-2 py-1 rounded-2xl font-medium text-sm"
         :class="[ idx === 0 ? 'bg-[#FFD700] text-[#9370DB]' : 'bg-[#9370DB] text-white']"
       >
         {{ idx === 0 ? "零号位" : "当前创作" }}
@@ -53,8 +53,9 @@ const chainListComputed = computed(() => {
 })
 
 const firstAndLastChain = computed(() => {
+  console.log('props.showTag', props.showTag)
   if(!props.showTag) return []
-  return [props.chainList.value[0], props.chainList.value[props.chainList.value.length - 1]]
+  return [props.chainList[0], props.chainList[props.chainList.length - 1]]
 })
 </script>
 

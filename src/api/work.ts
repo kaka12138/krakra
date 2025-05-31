@@ -34,11 +34,15 @@ export function getCommentListApi(id: string) {
   return get(`/creation/${id}/comments`)
 }
 
-export function thumbUpWorkApi( data: any) {
-  return post('/creation/like', data)
-}
+// export function thumbUpWorkApi( data: any) {
+//   return post('/creation/like', data)
+// }
 
 // chain
 export function getChainDetailApi(id: string) {
   return get('/creation/chainDetail', { creationId: id })
+}
+
+export function thumbUpWorkApi(data: any) {
+  return post('/creation/follower', data)
 }

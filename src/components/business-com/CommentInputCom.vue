@@ -85,7 +85,7 @@ const submitComment =  async () => {
   console.log('res', res)
   const { id } = res
   emit('finishComment', {
-    id: id,
+    id,
     content: comment.value,
     avatar: userStore.userInfo.avatarUrl,
     nickname: userStore.userInfo.nickname,
