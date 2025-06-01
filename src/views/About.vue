@@ -7,7 +7,7 @@
       <div class="w-full">
         <NavsInAbout :active="active" :tabs="tabs" @tab-click="handleTabClick" />
       </div>
-      <div class="flex-1 max-h-full overflow-auto bg-background rounded-lg p-4">
+      <div class="flex-1 max-h-full overflow-auto bg-background rounded-lg">
         <router-view />
       </div>
     </div>

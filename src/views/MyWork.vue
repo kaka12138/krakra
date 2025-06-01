@@ -1,6 +1,6 @@
 <template>
   <!-- 操作 -->
-  <div class="flex items-center space-x-1 rounded-full py-4 sticky -top-4 bg-background z-10" :class="isCreateCollectionMode? 'invisible' : ''">
+  <div class="flex items-center space-x-1 p-4 sticky top-0 bg-background z-10" :class="isCreateCollectionMode? 'invisible' : ''">
     <button
       v-for="(tab, idx) in groupTabs"
       :key="tab.value"
@@ -39,7 +39,7 @@
       创建合集
     </button>
   </div>
-  <div :class="isCreateCollectionMode? 'invisible' : ''">
+  <div :class="isCreateCollectionMode? 'invisible' : ''" class="p-4">
     <v3-waterfall
       :list="tableData"
       :col-width="280"
@@ -80,7 +80,7 @@
             </button>
           </div>
         </div>
-        <div class="flex-1 overflow-auto">
+        <div class="flex-1 overflow-auto p-4">
           <v3-waterfall
             :list="tableData"
             :col-width="280"
@@ -294,7 +294,7 @@ const getTableData = async () => {
     pageSize: pageSize.value,
     type: 0,
     groupId: groupId.value,
-    creatorId: route.params.id,
+    // creatorId: route.params.id,
   })
   const { records, total } = res
   totalVal.value = total
