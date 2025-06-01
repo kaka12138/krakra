@@ -1,11 +1,23 @@
 <template>
-  <div v-if="artwork" class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden" @click="handleClick">
-    <div class="relative">
+  <div
+    v-if="artwork"
+    class="w-full max-w-sm rounded-lg shadow-lg overflow-hidden"
+    @click="handleClick"
+  >
+    <div
+      class="relative rounded-lg overflow-hidden"
+      :class="isCreateCollectionMode && artwork.isSelected ? 'border-2 border-[#926DDE] z-9999' : 'border-2 border-[#ccc]'"
+      @click="handleSelectCollection"
+    >
       <img
         :src="artwork.coverFileId"
         alt="Artwork Image"
         class="w-full h-auto"
+        :class="isCreateCollectionMode && artwork.isSelected ? 'brightness-125' : ''"
       >
+      <div v-if="isCreateCollectionMode && artwork.isSelected" class="absolute top-1 left-1 p-0.5 bg-[#926DDE] rounded-full flex items-center justify-center">
+        <CheckIcon :size="18" color="white" />
+      </div>
     </div>
     <!-- class="w-full h-auto aspect-[3/4] object-cover" -->
     <div class="p-4">
@@ -14,7 +26,7 @@
       </h2>
       <div class="flex items-center text-sm text-gray-500 mb-3 gap-x-1">
         <span>作品ID: {{ artwork.creatorId }}</span>
-        <CopyIcon size="16" />
+        <CopyIcon :size="16" />
       </div>
 
       <div class="flex items-center justify-between">
@@ -36,11 +48,11 @@
         </div>
 
         <div class="flex items-center space-x-3 sm:space-x-4 text-gray-600">
-          <button class="flex items-center hover:text-pink-500">
+          <button class="flex flex-col items-center hover:text-pink-500" @click.stop="handleLike">
             <HeartIcon />
             <span class="text-xs sm:text-sm">{{ artwork.likeCount }}</span>
           </button>
-          <button class="flex items-center hover:text-blue-500">
+          <button class="flex flex-col items-center hover:text-blue-500">
             <BookmarkIcon />
             <span class="text-xs sm:text-sm">{{ artwork.commentCount }}</span>
           </button>
@@ -51,22 +63,38 @@
 </template>
 
 <script setup lang="ts">
-import {CopyIcon, BookmarkIcon, HeartIcon } from 'lucide-vue-next';
+import {CopyIcon, BookmarkIcon, HeartIcon, CheckIcon } from 'lucide-vue-next';
 // TODO: 每个组件都有一个弹窗？？？
 import { useWorkDetail } from '@/hooks/useWorkDetial';
 const props = defineProps({
+  isCreateCollectionMode: {
+    type: Boolean,
+    default: false,
+  },
   artwork: {
     type: Object,
     required: true,
   },
 });
+const emit = defineEmits(['handleSelectCollection'])
 
 const { open } = useWorkDetail()
 
+const handleLike = () => {
+  console.log('handleLike')
+}
+
+const handleSelectCollection = (e: Event) => {
+  if (props.isCreateCollectionMode) {
+    e.stopPropagation()
+    emit('handleSelectCollection', props.artwork)
+  }
+}
+
 const handleClick = () => {
-  console.log('handleClick', props.artwork.id)
+  console.log('handleClick')
   if (!props.artwork.id) return
-  // open(props.artwork.id)
+  // TODO: 删除测试
   open('55')
 }
 

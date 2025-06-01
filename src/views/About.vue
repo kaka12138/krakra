@@ -11,15 +11,6 @@
         <router-view />
       </div>
     </div>
-
-    <div class="border-2 border-red-500 rounded-full fixed bottom-20 left-20 flex flex-col gap-y-4">
-      <span @click="openWorkForm">
-        创建work
-      </span>
-      <span @click="openGuashiForm">
-        创建guashi
-      </span>
-    </div>
   </div>
 </template>
 
@@ -28,7 +19,6 @@ import UserInfoCom from '@/components/business-com/UserInfoCom.vue'
 import NavsInAbout from '@/components/business-com/NavsInAbout.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watchEffect } from 'vue'
-import { useGenForm } from '@/hooks/useGenForm'
 import { getUserInfoApi } from '@/api/user'
 import type { UserInfo } from '@/api/user'
 
@@ -66,9 +56,6 @@ const handleTabClick = (value: string) => {
   active.value = value
   router.push({ name: value })
 }
-
-const { open: openWorkForm } = useGenForm('work_form')
-const { open: openGuashiForm } = useGenForm('guashi_form')
 
 </script>
 

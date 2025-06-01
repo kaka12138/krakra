@@ -9,7 +9,7 @@
           active === tab.value
             ? 'text-[#926DDE]  bg-background'
             : 'text-[#D6CCEB]',
-          idx === 0 ? 'max-w-1/4': 'flex-1'
+          idx === 0 ? 'max-w-1/4': 'w-1/8'
         ]"
         @click="handleClick(tab.value)"
       >

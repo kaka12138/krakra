@@ -57,3 +57,8 @@ export function getCustomGroupsApi(creatorId: string | number) {
 export function createCustomGroupApi(data: any) {
   return post('/creation/group', data)
 }
+
+// 创建合集
+export function createCollectionApi(data: any) {
+  return post('/creation/collection', data)
+}
