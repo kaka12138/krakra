@@ -1,6 +1,6 @@
 <template>
   <div
-    draggable="true"
+    :draggable="userInfo.userId ? true : false"
     class="fixed bottom-10 left-10"
     @dragover="() => {}"
     @dragenter="() => {}"
@@ -63,7 +63,7 @@
       >
         <div
           v-if="isMenuOpen"
-          class="absolute left-full ml-3 origin-left bg-white rounded-2xl shadow-xl p-3.5 space-y-2.5 z-10 w-max"
+          class="absolute left-full bottom-0 ml-3 origin-left bg-white rounded-2xl shadow-xl p-3.5 space-y-2.5 z-10 w-max"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -72,7 +72,7 @@
             v-for="item in menuItems"
             :key="item.text"
             role="menuitem"
-            class="block w-full text-center px-7 py-2.5 text-sm font-medium text-purple-600 border-2 border-purple-300 rounded-full hover:bg-purple-50 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-75 transition-colors duration-150"
+            class="cursor-pointer block w-full text-center px-6 py-1 text-sm font-medium text-[#C0B1DE] border-2 border-[#C0B1DE] rounded-full"
             @click="handleItemClick(item)"
           >
             {{ item.text }}
@@ -81,49 +81,48 @@
       </transition>
     </div>
   </div>
-
-  <!-- TODO: 优化? -->
-  <!-- <div
-    @dragover="e => e.preventDefault()"
-    @dragenter="e => e.preventDefault()"
-    @dragleave="e => e.preventDefault()"
-    @drop="handleDrop"
-  >
-    <slot />
-  </div> -->
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { toast } from 'vue-sonner'
+import { useRouter } from 'vue-router';
+import { useGenForm } from '@/hooks/useGenForm';
 
-// const props = defineProps({
-//   item: {
-//     type: Object,
-//     required: true,
-//   },
-// });
+const { open: createWork } = useGenForm('work_form');
+const { open: createGuaShi } = useGenForm('guashi_form');
 
+
+const userStore = useUserStore();
+const userInfo = computed(() => userStore.userInfo);
 const isMenuOpen = ref(false);
+const router = useRouter();
 
 const menuItems = ref([
-  { text: '待扩清单', action: 'expandList' },
-  { text: '发布池塘', action: 'publishPond' },
-  { text: '发布呱市', action: 'publishMarket' },
+  { id: 1, text: '待扩清单', path: 'myrecreation' },
+  { id: 2, text: '发布池塘', path: '' },
+  { id: 3, text: '发布呱市', path: '' },
 ]);
 
 const toggleMenu = () => {
+  if (!userInfo.value.userId) {
+    toast.error('请先登录');
+    return;
+  }
   isMenuOpen.value = !isMenuOpen.value;
 };
 
 const handleItemClick = (item) => {
-  console.log('Clicked:', item.text, 'Action:', item.action);
-  // Add logic for each item's action here
+  if (item.path) {
+    router.push(`/about/${userInfo.value.userId}/${item.path}`);
+  } else if (item.id === 2) {
+    createWork();
+  } else if (item.id === 3) {
+    createGuaShi();
+  }
   isMenuOpen.value = false; // Optionally close menu on item click
 };
 
-
-// const handleDrop = () => {
-//   console.log('drop', props.item);
-// };
 </script>
 

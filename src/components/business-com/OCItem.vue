@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex items-center px-4 py-3 rounded-xl bg-[#F7F7F7] overflow-auto">
-    <div class="w-20 min-w-20 max-h-20 rounded-full overflow-hidden">
+    <div class="w-20 h-20 min-w-20 max-h-20 rounded-full overflow-hidden">
       <img :src="ocInfo.coverFileId" class="w-full h-full rounded-full object-cover">
     </div>
 

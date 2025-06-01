@@ -7,13 +7,14 @@
     </div>
     <router-view />
   </main>
+  <BallMenuCom />
 </template>
 
 <script setup lang="ts">
 import { Toaster } from '@/components/ui/sonner'
 import 'vue-sonner/style.css'
 import SearchCom from '@/components/business-com/SearchCom.vue'
-
+import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
 </script>
 
 

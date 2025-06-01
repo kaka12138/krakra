@@ -62,3 +62,11 @@ export function createCustomGroupApi(data: any) {
 export function createCollectionApi(data: any) {
   return post('/creation/collection', data)
 }
+
+export function getCollectionListApi(params: any) {
+  return get('/creation/collection/page', params)
+}
+
+export function getCollectionDetailApi(params: any) {
+  return get('/creation/collection/detail', params)
+}

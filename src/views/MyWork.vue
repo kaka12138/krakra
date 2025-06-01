@@ -101,7 +101,6 @@
       </div>
     </div>
   </div>
-  <BallMenuCom />
   <BaseDialogCom
     key="createGroupDialog"
     v-model:open="showCreateGroupDialog"
@@ -162,7 +161,6 @@
 <script setup lang="ts">
 import UploadCom from '@/components/business-com/UploadCom.vue'
 import WorkItem from '@/components/business-com/WorkItem.vue'
-import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
 import { Input } from '@/components/ui/input'
 import { getCustomGroupsApi, createCustomGroupApi, createCollectionApi } from '@/api/work'
@@ -218,7 +216,7 @@ const handleCancelSelect = () => {
 const handleCreateCollection = () => {
   const data = {
     name: collectionName.value,
-    coverFileId: collectionCoverFileIdArr.value[0].id, // TODO:暂时使用id
+    coverFileId: collectionCoverFileIdArr.value[0].url,
     creationIds: selectedCollectionIds.value,
   }
   createCollectionApi(data).then((res) => {
@@ -294,7 +292,7 @@ const getTableData = async () => {
     pageSize: pageSize.value,
     type: 0,
     groupId: groupId.value,
-    // creatorId: route.params.id,
+    creatorId: route.params.id,
   })
   const { records, total } = res
   totalVal.value = total

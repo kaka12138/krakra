@@ -15,7 +15,7 @@ defineProps({
 
 <template>
   <Dialog>
-    <DialogContent class="p-6 " :class="classArr">
+    <DialogContent class="p-6 overflow-auto" :class="classArr">
       <VisuallyHidden>
         <DialogHeader>
           <DialogTitle />

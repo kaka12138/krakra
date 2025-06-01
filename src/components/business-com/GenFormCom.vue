@@ -1,11 +1,11 @@
 <template>
   <div>
-    <BaseDialogCom v-model:open="isOpen">
+    <BaseDialogCom v-model:open="isOpen" :class-arr="['max-w-[40%] max-h-[80%]']">
       <h2 class="text-6xl font-bold text-[#9370DB] mb-1">
         创建
       </h2>
       <p class="text-6xl font-semibold text-[#9370DB] mb-6">
-        <span class="text-[#FFC300]">{{ formTitle }}</span>
+        <span class="text-[#FFC300]">{{ formTitle }}</span> 
       </p>
       <FormCom
         :form-type="formType"

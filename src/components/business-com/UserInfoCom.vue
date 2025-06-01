@@ -11,8 +11,8 @@
           <button class="bg-[#9370DB] text-white px-3 py-0.5 rounded-full text-md cursor-pointer">
             {{ isOwner ? '编辑个人资料' : '编辑个人资料' }}
           </button>
-          <div class="rounded-full p-2 bg-[#f0f0f0]">
-            <MessageCircleMore v-if="!isOwner" size="24" color="#9370DB" />
+          <div v-if="!isOwner" class="rounded-full p-2 bg-[#f0f0f0]">
+            <MessageCircleMore :size="24" color="#9370DB" />
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@ const userStore = useUserStore()
 const route = useRoute()
 
 
-const isOwner = computed(() => userStore.userInfo?.userId === route.params.id)
+const isOwner = computed(() => userStore.userInfo?.userId == route.params.id)
 
 
 </script>

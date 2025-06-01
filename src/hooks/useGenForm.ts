@@ -2,7 +2,7 @@ import { createApp, h } from 'vue'
 import GenFormCom from '@/components/business-com/GenFormCom.vue'
 
 
-export function useGenForm(formType: string) {
+export function useGenForm(formType: string, onSuccess?: () => void) {
   let modalApp = null
   let hostElement = null
 
@@ -36,6 +36,12 @@ export function useGenForm(formType: string) {
         return () => h(GenFormCom, {
           formType,
           open: true,
+          onCreateFormSuccess: () => {
+            if(onSuccess) {
+              onSuccess()
+            }
+            destroyModal()
+          },
           onClosed: () => {
             destroyModal()
           },
