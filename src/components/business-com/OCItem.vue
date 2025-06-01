@@ -1,30 +1,31 @@
 <template>
-  <div v-if="ocInfo" class="w-full flex p-6 rounded-xl bg-[#F7F7F7]">
-    <img :src="ocInfo.coverFileId" class="min-w-30 max-w-30 w-30 h-30 rounded-full object-cover">
-    <div class="flex-1 flex flex-col justify-center mx-4">
-      <p class="line-clamp-1 text-black text-2xl">
-        {{ ocInfo.username }}
-      </p>
-      <p class="line-clamp-3 text-[#999999] text-base">
-        {{ ocInfo.description }}
-      </p>
+  <div class="w-full flex items-center px-4 py-3 rounded-xl bg-[#F7F7F7] overflow-auto">
+    <div class="w-20 min-w-20 max-h-20 rounded-full overflow-hidden">
+      <img :src="ocInfo.coverFileId" class="w-full h-full rounded-full object-cover">
     </div>
-    <div>
-      <div class="border-l-1 p-2">
-        <img :src="ocInfo.coverFileId" class="min-w-22 max-w-22 w-22 h-22 rounded-xl object-cover">
-        <p class="line-clamp-1 text-[#999999] text-center text-base">
-          {{ ocInfo.name }}
-        </p>
+
+    <div class="flex-1 mx-4">
+      <div class="truncate text-black text-2xl">
+        {{ ocInfo.name }}
+      </div>
+      <div class="line-clamp-2 text-[#999] text-base">
+        {{ ocInfo.description }}
+        22233333332222222222223333
+      </div>
+    </div>
+
+    <div v-if="ocInfo.worlds.length" class="w-20 min-w-20 pl-4 border-l-1 border-[#999] flex flex-col items-center justify-center">
+      <div class="w-15 h-15 min-w-15 min-h-15 rounded-full overflow-hidden">
+        <img :src="ocInfo.worlds[0].url" class="w-full h-full rounded-full object-cover">
+      </div>
+      <div class="truncate text-[#999] text-center text-base mt-2">
+        {{ ocInfo.worlds[0].name }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useUserStore } from '@/stores/user';
-const userStore = useUserStore();
-const userInfo = computed(() => userStore.userInfo);
 
 defineProps({
   ocInfo: Object,
