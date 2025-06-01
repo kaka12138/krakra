@@ -50,7 +50,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {CopyIcon, BookmarkIcon, HeartIcon } from 'lucide-vue-next';
 // TODO: 每个组件都有一个弹窗？？？
 import { useWorkDetail } from '@/hooks/useWorkDetial';

@@ -6,7 +6,7 @@
         v-for="(tab, idx) in groupTabs"
         :key="tab.value"
         :class="[
-          'flex-1 max-w-20 px-2 py-1 rounded-full text-md font-bold cursor-pointer',
+          'max-w-20 px-4 py-1 rounded-full text-sm font-bold cursor-pointer',
           groupId === tab.value
             ? 'bg-[#926DDE]  text-white'
             : 'text-[#926DDE]',
@@ -32,6 +32,10 @@
           {{ item.name }}
         </div>
       </div>
+
+      <button class="ml-auto px-4 py-1 rounded-full text-sm font-bold cursor-pointer text-[#926DDE]  bg-background border-1 border-[#926DDE]">
+        创建合集
+      </button>
     </div>
     <v3-waterfall
       :list="tableData"

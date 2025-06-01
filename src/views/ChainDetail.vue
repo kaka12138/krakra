@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watchEffect, computed } from 'vue';
 import ChainCom from '@/components/business-com/ChainCom.vue';
 import { getChainDetailApi } from '@/api/work';

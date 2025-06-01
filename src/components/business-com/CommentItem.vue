@@ -17,7 +17,7 @@
     </div>
     <div class="ml-12 flex gap-x-10">
       <div class="flex items-center gap-x-2 cursor-pointer" @click="handleThumbUpComment">
-        <HeartIcon :fill="item.followerFlag ? 'red' : 'none'" stroke-width="1" /> <span>{{ commentInfo.thumbsUps }}</span>
+        <HeartIcon :fill="commentInfo.followerFlag ? 'red' : 'none'" stroke-width="1" /> <span>{{ commentInfo.thumbsUps }}</span>
       </div>
       <div class="flex items-center gap-x-2 cursor-pointer" @click="handleReply">
         <MessageCircleMoreIcon /> <span>评论</span>

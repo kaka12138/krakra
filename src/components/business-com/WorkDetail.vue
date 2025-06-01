@@ -96,7 +96,7 @@
   </BaseDialogCom>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import ChainCom from './ChainCom.vue';
 import CommentItem from './CommentItem.vue';
