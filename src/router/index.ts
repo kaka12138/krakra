@@ -45,9 +45,9 @@ const routes = [
         component: () => import('../views/MyOrder.vue'),
       },
       {
-        path: 'myoc',
-        name: 'myoc',
-        component: () => import('../views/MyOC.vue'),
+        path: 'myroles',
+        name: 'myroles',
+        component: () => import('../views/MyRoles.vue'),
       },
       {
         path: 'myfavorite',

@@ -29,7 +29,7 @@ const tabs = ref([
   { value: 'mywork', name: '池塘' },
   { value: 'myguashi', name: '呱市' },
   { value: 'myorder', name: '委托' },
-  { value: 'myoc', name: 'OC' },
+  { value: 'myroles', name: 'OC' },
   { value: 'myfavorite', name: '喜欢' },
   { value: 'myrecreation', name: '扩单' },
   { value: 'mycollection', name: '合集' },
