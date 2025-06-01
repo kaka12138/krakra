@@ -45,19 +45,19 @@
 
     <!-- 互动区域 -->
     <div class="pt-4 flex items-center justify-center gap-x-20 text-gray-500">
+      <div class="flex items-center cursor-pointer" @click="handleThumbUpGuashi(guashiInfo)">
+        <ThumbsUpIcon :fill="guashiInfo.followerFlag ? '#E86868' : 'none'" stroke-width="1" />
+        <!-- TODO: 缺点赞字段 -->
+        <span class="text-sm">{{ guashiInfo.followers || 0 }}</span>
+      </div>
       <div class="flex items-center cursor-pointer" @click="viewComments">
         <MessageCircleMoreIcon />
-        <span class="text-sm">{{ guashiInfo.comments }}</span>
-      </div>
-      <div class="flex items-center cursor-pointer" @click="handleThumbUpGuashi(guashiInfo)">
-        <ThumbsUpIcon :fill="guashiInfo.followerFlag ? 'red' : 'none'" stroke-width="1" />
-        <!-- TODO: 缺点赞字段 -->
-        <span class="text-sm">{{ guashiInfo.followers }}</span>
+        <span class="text-sm">{{ guashiInfo.comments || 0 }}</span>
       </div>
       <div class="flex items-center cursor-pointer">
         <ShareIcon />
         <!-- TODO: 缺少分享字段 -->
-        <span class="text-sm">{{ guashiInfo.shareCount || 0 }}</span>
+        <span class="text-sm">{{ guashiInfo.directions || 0 }}</span>
       </div>
     </div>
     <!-- 评论 -->
@@ -72,7 +72,7 @@
         @finish-comment="finishComment"
       />
     </div>
-    <div class="mt-6">
+    <div class="max-h-120 overflow-auto ">
       <div v-for="item in commentList" :key="item.id" class="border-b border-gray-200 py-2">
         <div class="flex items-center gap-x-2 my-3">
           <img :src="item.avatar" class="w-10 h-10 min-w-10 min-h-10 rounded-full">

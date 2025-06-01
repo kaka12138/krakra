@@ -18,7 +18,7 @@
 import UserInfoCom from '@/components/business-com/UserInfoCom.vue'
 import NavsInAbout from '@/components/business-com/NavsInAbout.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, watch } from 'vue'
 import { getUserInfoApi } from '@/api/user'
 import type { UserInfo } from '@/api/user'
 
@@ -43,12 +43,18 @@ const getUserInfo = async (id: string) => {
   tabs.value[0].name = nickname ? `${nickname}的池塘` : '池塘'
 }
 
-watchEffect(() => {
-  const { name, params } = route
-  active.value = name
-  if (params.id) {
-    getUserInfo(params.id)
+watch(() => route.params.id, (newVal) => {
+  if (newVal) {
+    getUserInfo(newVal)
   }
+}, {
+  immediate: true,
+})
+
+watchEffect(() => {
+  const { name } = route
+  console.log('name', name)
+  active.value = name as string
 })
 
 

@@ -20,16 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const props = defineProps({
+defineProps({
   tabs: Array,
+  active: String,
 })
-const active = ref(props.tabs[0].value)
 const emit = defineEmits(['tab-click'])
 
 const handleClick = (value: string) => {
-  active.value = value
   emit('tab-click', value)
 }
 

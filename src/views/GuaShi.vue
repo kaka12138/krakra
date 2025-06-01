@@ -6,7 +6,7 @@
     </div>
 
     <div ref="guashiListRef" class="overflow-auto flex flex-col gap-10">
-      <GUAShiItem v-for="item in list" :key="item.id" :guashi-info="item" />
+      <GuaShiItem v-for="item in list" :key="item.id" :guashi-info="item" />
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import HotCardList from '@/components/business-com/HotCardList.vue'
-import GUAShiItem from '@/components/business-com/GUAShiItem.vue'
+import GuaShiItem from '@/components/business-com/GuaShiItem.vue'
 import { getHotCardListApi } from '@/api/card'
 import { getGuashiListApi } from '@/api/guashi'
 import { useScrollToBottom } from '@/hooks/useScrollBottom'
@@ -37,7 +37,7 @@ const getGuashiList = async () => {
     // TODO: 分页
     pageSize: pageSize.value,
   })
-  list.value.push(...(res.records || []))
+  list.value.push(...res.records)
 }
 
 getHotCardListApi().then(data => {

@@ -165,7 +165,8 @@ import WorkItem from '@/components/business-com/WorkItem.vue'
 import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
 import { Input } from '@/components/ui/input'
-import { getOC_AU_WorkList_Api, getCustomGroupsApi, createCustomGroupApi, createCollectionApi } from '@/api/work'
+import { getCustomGroupsApi, createCustomGroupApi, createCollectionApi } from '@/api/work'
+import { getMyWork_OC_AU_ListApi } from '@/api/about'
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -288,7 +289,7 @@ const pageNum = ref(1)
 const pageSize = ref(10)
 const totalVal = ref(0)
 const getTableData = async () => {
-  const res = await getOC_AU_WorkList_Api({
+  const res = await getMyWork_OC_AU_ListApi({
     pageNum: pageNum.value,
     pageSize: pageSize.value,
     type: 0,

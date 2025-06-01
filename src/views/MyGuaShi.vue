@@ -1,30 +1,39 @@
 <template>
-  <div v-for="item in tableData" :key="item.id">
-    <GUAShiItem :guashi-info="item" />
+  <div ref="guashiListRef" class="h-full overflow-auto flex flex-col gap-10">
+    <GuaShiItem v-for="item in list" :key="item.id" :guashi-info="item" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import GUAShiItem from '@/components/business-com/GUAShiItem.vue'
-import { getGuashiListApi } from '@/api/guashi'
+import { ref, watch } from 'vue'
+import GuaShiItem from '@/components/business-com/GuaShiItem.vue'
+import { getMyGuashiListApi } from '@/api/about'
+import { useScrollToBottom } from '@/hooks/useScrollBottom'
+import { useRoute } from 'vue-router'
 
-const tableData = ref([])
+const route = useRoute()
 
-const getTableData = async () => {
-  const res = await getGuashiListApi({
-    pageNum: 1,
-    pageSize: 9999,
+
+const list = ref([])
+const pageSize = ref(2)
+const pageNum = ref(1)
+const guashiListRef = ref(null)
+const { isBottom } = useScrollToBottom(guashiListRef)
+
+const getGuashiList = async () => {
+  const res = await getMyGuashiListApi({
+    pageNum: pageNum.value,
+    // TODO: 分页
+    pageSize: pageSize.value,
+    creatorId: route.params.id,
   })
-  const { records } = res
-  tableData.value = []
-  tableData.value.push(...records)
+  list.value.push(...res.records)
 }
 
-getTableData()
-
-// TODO：刷新
-defineExpose({
-  reload: getTableData,
+watch(() => isBottom.value, (newVal) => {
+  if (newVal) {
+    getGuashiList()
+    pageNum.value++
+  }
 })
 </script>

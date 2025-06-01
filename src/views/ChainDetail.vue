@@ -77,7 +77,7 @@
         </div>
         <div v-if="currentTab === 2" class="flex flex-wrap gap-2">
           <div v-for="item in relationGuashiList" :key="item.id" class="flex-1 min-w-1/4">
-            <GuashiItem :guashi-info="item" />
+            <GuaShiItem :guashi-info="item" />
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ import ChainCom from '@/components/business-com/ChainCom.vue';
 import { getChainDetailApi } from '@/api/work';
 import { useRoute } from 'vue-router';
 import WorkItem from '@/components/business-com/WorkItem.vue';
-import GuashiItem from '@/components/business-com/GUAShiItem.vue';
+import GuaShiItem from '@/components/business-com/GuaShiItem.vue';
 
 const route = useRoute()
 
