@@ -108,20 +108,22 @@ import { thumbUpCommentApi } from '@/api/comment'
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core'
 import { getUrlId } from '@/utils/common'
+import { useRouter } from 'vue-router'
 
 
 const props = defineProps({
   open: Boolean,
   id: [String, Number],
-  imitateRouter: Object,
 })
 
 const userStore = useUserStore()
 
+const router = useRouter()
+
 
 const isOpen = ref(props.open || false)
 
-const emit = defineEmits(['closed'])
+const emit = defineEmits(['closed', 'toChainDetailPage'])
 
 const detailInfo = ref({})
 
@@ -144,9 +146,7 @@ const chainInfo = computed(() => {
 })
 
 const toChainDetail = () => {
-  console.log('toChainDetail', detailInfo.value)
-
-  props.imitateRouter.push({
+  router.push({
     path: '/chainDetail',
     query: {
       id: detailInfo.value.id,

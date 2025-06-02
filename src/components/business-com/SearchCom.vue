@@ -5,7 +5,7 @@
     flex items-center justify-between
     w-full h-20 bg-[url(/imgs/search-bg-2.png)] bg-cover bg-no-repeat"
   >
-    <div class="w-64 h-12 bg-[url(/imgs/logo-h.png)] bg-no-repeat bg-contain" />
+    <div class="w-64 h-12 bg-[url(/imgs/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
     <div class="flex-1 max-w-175 relative items-center overflow-hidden">
       <SearchCombobox />
     </div>
@@ -48,6 +48,6 @@ const { open } = useLoginSignin()
 const router = useRouter()
 const isLogin = computed(() => userStore.token)
 const toMyHome = () => {
-  router.push('/about')
+  router.push(`/about/${userStore.userInfo.userId}/mywork`)
 }
 </script>

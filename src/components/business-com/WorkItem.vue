@@ -106,12 +106,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import {CopyIcon, CheckIcon } from 'lucide-vue-next';
 // TODO: 每个组件都有一个弹窗？？？
 import { useWorkDetail } from '@/hooks/useWorkDetial';
+import { useUserStore } from '@/stores/user';
+import { toast } from 'vue-sonner';
 
-const router = useRouter()
+const userStore = useUserStore()
 
 const props = defineProps({
   isCreateCollectionMode: {
@@ -128,15 +129,20 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['handleSelectCollection'])
+const emit = defineEmits(['handleSelectCollection', 'addLike'])
 
 // TODO:后端判断
 const viewNsfw = ref(props.artwork.isNsfw)
 
-const { open } = useWorkDetail(router)
+const { open } = useWorkDetail()
 
 const handleLike = () => {
-  console.log('handleLike')
+  console.log('handleLike', userStore.token)
+  if (!userStore.token) {
+    toast.error('请先登录')
+    return
+  }
+  emit('addLike')
 }
 
 const handleSelectCollection = (e: Event) => {
@@ -152,9 +158,5 @@ const handleClick = () => {
   open(props.artwork.id)
 }
 
-const toMyWorkPage = (id: string | number) => {
-  router.push({
-    path: `/about/${id}/mywork`,
-  })
-}
+// const toMyWorkPage = (id: string | number) => {}
 </script>

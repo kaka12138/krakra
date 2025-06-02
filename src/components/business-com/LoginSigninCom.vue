@@ -1,5 +1,5 @@
 <template>
-  <BaseDialogCom v-model:open="isOpen">
+  <BaseDialogCom v-model:open="isOpen" :class-arr="['max-w-[40%] max-h-[60%]']">
     <h2 class="text-6xl font-bold text-[#9370DB] mb-1">
       {{ textMap.title }}
     </h2>

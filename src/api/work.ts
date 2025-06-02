@@ -24,7 +24,7 @@ export function getWorkDetail_Api(id: string) {
   return get(`/creation/${id}/detail`)
 }
 
-// 评论，收藏，点赞
+// 评论，点赞, 收藏, 添加二创
 
 export function createWorkCommentApi(id: string, data: any) {
   return post(`/creation/${id}/comment`, data)
@@ -36,6 +36,15 @@ export function getCommentListApi(id: string) {
 
 export function thumbUpWorkApi(data: any) {
   return post('/creation/follower', data)
+}
+
+export function addToMyLikeApi(data: any) {
+  return post('/creation/like', data)
+}
+
+// TODO: 添加二创问题
+export function addToMyRecreationApi(params: any) {
+  return get('/add/wait', params)
 }
 
 // chain

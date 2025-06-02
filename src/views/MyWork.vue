@@ -55,7 +55,11 @@
           @dragleave="e => e.preventDefault()"
           @drop="handleDrop(item)"
         >
-          <WorkItem :artwork="item" :is-create-collection-mode="isCreateCollectionMode" />
+          <WorkItem
+            :artwork="item"
+            :is-create-collection-mode="isCreateCollectionMode"
+            @add-like="() => handleAddLike(item)"
+          />
         </div>
       </template>
     </v3-waterfall>
@@ -169,6 +173,8 @@ import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { toast } from 'vue-sonner'
+import { addToMyLikeApi, addToMyRecreationApi } from '@/api/work';
+import { getUrlId } from '@/utils/common';
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -178,6 +184,23 @@ const isMounted = ref(false)
 onMounted(() => {
   isMounted.value = true
 })
+
+// 收藏
+const handleAddLike = (item) => {
+  const { coverFileId, id, creatorId } = item
+  const data = {
+    coverFileId: getUrlId(coverFileId),
+    creationId: id,
+    type: 1,
+    acceptId: creatorId,
+  }
+  item.likeFlag = !item.likeFlag
+  addToMyLikeApi(data).then((res) => {
+    toast.success('收藏成功')
+  }).catch(() => {
+    toast.error('收藏失败')
+  })
+}
 
 // collection
 const isCreateCollectionMode = ref(false)
@@ -311,7 +334,11 @@ const getNext = () => {
 }
 
 const handleDrop = (item) => {
-  console.log('handleDrop', item)
+  const { id } = item
+  addToMyRecreationApi({ creationId: id }).then((res) => {
+    console.log('res', res)
+    toast.success('添加二创成功')
+  })
 }
 
 getCustomGroups()
