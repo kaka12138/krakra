@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import GuaShiItem from '@/components/business-com/GuaShiItem.vue'
+import GuaShiItem from '@/components/business-com/GUAShiItem.vue'
 import { getMyGuashiListApi } from '@/api/about'
 import { useScrollToBottom } from '@/hooks/useScrollBottom'
 import { useRoute } from 'vue-router'

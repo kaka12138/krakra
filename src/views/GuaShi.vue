@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import HotCardList from '@/components/business-com/HotCardList.vue'
-import GuaShiItem from '@/components/business-com/GuaShiItem.vue'
+import GuaShiItem from '@/components/business-com/GUAShiItem.vue'
 import { getHotCardListApi } from '@/api/card'
 import { getGuashiListApi } from '@/api/guashi'
 import { useScrollToBottom } from '@/hooks/useScrollBottom'
