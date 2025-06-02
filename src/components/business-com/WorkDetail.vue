@@ -106,16 +106,14 @@ import { CircleUserRound, HeartIcon, MessageCircleMoreIcon, PencilIcon } from 'l
 import { getWorkDetail_Api, getCommentListApi, thumbUpWorkApi } from '@/api/work';
 import { thumbUpCommentApi } from '@/api/comment'
 import { useUserStore } from '@/stores/user';
-import { useRouter } from 'vue-router';
 import { useDebounceFn } from '@vueuse/core'
 import { getUrlId } from '@/utils/common'
 
-const router = useRouter()
-console.log('router', router)
 
 const props = defineProps({
   open: Boolean,
-  id: String || Number,
+  id: [String, Number],
+  imitateRouter: Object,
 })
 
 const userStore = useUserStore()
@@ -147,12 +145,14 @@ const chainInfo = computed(() => {
 
 const toChainDetail = () => {
   console.log('toChainDetail', detailInfo.value)
-  router.push({
+
+  props.imitateRouter.push({
     path: '/chainDetail',
     query: {
       id: detailInfo.value.id,
     },
   })
+
   isOpen.value = false
 }
 

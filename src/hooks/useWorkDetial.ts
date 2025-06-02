@@ -1,12 +1,12 @@
 import { createApp, h, ref } from 'vue'
 import WorkDetail from '@/components/business-com/WorkDetail.vue'
-import router from '@/router';
+// import router from '@/router';
 
 
-export function useWorkDetail() {
+export function useWorkDetail(imitateRouter: Object) {
   let modalApp = null
   let hostElement = null
-  const id = ref('')
+  const id = ref<string | number>('')
 
   // 销毁Modal应用
   function destroyModal() {
@@ -37,6 +37,7 @@ export function useWorkDetail() {
       setup() {
         return () => h(WorkDetail, {
           id: id.value,
+          imitateRouter,
           open: false,
           onClosed: () => {
             destroyModal()
@@ -44,7 +45,7 @@ export function useWorkDetail() {
         })
       },
     })
-    modalApp.use(router)
+    // modalApp.use(router)
     modalApp.mount(hostElement)
   }
 
