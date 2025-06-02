@@ -67,8 +67,8 @@
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
-                  width="22"
-                  height="22"
+                  width="24"
+                  height="24"
                   viewBox="0 0 17.6666259765625 15.30224609375"
                   :fill="detailInfo.likeFlag ? '#926DDE' : 'none'"
                 >
@@ -80,23 +80,23 @@
                     stroke-linecap="round"
                   />
                 </svg>
-                <span class="text-xl text-[#aaa]">{{ detailInfo.likeCount }}</span>
+                <span class="text-lg text-[#666]">{{ detailInfo.likeCount }}</span>
               </div>
               <div class="flex items-center gap-2 cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
-                  width="22"
-                  height="22"
+                  width="24"
+                  height="24"
                   viewBox="0 0 13.52001953125 13.419921875"
                 >
                   <path :fill-rule="detailInfo.followerFlag ? 'nonzero' : 'evenodd'" :fill="detailInfo.followerFlag ? '#926DDE' : '#666666'" d="M7.77 0L13.01 0L6.91 5.95L13.52 13.42L8.31 13.42L4.2 8.59L3.87 8.91L3.87 13.42L0 13.42L0 0L3.87 0L3.87 3.95L7.47 0.3L7.77 0ZM9.53 2L5.53 5.9L10.42 11.42L11.3 12.42L8.78 12.42L4.26 7.13L3.55 7.83L2.87 8.49L2.87 12.42L1 12.42L1 1L2.87 1L2.87 6.39L3.87 5.38L8.18 1L10.55 1L9.53 2Z" />
                 </svg>
-                <span class="text-xl text-[#aaa]">{{ detailInfo.extendCount }}</span>
+                <span class="text-lg text-[#666]">{{ detailInfo.extendCount }}</span>
               </div>
               <div class="flex items-center gap-2 cursor-pointer">
-                <MessageCircleMoreIcon class="w-9 h-9" color="#aaa" />
-                <span class="text-xl text-[#aaa]">{{ detailInfo.commentCount }}</span>
+                <MessageCircleMoreIcon class="w-9 h-9" color="#666" />
+                <span class="text-xl text-[#666]">{{ detailInfo.commentCount }}</span>
               </div>
             </div>
           </div>
