@@ -105,6 +105,7 @@ import { thumbUpCommentApi } from '@/api/comment'
 import { useDebounceFn } from '@vueuse/core'
 import { getUrlId } from '@/utils/common'
 
+
 const props = defineProps({
   guashiInfo: Object,
 })
