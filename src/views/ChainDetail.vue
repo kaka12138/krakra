@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-[#F0F0F0]">
+  <div class="bg-[#F0F0F0] pt-20">
     <div v-if="!loading" class="py-10 max-w-7xl mx-auto">
       <div class="container mx-auto max-w-6xl">
         <div class="flex gap-x-10">
           <div class="w-1/3">
-            <img :src="workDetail.coverFileId" alt="Character" class="aspect-3/5 rounded-lg">
+            <img :src="workDetail.coverFileId" alt="Character" class="h-auto rounded-lg">
           </div>
           <div class="w-2/3">
             <div class="bg-background rounded-lg p-4 space-y-2">

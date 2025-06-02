@@ -3,9 +3,9 @@
     class="
     px-10
     flex items-center justify-between
-    w-full h-20 bg-[url(/imgs/search-bg-2.png)] bg-cover bg-no-repeat"
+    w-full h-20 bg-[url(@/assets/search-bg-2.png)] bg-cover bg-no-repeat"
   >
-    <div class="w-64 h-12 bg-[url(/imgs/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
+    <div class="w-64 h-12 bg-[url(@/assets/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
     <div class="flex-1">
       <SearchInputCom />
     </div>

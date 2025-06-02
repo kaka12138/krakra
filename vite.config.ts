@@ -22,16 +22,6 @@ export default defineConfig((commond, mode) => {
           rewrite: path => path.replace(/^\/api/, ''),
           //secure: false // 如果是https可能需要这个
         },
-        '/upload': {
-          target: env.VITE_API_UPLOAD_SERVER,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/upload/, ''),
-        },
-        '/user': {
-          target: env.VITE_API_USER_SERVER,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/user/, ''),
-        },
       },
     },
   }

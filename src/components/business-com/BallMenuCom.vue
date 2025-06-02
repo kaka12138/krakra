@@ -10,13 +10,9 @@
     <div class="relative flex items-center">
       <button
         :class="[
-          'w-16 h-16 rounded-full flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 transition-all duration-300 ease-in-out',
-          isMenuOpen
-            ? 'bg-gradient-to-br from-purple-500 to-indigo-600 focus:ring-indigo-400'
-            : 'bg-gradient-to-br from-purple-400 to-purple-600 focus:ring-purple-400'
+          'w-18 h-18 rounded-full flex items-center justify-center bg-[url(@/assets/menu-ball-bg.png)] bg-cover bg-center'
         ]"
         aria-label="Toggle menu"
-        :aria-expanded="isMenuOpen.toString()"
         @click="toggleMenu"
       >
         <transition name="icon-fade" mode="out-in">

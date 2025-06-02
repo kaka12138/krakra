@@ -9,7 +9,7 @@
       >
         <img :src="item.coverFileId" class="w-full h-full object-cover">
       </div>
-      <div class="w-full h-1 absolute z-[-1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#9370DB] opacity-50" />
+      <div v-if="chainListComputed.length > 1" class="w-full h-1 absolute z-[-1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#9370DB] opacity-50" />
     </div>
     <div v-if="showTag" class="flex items-center justify-between">
       <div
@@ -58,6 +58,7 @@ const firstAndLastChain = computed(() => {
   console.log('props.showTag', props.showTag)
   if(props.chainList.length === 0) return []
   if(!props.showTag) return []
+  if(props.chainList.length === 1) return props.chainList
   return [props.chainList[0], props.chainList[props.chainList.length - 1]]
 })
 </script>

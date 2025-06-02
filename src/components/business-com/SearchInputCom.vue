@@ -83,11 +83,13 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { Input } from '@/components/ui/input'
 import { ref, watch, onBeforeUnmount } from 'vue'
+import { searchApi } from '@/api/work'
 const searchValue = ref('')
-const contentList = ref(['122222', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999'])
-const userList = ref(['122222', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999'])
+const contentList = ref([])
+const userList = ref([])
 const dropdownContainerRef = ref(null)
 const isDropdownVisible = ref(false)
 
@@ -103,7 +105,20 @@ const handleChooseItem = (item) => {
 }
 
 const handleSearch = () => {
-  isDropdownVisible.value = true
+  if (!searchValue.value) {
+    toast.error('请输入搜索内容')
+    return
+  }
+  searchApi({
+    q: searchValue.value,
+    offset: 0,
+    limit: 10,
+  }).then((res) => {
+    console.log(res)
+    // contentList.value = res.data.contentList
+    // userList.value = res.data.userList
+    isDropdownVisible.value = true
+  })
 }
 
 watch(isDropdownVisible, (newValue) => {

@@ -1,9 +1,9 @@
 <template>
   <BaseDialogCom v-model:open="isOpen" :class-arr="['max-w-4/5', 'max-h-[90vh]']">
     <div v-if="detailInfo" class="flex gap-4">
-      <div class="min-w-1/2 max-w-1/2 overflow-hidden rounded-lg">
+      <div class="min-w-1/2 max-w-1/2 overflow-hidden">
         <!-- TODO: 这里是轮播 -->
-        <img :src="detailInfo.coverFileId" class="w-full h-full">
+        <img :src="detailInfo.coverFileId" class="w-full h-auto rounded-lg">
       </div>
       <div class="relative w-1/2">
         <div class="h-[70vh] overflow-y-auto">
@@ -63,17 +63,35 @@
               <span class="text-sm">说点什么...</span>
             </div>
             <div class="flex-1 flex items-center justify-evenly">
-              <div class="flex items-center gap-2 cursor-pointer" @click="handleWorkThumbUp(detailInfo)">
-                <HeartIcon
-                  class="w-9 h-9"
-                  color="#aaa"
-                  :fill="detailInfo.followerFlag ? 'red' : 'none'"
-                  stroke-width="1"
-                />
+              <div class="flex items-center gap-2 cursor-pointer" @click="handleLike(detailInfo)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 17.6666259765625 15.30224609375"
+                  :fill="detailInfo.likeFlag ? '#926DDE' : 'none'"
+                >
+                  <path
+                    d="M5.08333 0.5C2.55203 0.5 0.5 2.55204 0.5 5.08333C0.5 9.66667 5.91667 13.8333 8.83333 14.8026C11.75 13.8333 17.1667 9.66667 17.1667 5.08333C17.1667 2.55204 15.1146 0.5 12.5833 0.5C11.0332 0.5 9.66279 1.26954 8.83333 2.44742C8.00387 1.26954 6.63346 0.5 5.08333 0.5Z"
+                    stroke="rgba(102, 102, 102, 1)"
+                    stroke-width="1"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                  />
+                </svg>
                 <span class="text-xl text-[#aaa]">{{ detailInfo.likeCount }}</span>
               </div>
               <div class="flex items-center gap-2 cursor-pointer">
-                <PencilIcon class="w-9 h-9" color="#aaa" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 13.52001953125 13.419921875"
+                >
+                  <path :fill-rule="detailInfo.followerFlag ? 'nonzero' : 'evenodd'" :fill="detailInfo.followerFlag ? '#926DDE' : '#666666'" d="M7.77 0L13.01 0L6.91 5.95L13.52 13.42L8.31 13.42L4.2 8.59L3.87 8.91L3.87 13.42L0 13.42L0 0L3.87 0L3.87 3.95L7.47 0.3L7.77 0ZM9.53 2L5.53 5.9L10.42 11.42L11.3 12.42L8.78 12.42L4.26 7.13L3.55 7.83L2.87 8.49L2.87 12.42L1 12.42L1 1L2.87 1L2.87 6.39L3.87 5.38L8.18 1L10.55 1L9.53 2Z" />
+                </svg>
                 <span class="text-xl text-[#aaa]">{{ detailInfo.extendCount }}</span>
               </div>
               <div class="flex items-center gap-2 cursor-pointer">
@@ -106,7 +124,7 @@ import ChainCom from './ChainCom.vue';
 import CommentItem from './CommentItem.vue';
 import CommentInputCom from './CommentInputCom.vue';
 import BaseDialogCom from './BaseDialogCom.vue';
-import { CircleUserRound, HeartIcon, MessageCircleMoreIcon, PencilIcon } from 'lucide-vue-next';
+import { CircleUserRound, MessageCircleMoreIcon } from 'lucide-vue-next';
 import { getWorkDetail_Api, getCommentListApi, thumbUpWorkApi } from '@/api/work';
 import { thumbUpCommentApi } from '@/api/comment'
 import { useUserStore } from '@/stores/user';
@@ -150,10 +168,11 @@ const chainInfo = computed(() => {
 })
 
 const toChainDetail = () => {
+  const { id } = detailInfo.value.chainData[0]
   router.push({
     path: '/chainDetail',
     query: {
-      id: detailInfo.value.id,
+      id,
     },
   })
 
@@ -190,6 +209,11 @@ const handleThumbUpComment = (item) => {
   item.followerFlag = !item.followerFlag
   item.thumbsUps = item.followerFlag ? item.thumbsUps + 1 : item.thumbsUps - 1
   thumbUpCommentDebounce(item)
+}
+
+// 收藏
+const handleLike = (item) => {
+  console.log('handleLike', item)
 }
 
 

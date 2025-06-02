@@ -11,11 +11,6 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    if(config.url.includes('/storage/file')) {
-      config.baseURL = import.meta.env.VITE_API_UPLOAD_BASE_URL
-    } else if(config.url.startsWith('/user') || config.url.startsWith('/auth')) {
-      config.baseURL = import.meta.env.VITE_API_USER_BASE_URL
-    }
 
     // 在请求发送前可以进行一些处理，比如添加token
     const token = localStorage.getItem('token');

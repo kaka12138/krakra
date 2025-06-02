@@ -40,7 +40,7 @@ export interface LoginResult {
  */
 
 export function signinApi(params: SigninParams): Promise<SigninResult> {
-  return post<SigninResult>('/user', params);
+  return post<SigninResult>('/account/user', params);
 }
 
 /**
@@ -48,21 +48,21 @@ export function signinApi(params: SigninParams): Promise<SigninResult> {
  * @param params 登录参数
  */
 export function loginApi(params: LoginParams): Promise<LoginResult> {
-  return post<LoginResult>('/auth/token', params);
+  return post<LoginResult>('/account/auth/token', params);
 }
 
 /**
  * 获取用户信息
  */
 export function getUserInfoApi(userId: string | number): Promise<UserInfo> {
-  return get<UserInfo>(`/user/${userId}`);
+  return get<UserInfo>(`/account/user/${userId}`);
 }
 
 /**
  * 用户登出
  */
 export function logout(): Promise<void> {
-  return post<void>('/user/logout');
+  return post<void>('/account/logout');
 }
 
 /**

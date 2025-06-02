@@ -1,21 +1,21 @@
 import { get, post } from '../utils/request';
 
 export function createGuashiApi(data: any) {
-  return post('/post', data)
+  return post('/product/post', data)
 }
 
 export function getGuashiListApi(params: any) {
-  return get('/post', params)
+  return get('/product/post', params)
 }
 
 export function getGuashiCommentsApi(id: string) {
-  return get(`/post/${id}/comments`)
+  return get(`/product/post/${id}/comments`)
 }
 
 export function createGuashiCommentApi(id: string, data: any) {
-  return post(`/post/${id}/comment`, data)
+  return post(`/product/post/${id}/comment`, data)
 }
 
 export function thumbUpGuashiApi(data: any) {
-  return post('/post/follower', data)
+  return post('/product/post/follower', data)
 }

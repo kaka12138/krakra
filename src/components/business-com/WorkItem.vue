@@ -20,7 +20,7 @@
       </div>
       <!-- 18+ -->
       <div v-if="viewNsfw" class="w-full h-full absolute top-0 left-0 z-88 flex flex-col items-center justify-center gap-y-1" @click.stop="() => {}">
-        <img src="@/assets/18+.png" alt="18+" class="w-16 h-16">
+        <img src="/18+.png" alt="18+" class="w-16 h-16">
         <p class="text-[#ccc] text-lg font-medium">
           敏感内容
         </p>
