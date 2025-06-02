@@ -6,8 +6,8 @@
     w-full h-20 bg-[url(/imgs/search-bg-2.png)] bg-cover bg-no-repeat"
   >
     <div class="w-64 h-12 bg-[url(/imgs/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
-    <div class="flex-1 max-w-175 relative items-center overflow-hidden">
-      <SearchCombobox />
+    <div class="flex-1">
+      <SearchInputCom />
     </div>
     <div class="flex items-center gap-1">
       <BellIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
@@ -37,7 +37,7 @@
 import {  computed } from 'vue'
 import { UserIcon, BellIcon, MessageCircleMoreIcon, AlignJustifyIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
-import SearchCombobox from './SearchCombobox.vue'
+import SearchInputCom from './SearchInputCom.vue'
 
 import { useLoginSignin } from '@/hooks/useLoginSignin'
 import { useUserStore } from '@/stores/user'
