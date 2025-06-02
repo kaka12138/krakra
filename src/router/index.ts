@@ -71,6 +71,10 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
+  scrollBehavior() {
+    // 始终滚动到顶部
+    return { top: 0 };
+  },
 });
 
 export default router;

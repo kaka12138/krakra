@@ -6,11 +6,14 @@
     w-full h-20 bg-[url(@/assets/search-bg-2.png)] bg-cover bg-no-repeat"
   >
     <div class="w-64 h-12 bg-[url(@/assets/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
-    <div class="flex-1">
+    <div class="flex-1 max-w-2xl">
       <SearchInputCom />
     </div>
     <div class="flex items-center gap-1">
       <BellIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
+      <div v-if="false" class="absolute top-0 translate-y-[15%] right-0">
+        <NotificationCom />
+      </div>
       <MessageCircleMoreIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
       <div class="w-26 h-10 flex items-center justify-between p-2 bg-[#FFD700] rounded-full cursor-pointer">
         <div
@@ -38,6 +41,7 @@ import {  computed } from 'vue'
 import { UserIcon, BellIcon, MessageCircleMoreIcon, AlignJustifyIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import SearchInputCom from './SearchInputCom.vue'
+import NotificationCom from './NotificationCom.vue'
 
 import { useLoginSignin } from '@/hooks/useLoginSignin'
 import { useUserStore } from '@/stores/user'
