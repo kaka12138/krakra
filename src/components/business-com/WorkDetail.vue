@@ -5,91 +5,95 @@
         <!-- TODO: 这里是轮播 -->
         <img :src="detailInfo.coverFileId" class="w-full h-full">
       </div>
-      <div class="flex-1 relative h-[70vh] overflow-y-auto">
-        <div class="w-full" @click="toChainDetail">
-          <ChainCom
-            v-bind="chainInfo"
-            :chain-list="detailInfo.chainData.slice(0, 5)"
-          />
-        </div>
-        <div class="flex items-center justify-between my-6">
-          <div class="flex items-center">
-            <img
-              v-if="detailInfo.avatar"
-              :src="detailInfo.avatar"
-              alt="Aminuosi avatar"
-              class="w-12 h-12 rounded-full mr-1"
-            >
-            <CircleUserRound v-else color="#9370DB" class="w-12 h-12 rounded-full mr-1" />
-            <div>
-              <h1 class="text-lg font-semibold text-black">
-                {{ detailInfo.username ? detailInfo.username : '匿名用户' }}
-              </h1>
-              <div class="text-sm text-gray-500 flex items-center">
-                <span>作品ID: {{ detailInfo.id }}</span>
+      <div class="relative w-1/2">
+        <div class="h-[70vh] overflow-y-auto">
+          <div class="w-full" @click="toChainDetail">
+            <ChainCom
+              v-bind="chainInfo"
+              :chain-list="detailInfo.chainData ? detailInfo.chainData.slice(0, 5) : []"
+            />
+          </div>
+          <div class="flex items-center justify-between my-6">
+            <div class="flex items-center">
+              <img
+                v-if="detailInfo.avatar"
+                :src="detailInfo.avatar"
+                alt="Aminuosi avatar"
+                class="w-12 h-12 rounded-full mr-1"
+              >
+              <CircleUserRound v-else color="#9370DB" class="w-12 h-12 rounded-full mr-1" />
+              <div>
+                <h1 class="text-lg font-semibold text-black">
+                  {{ detailInfo.username ? detailInfo.username : '匿名用户' }}
+                </h1>
+                <div class="text-sm text-gray-500 flex items-center">
+                  <span>作品ID: {{ detailInfo.id }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-sm text-gray-500">
+              发布于: {{ detailInfo.createdTime }}
+            </div>
+          </div>
+
+
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
+            {{ detailInfo.name }}
+          </h2>
+
+
+          <p class="text-slate-600 my-4 py-2 text-md border-y-1 border-[#ccc] leading-relaxed">
+            {{ detailInfo.description }}
+          </p>
+
+          <div class="flex space-x-2">
+            <span v-for="item in detailInfo.tags" :key="item.id" class="bg-[#9370DB] text-white text-xs px-3 py-1 rounded-full">#{{ item.name }}</span>
+          </div>
+          <!--评论列表 -->
+
+          <div class="mb-12">
+            <div v-for="item in commentList" :key="item.id">
+              <CommentItem :comment-info="item" @thumb-up="handleThumbUpComment" @reply="handleReply" />
+            </div>
+          </div>
+
+          <div v-if="!showCommentInput" class="bg-[#eee] absolute w-full box-border left-0 bottom-0 z-99 flex justify-between items-center">
+            <div class="bg-[#ddd] rounded-full flex items-center cursor-pointer px-1 py-1 gap-x-2" @click="handleWorkComment(detailInfo)">
+              <img :src="userStore.userInfo.avatarUrl" class="w-8 h-8 rounded-full">
+              <span class="text-sm">说点什么...</span>
+            </div>
+            <div class="flex-1 flex items-center justify-evenly">
+              <div class="flex items-center gap-2 cursor-pointer" @click="handleWorkThumbUp(detailInfo)">
+                <HeartIcon
+                  class="w-9 h-9"
+                  color="#aaa"
+                  :fill="detailInfo.followerFlag ? 'red' : 'none'"
+                  stroke-width="1"
+                />
+                <span class="text-xl text-[#aaa]">{{ detailInfo.likeCount }}</span>
+              </div>
+              <div class="flex items-center gap-2 cursor-pointer">
+                <PencilIcon class="w-9 h-9" color="#aaa" />
+                <span class="text-xl text-[#aaa]">{{ detailInfo.extendCount }}</span>
+              </div>
+              <div class="flex items-center gap-2 cursor-pointer">
+                <MessageCircleMoreIcon class="w-9 h-9" color="#aaa" />
+                <span class="text-xl text-[#aaa]">{{ detailInfo.commentCount }}</span>
               </div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">
-            发布于: {{ detailInfo.createdTime }}
+          <div class="absolute bottom-0 left-0 z-99">
+            <CommentInputCom
+              v-if="showCommentInput"
+              :id="detailInfo.id"
+              ref="commentInputComRef"
+              :placeholder="placeholderComment"
+              :reply-id="replyId"
+              api-type="work"
+              @finish-comment="finishComment"
+              @close-comment-input="showCommentInput = false"
+            />
           </div>
-        </div>
-
-
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
-          {{ detailInfo.name }}
-        </h2>
-
-
-        <p class="text-slate-600 my-4 py-2 text-md border-y-1 border-[#ccc] leading-relaxed">
-          {{ detailInfo.description }}
-        </p>
-
-        <div class="flex space-x-2">
-          <span v-for="item in detailInfo.tags" :key="item.id" class="bg-[#9370DB] text-white text-xs px-3 py-1 rounded-full">#{{ item.name }}</span>
-        </div>
-        <!--评论列表 -->
-
-        <div v-for="item in commentList" :key="item.id">
-          <CommentItem :comment-info="item" @thumb-up="handleThumbUpComment" @reply="handleReply" />
-        </div>
-
-        <div v-if="!showCommentInput" class="bg-[#eee] sticky w-full box-border bottom-0 z-99 flex rounded-full justify-between items-center">
-          <div class="bg-[#ddd] rounded-full flex items-center cursor-pointer px-1 py-1 gap-x-2" @click="handleWorkComment(detailInfo)">
-            <img :src="userStore.userInfo.avatarUrl" class="w-8 h-8 rounded-full">
-            <span class="text-sm">说点什么...</span>
-          </div>
-          <div class="flex-1 flex items-center justify-evenly">
-            <div class="flex items-center gap-2 cursor-pointer" @click="handleWorkThumbUp(detailInfo)">
-              <HeartIcon
-                class="w-9 h-9"
-                color="#aaa"
-                :fill="detailInfo.followerFlag ? 'red' : 'none'"
-                stroke-width="1"
-              />
-              <span class="text-xl text-[#aaa]">{{ detailInfo.likeCount }}</span>
-            </div>
-            <div class="flex items-center gap-2 cursor-pointer">
-              <PencilIcon class="w-9 h-9" color="#aaa" />
-              <span class="text-xl text-[#aaa]">{{ detailInfo.extendCount }}</span>
-            </div>
-            <div class="flex items-center gap-2 cursor-pointer">
-              <MessageCircleMoreIcon class="w-9 h-9" color="#aaa" />
-              <span class="text-xl text-[#aaa]">{{ detailInfo.commentCount }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="sticky bottom-0 left-0 right-0 z-99">
-          <CommentInputCom
-            v-if="showCommentInput"
-            :id="detailInfo.id"
-            ref="commentInputComRef"
-            :placeholder="placeholderComment"
-            :reply-id="replyId"
-            api-type="work"
-            @finish-comment="finishComment"
-            @close-comment-input="showCommentInput = false"
-          />
         </div>
       </div>
     </div>
@@ -125,7 +129,7 @@ const isOpen = ref(props.open || false)
 
 const emit = defineEmits(['closed', 'toChainDetailPage'])
 
-const detailInfo = ref({})
+const detailInfo = ref()
 
 const commentList = ref([])
 const placeholderComment = ref('')

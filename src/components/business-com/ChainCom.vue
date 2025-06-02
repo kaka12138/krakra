@@ -44,6 +44,8 @@ const props = defineProps({
   },
 })
 
+console.log('props.chainList', props.chainList)
+
 const chainListComputed = computed(() => {
   return props.chainList.map(item => ({
     ...item,
@@ -54,6 +56,7 @@ const chainListComputed = computed(() => {
 
 const firstAndLastChain = computed(() => {
   console.log('props.showTag', props.showTag)
+  if(props.chainList.length === 0) return []
   if(!props.showTag) return []
   return [props.chainList[0], props.chainList[props.chainList.length - 1]]
 })
