@@ -123,7 +123,7 @@ const handleReply = ({ id, nickname }) => {
 }
 
 const finishComment = (data: any) => {
-  console.log('finishComment', data)
+  console.log('finishComment')
   commentList.value.unshift(data)
   replyId.value = null
 }
