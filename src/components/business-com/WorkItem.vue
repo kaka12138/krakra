@@ -97,6 +97,28 @@
           </button>
         </div>
       </div>
+      <!-- china -->
+      <div class="flex gap-x-1" @click.stop="handleClickChain">
+        <div
+          v-for="(item, idx) in chainInfo.sliceChain"
+          :key="item.id"
+          class="flex flex-col items-center gap-y-2"
+        >
+          <img
+            :src="item.coverFileId"
+            class="rounded-full"
+            :class="[chainInfo.highlightNodes == item.id ? 'border-[#FFD700] w-10 h-10 opacity-100 border-3' : chainInfo.currentNodeId == item.id ? 'w-10 h-10 border-3 border-[#9370DB]' : 'w-10 h-10 opacity-50']"
+          >
+          <div
+
+            :key="item.id"
+            class="px-1 py-0.5 rounded-2xl font-medium text-xs"
+            :class="[ chainInfo.highlightNodes == item.id ? 'bg-[#FFD700] text-[#9370DB]' : chainInfo.currentNodeId == item.id ? 'bg-[#9370DB] text-white' : 'bg-transparent text-white']"
+          >
+            {{ chainInfo.highlightNodes == item.id ? "零号位" : chainInfo.currentNodeId == item.id ? "当前创作" : "" }}
+          </div>
+        </div>
+      </div>
       <div v-if="isRecreationMode" class="hover:bg-[#926DDE] hover:text-white transition-all duration-300 text-center text-[#926DDE] mt-2 cursor-pointer border border-[#926DDE] rounded-full px-2 py-1">
         去二创
       </div>
@@ -105,12 +127,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import {CopyIcon, CheckIcon } from 'lucide-vue-next';
 // TODO: 每个组件都有一个弹窗？？？
 import { useWorkDetail } from '@/hooks/useWorkDetial';
 import { useUserStore } from '@/stores/user';
 import { toast } from 'vue-sonner';
+import { useRouter } from 'vue-router';
+
+// TODO:跨app路由警告
+const router = useRouter()
 
 const userStore = useUserStore()
 
@@ -134,6 +160,19 @@ const emit = defineEmits(['handleSelectCollection', 'addLike'])
 // TODO:后端判断
 const viewNsfw = ref(props.artwork.isNsfw)
 
+const chainInfo = computed(() => {
+  const { chainData } = props.artwork
+  if(!chainData) return {}
+  const sliceChain = chainData.slice(0, 5)
+  const highlightNodes = sliceChain[0].id
+  const currentNodeId = sliceChain[sliceChain.length - 1].id
+  return {
+    highlightNodes,
+    currentNodeId,
+    sliceChain,
+  }
+})
+
 const { open } = useWorkDetail()
 
 const handleLike = () => {
@@ -156,6 +195,10 @@ const handleClick = () => {
   console.log('handleClick')
   if (!props.artwork.id) return
   open(props.artwork.id)
+}
+
+const handleClickChain = () => {
+  router.push(`/chaindetail?id=${chainInfo.value.highlightNodes}`)
 }
 
 // const toMyWorkPage = (id: string | number) => {}

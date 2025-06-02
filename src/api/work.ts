@@ -44,7 +44,7 @@ export function addToMyLikeApi(data: any) {
 
 // TODO: 添加二创问题
 export function addToMyRecreationApi(params: any) {
-  return get('/product/add/wait', params)
+  return get('/product/creation/add/wait', params)
 }
 
 // chain
