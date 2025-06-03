@@ -306,7 +306,7 @@ const handleCreateGroup = () => {
 
 // list
 const tableData = ref([])
-const pageNum = ref(1)
+const pageNum = ref(0)
 const pageSize = ref(10)
 const totalVal = ref(0)
 const getTableData = async () => {
@@ -329,8 +329,8 @@ const getTableData = async () => {
 const getNext = () => {
   // TODO:
   console.log('getNext')
-  getTableData()
   pageNum.value++
+  getTableData()
 }
 
 const handleDrop = (item) => {

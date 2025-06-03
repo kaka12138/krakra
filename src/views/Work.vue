@@ -90,7 +90,7 @@ const handleClickChain = (id: string) => {
 
 // list
 const tableData = ref([])
-const pageNum = ref(1)
+const pageNum = ref(0) // TODO:可能bug
 const pageSize = ref(10)
 const totalVal = ref(0)
 const getTableData = async () => {
@@ -107,10 +107,11 @@ const getTableData = async () => {
 }
 
 const getNext = () => {
+  console.log('isMounted', isMounted.value)
   // TODO:
   console.log('getNext')
-  getTableData()
   pageNum.value++
+  getTableData()
 }
 
 const handleDrop = (item) => {
@@ -123,6 +124,8 @@ const handleDrop = (item) => {
 
 
 watch([groupId, isNSFW], () => {
+  console.log('groupId', groupId.value)
+  console.log('isNSFW', isNSFW.value)
   tableData.value = []
   pageNum.value = 1
   getTableData()

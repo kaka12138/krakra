@@ -61,7 +61,7 @@ onMounted(() => {
 
 const list = ref([])
 const pageSize = ref(10)
-const pageNum = ref(1)
+const pageNum = ref(0)
 const currentCollectionId = ref()
 const collectionListRef = ref(null)
 const { isBottom } = useScrollToBottom(collectionListRef)
@@ -96,8 +96,8 @@ const getList = async () => {
 
 const getNext = () => {
   console.log('getNext')
-  getList()
   pageNum.value++
+  getList()
 }
 
 watch(() => isBottom.value, (newVal) => {
