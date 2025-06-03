@@ -19,7 +19,7 @@
           @dragleave="e => e.preventDefault()"
           @drop="handleDrop(item)"
         >
-          <WorkItem :artwork="item" @add-like="() => handleAddLike(item)" />
+          <WorkItem :artwork="item" @add-like="() => handleAddLike(item)" @click-chain="handleClickChain"/>
         </div>
       </template>
     </v3-waterfall>
@@ -37,6 +37,9 @@ import { addToMyLikeApi, addToMyRecreationApi } from '@/api/work';
 import { getUrlId } from '@/utils/common';
 
 import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 // waterfall
 const isMounted = ref(false)
@@ -79,6 +82,10 @@ const handleGroupClick = (value: string) => {
 }
 const handleIsNSFWClick = (value: string) => {
   isNSFW.value = value
+}
+
+const handleClickChain = (id: string) => {
+  router.push(`/chaindetail?id=${id}`)
 }
 
 // list

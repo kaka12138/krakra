@@ -14,7 +14,8 @@
     </div>
     <!-- list -->
     <div class="h-100 overflow-y-auto">
-      <NotificationItem />
+      <NotificationItem v-for="item in 10" :key="item" />
+      <!-- -没有更多消息了- -->
     </div>
   </div>
 </template>

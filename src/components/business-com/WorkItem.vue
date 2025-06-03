@@ -133,10 +133,10 @@ import {CopyIcon, CheckIcon } from 'lucide-vue-next';
 import { useWorkDetail } from '@/hooks/useWorkDetial';
 import { useUserStore } from '@/stores/user';
 import { toast } from 'vue-sonner';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
-// TODO:跨app路由警告
-const router = useRouter()
+// TODO:不能在这个组件重复导入路由，跨app路由会警告，将方法放到该组件的父级
+// const router = useRouter()
 
 const userStore = useUserStore()
 
@@ -155,7 +155,7 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['handleSelectCollection', 'addLike'])
+const emit = defineEmits(['handleSelectCollection', 'addLike', 'clickChain'])
 
 // TODO:后端判断
 const viewNsfw = ref(props.artwork.isNsfw)
@@ -198,7 +198,8 @@ const handleClick = () => {
 }
 
 const handleClickChain = () => {
-  router.push(`/chaindetail?id=${chainInfo.value.highlightNodes}`)
+  // router.push(`/chaindetail?id=${chainInfo.value.highlightNodes}`)
+  emit('clickChain', chainInfo.value.highlightNodes)
 }
 
 // const toMyWorkPage = (id: string | number) => {}

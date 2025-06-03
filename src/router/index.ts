@@ -66,6 +66,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: () => import('../components/business-com/ChatCom.vue'),
+  },
 ];
 
 const router = createRouter({
