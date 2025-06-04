@@ -1,28 +1,30 @@
 <template>
-  <div class="flex justify-center gap-x-10 my-6">
-    <TabsCom key="1" :tabs="tabsGroup" @tab-click="handleGroupClick" />
-    <TabsCom key="2" :tabs="tabsIsNSFW" @tab-click="handleIsNSFWClick" />
-  </div>
-  <div class="bg-[#F0F0F0] pb-10">
-    <v3-waterfall
-      :list="tableData"
-      :col-width="280"
-      :virtual-time="400"
-      :is-mounted="isMounted"
-      class="waterfall"
-      @scroll-reach-bottom="getNext"
-    >
-      <template #default="{ item }">
-        <div
-          @dragover="e => e.preventDefault()"
-          @dragenter="e => e.preventDefault()"
-          @dragleave="e => e.preventDefault()"
-          @drop="handleDrop(item)"
-        >
-          <WorkItem :artwork="item" @add-like="() => handleAddLike(item)" @click-chain="handleClickChain"/>
-        </div>
-      </template>
-    </v3-waterfall>
+  <div class="px-10 bg-[#F0F0F0]">
+    <div class="flex justify-center gap-x-10 my-6">
+      <TabsCom key="1" :tabs="tabsGroup" @tab-click="handleGroupClick" />
+      <TabsCom key="2" :tabs="tabsIsNSFW" @tab-click="handleIsNSFWClick" />
+    </div>
+    <div class="bg-[#F0F0F0] pb-10">
+      <v3-waterfall
+        :list="tableData"
+        :col-width="300"
+        :virtual-time="400"
+        :is-mounted="isMounted"
+        class="waterfall"
+        @scroll-reach-bottom="getNext"
+      >
+        <template #default="{ item }">
+          <div
+            @dragover="e => e.preventDefault()"
+            @dragenter="e => e.preventDefault()"
+            @dragleave="e => e.preventDefault()"
+            @drop="handleDrop(item)"
+          >
+            <WorkItem :artwork="item" @add-like="() => handleAddLike(item)" @click-chain="handleClickChain" />
+          </div>
+        </template>
+      </v3-waterfall>
+    </div>
   </div>
   <BallMenuCom />
 </template>

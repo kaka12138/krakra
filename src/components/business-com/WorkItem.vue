@@ -33,94 +33,64 @@
       </div>
     </div>
     <!-- class="w-full h-auto aspect-[3/4] object-cover" -->
-    <div class="p-4">
+    <div>
       <h2 class="text-lg font-semibold text-gray-800 mb-1">
         {{ artwork.name }}
       </h2>
       <div class="flex items-center text-sm text-gray-500 mb-3 gap-x-1">
         <span>作品ID: {{ artwork.creatorId }}</span>
         <CopyIcon :size="16" />
+        <span>{{ artwork.extendCount ? `已衍生${artwork.extendCount}次创作` : '欢迎参与创作！' }}</span>
       </div>
 
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <img
-            :src="artwork.avatar"
-            alt="Author Avatar"
-            class="w-8 h-8 sm:w-10 sm:h-10 rounded-full mr-2 sm:mr-3 border border-gray-200"
-            @click.stop="toMyWorkPage(artwork.creatorId)"
-          >
-
-          <p class="text-sm font-medium text-gray-700">
-            {{ artwork.username ||'匿名用户' }}
-          </p>
-          <div class="flex space-x-1 ml-0.5">
-            <span class="w-3 h-3 bg-yellow-400 rounded-full" />
-            <span class="w-3 h-3 bg-purple-500 rounded-full" />
+      <!-- chain -->
+      <div class="flex" @click.stop="handleClickChain">
+        <!-- zero -->
+        <div class="flex flex-col items-center justify-center">
+          <img class="w-10 h-10 rounded-full border-2 border-[#FFD700]" :src="chainInfo.zeroNode.coverFileId" alt="chain">
+          <div class="text-xs bg-[#FFD700] text-[#9370DB] px-1 py-0.5 rounded-full mt-1 scale-90">
+            零号位
           </div>
         </div>
-
-        <div class="flex items-center space-x-3 sm:space-x-4 text-gray-600">
-          <button class="flex flex-col items-center cursor-pointer" @click.stop="handleLike">
+        <!-- other -->
+        <div class="flex gap-x-1">
+          <div v-for="item in chainInfo.middleNodes.slice(0, 2)" :key="item.id" class="h-10 flex items-center">
+            <img class="w-8 h-8 rounded-full opacity-50" :src="item.coverFileId" alt="chain">
+          </div>
+          <div v-if="artwork.chainData.length > 5" class="h-10 flex items-center gap-x-0.5">
+            <div v-for="i in 3" :key="i" class="w-1.5 h-1.5 bg-[#ccc] rounded-full opacity-50" />
+          </div>
+          <div v-if="chainInfo.middleNodes.length >2 " class="h-10 flex items-center">
+            <img class="w-8 h-8 rounded-full opacity-50" :src="chainInfo.middleNodes[chainInfo.middleNodes.length - 1].coverFileId" alt="chain">
+          </div>
+        </div>
+        <!-- current -->
+        <div v-if="chainInfo.currentNode.coverFileId" class="flex flex-col items-center justify-center">
+          <img class="w-10 h-10 rounded-full border-2 border-[#FFD700]" :src="chainInfo.currentNode.coverFileId" alt="chain">
+          <div class="text-xs bg-[#9370DB] text-white px-1 py-0.5 rounded-full mt-1 scale-90">
+            当前创作
+          </div>
+        </div>
+        <!-- join -->
+        <!-- TODO: 使用extendCount判断 -->
+        <div v-if="artwork.chainData.length === 1" class="flex flex-col items-center justify-center">
+          <div class="w-10 h-10 rounded-full bg-[#9370DB] flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="22"
-              height="22"
-              viewBox="0 0 17.6666259765625 15.30224609375"
-              :fill="artwork.likeFlag ? '#926DDE' : 'none'"
+              width="9.005859375"
+              height="8.94427490234375"
+              viewBox="0 0 9.005859375 8.94427490234375"
+              fill="none"
+              class="w-4 h-4"
             >
-              <path
-                d="M5.08333 0.5C2.55203 0.5 0.5 2.55204 0.5 5.08333C0.5 9.66667 5.91667 13.8333 8.83333 14.8026C11.75 13.8333 17.1667 9.66667 17.1667 5.08333C17.1667 2.55204 15.1146 0.5 12.5833 0.5C11.0332 0.5 9.66279 1.26954 8.83333 2.44742C8.00387 1.26954 6.63346 0.5 5.08333 0.5Z"
-                stroke="rgba(102, 102, 102, 1)"
-                stroke-width="1"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-              />
+              <path d="M4.46822 0.0625711C4.37512 0.0218654 4.27394 0 4.17 0C3.74767 0 3.4 0.34794 3.4 0.77L3.4 3.17L0.76 3.17C0.557581 3.17 0.362443 3.24618 0.22 3.39C0.07839 3.53382 0 3.72743 0 3.93C0 4.26449 0.220096 4.55741 0.52233 4.66054C0.605505 4.69248 0.695635 4.71 0.7898 4.71L7.5998 4.71C8.0158 4.71 8.3498 4.35595 8.3498 3.94C8.3498 3.73743 8.27207 3.54382 8.1298 3.4C8.0575 3.32648 7.97083 3.27063 7.87637 3.2336C7.77718 3.19156 7.66891 3.17 7.56 3.17L4.9598 3.17L4.9598 0.78C4.9598 0.455063 4.75484 0.174973 4.46822 0.0625711ZM4.2002 5.7901C4.40384 5.7901 4.60112 5.88085 4.7402 6.0301C4.87912 6.1791 4.9402 6.37635 4.9402 6.5801L4.9402 7.5501C4.9402 7.75335 4.84861 7.9416 4.7002 8.0801C4.55194 8.21885 4.35293 8.2901 4.1502 8.2901C3.73006 8.2711 3.4102 7.92135 3.4102 7.5001L3.4102 6.5301C3.4102 6.32685 3.50179 6.1386 3.6502 6.0001C3.79846 5.86135 3.99748 5.7901 4.2002 5.7901Z" fill-rule="evenodd" fill="#F5F5F5" />
             </svg>
-
-            <span class="text-xs sm:text-sm">{{ artwork.likeCount || 0 }}</span>
-          </button>
-          <button class="flex flex-col items-center cursor-pointer" @click.stop="() => {}">
-            <!-- <BookmarkIcon /> -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="22"
-              height="22"
-              viewBox="0 0 13.52001953125 13.419921875"
-            >
-              <path :fill-rule="artwork.followerFlag ? 'nonzero' : 'evenodd'" :fill="artwork.followerFlag ? '#926DDE' : '#666666'" d="M7.77 0L13.01 0L6.91 5.95L13.52 13.42L8.31 13.42L4.2 8.59L3.87 8.91L3.87 13.42L0 13.42L0 0L3.87 0L3.87 3.95L7.47 0.3L7.77 0ZM9.53 2L5.53 5.9L10.42 11.42L11.3 12.42L8.78 12.42L4.26 7.13L3.55 7.83L2.87 8.49L2.87 12.42L1 12.42L1 1L2.87 1L2.87 6.39L3.87 5.38L8.18 1L10.55 1L9.53 2Z" />
-            </svg>
-
-            <span class="text-xs sm:text-sm">{{ artwork.extendCount || 0 }}</span>
-          </button>
-        </div>
-      </div>
-      <!-- china -->
-      <div class="flex gap-x-1" @click.stop="handleClickChain">
-        <div
-          v-for="(item, idx) in chainInfo.sliceChain"
-          :key="item.id"
-          class="flex flex-col items-center gap-y-2"
-        >
-          <img
-            :src="item.coverFileId"
-            class="rounded-full"
-            :class="[chainInfo.highlightNodes == item.id ? 'border-[#FFD700] w-10 h-10 opacity-100 border-3' : chainInfo.currentNodeId == item.id ? 'w-10 h-10 border-3 border-[#9370DB]' : 'w-10 h-10 opacity-50']"
-          >
-          <div
-
-            :key="item.id"
-            class="px-1 py-0.5 rounded-2xl font-medium text-xs"
-            :class="[ chainInfo.highlightNodes == item.id ? 'bg-[#FFD700] text-[#9370DB]' : chainInfo.currentNodeId == item.id ? 'bg-[#9370DB] text-white' : 'bg-transparent text-white']"
-          >
-            {{ chainInfo.highlightNodes == item.id ? "零号位" : chainInfo.currentNodeId == item.id ? "当前创作" : "" }}
+          </div>
+          <div class="text-xs bg-[#9370DB] text-white px-1 py-0.5 rounded-full mt-1 scale-90">
+            参与创作
           </div>
         </div>
-      </div>
-      <div v-if="isRecreationMode" class="hover:bg-[#926DDE] hover:text-white transition-all duration-300 text-center text-[#926DDE] mt-2 cursor-pointer border border-[#926DDE] rounded-full px-2 py-1">
-        去二创
       </div>
     </div>
   </div>
@@ -129,16 +99,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {CopyIcon, CheckIcon } from 'lucide-vue-next';
-// TODO: 每个组件都有一个弹窗？？？
 import { useWorkDetail } from '@/hooks/useWorkDetial';
-import { useUserStore } from '@/stores/user';
-import { toast } from 'vue-sonner';
-// import { useRouter } from 'vue-router';
+
 
 // TODO:不能在这个组件重复导入路由，跨app路由会警告，将方法放到该组件的父级
 // const router = useRouter()
-
-const userStore = useUserStore()
 
 const props = defineProps({
   isCreateCollectionMode: {
@@ -149,11 +114,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  // TODO: 优化
-  isRecreationMode: {
-    type: Boolean,
-    default: false,
-  },
 });
 const emit = defineEmits(['handleSelectCollection', 'addLike', 'clickChain'])
 
@@ -163,26 +123,20 @@ const viewNsfw = ref(props.artwork.isNsfw)
 const chainInfo = computed(() => {
   const { chainData } = props.artwork
   if(!chainData) return {}
-  const sliceChain = chainData.slice(0, 5)
-  const highlightNodes = sliceChain[0].id
-  const currentNodeId = sliceChain[sliceChain.length - 1].id
+  const zeroNode = chainData[0] || {}
+  const middleNodes = chainData.slice(1, -1)
+  console.log('middleNodes', middleNodes)
+  const currentNode = chainData.length > 1 ? chainData[chainData.length - 1] : {}
   return {
-    highlightNodes,
-    currentNodeId,
-    sliceChain,
+    zeroNode,
+    currentNode,
+    middleNodes,
   }
 })
 
 const { open } = useWorkDetail()
 
-const handleLike = () => {
-  console.log('handleLike', userStore.token)
-  if (!userStore.token) {
-    toast.error('请先登录')
-    return
-  }
-  emit('addLike')
-}
+
 
 const handleSelectCollection = (e: Event) => {
   if (props.isCreateCollectionMode) {
