@@ -72,12 +72,22 @@ export const GUA_SHI_FORM_INITIAL_VALUES = {
   imageFileIds: [],
 }
 
+export const CARD_FORM_INITIAL_VALUES = {
+  name: '',
+  category: '',
+  cover_file_id: [],
+  description: '',
+  tags: [],
+  lable: [],
+}
+
 
 export const FORM_TITLE_MAP = {
   oc_form: '新角色',
   au_form: '新角色',
   work_form: '新作品',
   guashi_form: '呱市',
+  card_form: '卡片',
 }
 
 export const FORM_INITIAL_VALUES_MAP = {
@@ -87,4 +97,5 @@ export const FORM_INITIAL_VALUES_MAP = {
   au_form: AU_FORM_INITIAL_VALUES,
   work_form: WORK_FORM_INITIAL_VALUES,
   guashi_form: GUA_SHI_FORM_INITIAL_VALUES,
+  card_form: CARD_FORM_INITIAL_VALUES,
 }

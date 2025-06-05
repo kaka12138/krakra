@@ -1,4 +1,5 @@
 import { PERMISSION_LIST } from './form.js'
+import { Card_Category_Lisy } from './common.js'
 
 export const LOGIN_FORM_FIELDS = [
   {
@@ -209,6 +210,43 @@ export const GUA_SHI_FORM_FIELDS = [
   },
 ]
 
+export const CARD_FORM_FIELDS = [
+  {
+    comType: 'upload',
+    fieldName: 'cover_file_id',
+    limit: 1,
+    label: '上传封面',
+  },
+  {
+    comType: 'input',
+    fieldName: 'name',
+    inputOriginType: 'text',
+    placeholder: '请输入名称',
+  },
+  {
+    comType: 'select',
+    fieldName: 'category',
+    label: '卡片分类',
+    options: Card_Category_Lisy,
+    placeholder: '请选择分类',
+  },
+  {
+    comType: 'textarea',
+    fieldName: 'description',
+    label: '描述',
+    placeholder: '请输入描述',
+  },
+  {
+    comType: 'add-tag',
+    fieldName: 'tags',
+    label: '添加标签',
+  },
+  {
+    comType: 'combination-input',
+    fieldName: 'lable',
+    label: '可选项',
+  },
+]
 
 export const FORM_FIELDS_MAP = {
   oc_form: OC_FORM_FIELDS,
@@ -217,4 +255,5 @@ export const FORM_FIELDS_MAP = {
   signin_form: SIGNIN_FORM_FIELDS,
   work_form: WORK_FORM_FIELDS,
   guashi_form: GUA_SHI_FORM_FIELDS,
+  card_form: CARD_FORM_FIELDS,
 }

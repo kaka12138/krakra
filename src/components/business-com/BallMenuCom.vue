@@ -88,7 +88,7 @@ import { useGenForm } from '@/hooks/useGenForm';
 
 const { open: createWork } = useGenForm('work_form');
 const { open: createGuaShi } = useGenForm('guashi_form');
-
+const { open: createCard } = useGenForm('card_form');
 
 const userStore = useUserStore();
 const userInfo = computed(() => userStore.userInfo);
@@ -99,6 +99,7 @@ const menuItems = ref([
   { id: 1, text: '待扩清单', path: 'myrecreation' },
   { id: 2, text: '发布池塘', path: '' },
   { id: 3, text: '发布呱市', path: '' },
+  { id: 4, text: '创建卡片', path: '' },
 ]);
 
 const toggleMenu = () => {
@@ -116,6 +117,8 @@ const handleItemClick = (item) => {
     createWork();
   } else if (item.id === 3) {
     createGuaShi();
+  } else if (item.id === 4) {
+    createCard();
   }
   isMenuOpen.value = false; // Optionally close menu on item click
 };

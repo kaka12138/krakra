@@ -10,6 +10,8 @@ import SwitchCom from './SwitchCom.vue'
 import RadioGroupCom from './RadioGroupCom.vue'
 import AddTagCom from './AddTagCom.vue'
 import UploadCom from './UploadCom.vue'
+import SelectCom from './SelectCom.vue'
+import CombinationInputCom from './CombinationInputCom.vue'
 import {
   FormControl,
   FormField,
@@ -50,19 +52,20 @@ provide('form', form.values)
 
 // 表单提交处理
 const onSubmit = form.handleSubmit((values) => {
+  console.log('values', values)
   emit('submit', values, props.formInitialValues)
 })
 </script>
 
 <template>
   <div>
+    <!-- TODO: 暂时使用@update:model-value+setFieldValue这种方式同步自定义组件和表单的数据，后续优化 -->
     <form class="space-y-5 sm:space-y-6">
       <template v-for="field in formFieldsConfig" :key="field.fieldName">
         <FormField v-slot="{ componentField, errorMessage='' }" :name="field.fieldName">
           <FormItem>
             <FormControl>
               <template v-if="field.comType === 'input'">
-                <!-- TODO: bug 密码泄露，需要优化传值方式 -->
                 <InputCom
                   :is-error="errorMessage.length > 0"
                   v-bind="{ ...componentField, ...field }"
@@ -80,10 +83,29 @@ const onSubmit = form.handleSubmit((values) => {
                 />
               </template>
               <template v-else-if="field.comType === 'add-tag'">
-                <AddTagCom v-model="componentField.modelValue" v-bind="field" />
+                <AddTagCom
+                  v-model="componentField.modelValue"
+                  v-bind="field"
+                  @update:model-value="(val) => form.setFieldValue(field.fieldName, val)"
+                />
+              </template>
+              <template v-else-if="field.comType === 'select'">
+                <SelectCom v-bind="{ ...componentField, ...field }" />
               </template>
               <template v-else-if="field.comType === 'upload'">
-                <UploadCom v-model="componentField.modelValue" :upload-id="field.fieldName" v-bind="field" />
+                <UploadCom
+                  v-model="componentField.modelValue"
+                  :upload-id="field.fieldName"
+                  v-bind="field"
+                  @update:model-value="(val) => form.setFieldValue(field.fieldName, val)"
+                />
+              </template>
+              <template v-else-if="field.comType === 'combination-input'">
+                <CombinationInputCom
+                  v-model="componentField.modelValue"
+                  v-bind="field"
+                  @update:model-value="(val) => form.setFieldValue(field.fieldName, val)"
+                />
               </template>
             </FormControl>
             <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />

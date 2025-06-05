@@ -11,7 +11,7 @@
     </div>
     <div class="flex items-center gap-1">
       <BellIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />
-      <div class="absolute top-0 translate-y-[15%] right-0">
+      <div v-if="false" class="absolute top-0 translate-y-[15%] right-0 z-2">
         <NotificationCom />
       </div>
       <div class="cursor-pointer">

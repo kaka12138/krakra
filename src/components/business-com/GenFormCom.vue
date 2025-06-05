@@ -5,7 +5,7 @@
         创建
       </h2>
       <p class="text-6xl font-semibold text-[#9370DB] mb-6">
-        <span class="text-[#FFC300]">{{ formTitle }}</span> 
+        <span class="text-[#FFC300]">{{ formTitle }}</span>
       </p>
       <FormCom
         :form-type="formType"
@@ -23,6 +23,7 @@ import FormCom from '@/components/business-com/FormCom.vue'
 import BaseDialogCom from '@/components/business-com/BaseDialogCom.vue'
 import { createOC_AU_Work_Api  } from '@/api/work'
 import { createGuashiApi } from '@/api/guashi'
+import { createCardApi } from '@/api/card'
 import { toast } from 'vue-sonner'
 import { ref, computed, watch } from 'vue'
 import { FORM_FIELDS_MAP } from '@/constant/form-fields'
@@ -48,8 +49,13 @@ const formTitle = computed(() => FORM_TITLE_MAP[props.formType])
 
 const handleSubmit = (values: Record<string, unknown>, initialValues: Record<string, unknown>) => {
   const data = Object.assign({}, initialValues, values)
+  console.log('data', data)
   if(data.coverFileId?.length) {
     data.coverFileId = data.coverFileId[0].url
+  }
+  // TODO: 后端统一字段
+  if(data.cover_file_id?.length) {
+    data.cover_file_id = data.cover_file_id[0].url
   }
 
   data.tags = data.tags.map(t => t.desc)
@@ -57,7 +63,16 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
   if(data.imageFileIds?.length) {
     data.imageFileIds = data.imageFileIds.map(item => item.url)
   }
-  const apiFunc = props.formType === 'guashi_form' ? createGuashiApi : createOC_AU_Work_Api
+
+  // 处理卡片的label标签, 保留name,description都不为空的
+  if(props.formType === 'card_form') {
+    if(data.lable.length) {
+      data.lable = data.lable.filter(item => item.name && item.description)
+    }
+  }
+
+  const apiFunc = props.formType === 'guashi_form' ? createGuashiApi : props.formType === 'card_form' ? createCardApi : createOC_AU_Work_Api
+  console.log('data', data)
 
   apiFunc(data).then(res => {
     console.log('res', res)
