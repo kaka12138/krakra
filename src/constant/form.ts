@@ -75,10 +75,10 @@ export const GUA_SHI_FORM_INITIAL_VALUES = {
 export const CARD_FORM_INITIAL_VALUES = {
   name: '',
   category: '',
-  cover_file_id: [],
+  coverFileId: [],
   description: '',
   tags: [],
-  lable: [],
+  customLabel: [],
 }
 
 

@@ -53,10 +53,6 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
   if(data.coverFileId?.length) {
     data.coverFileId = data.coverFileId[0].url
   }
-  // TODO: 后端统一字段
-  if(data.cover_file_id?.length) {
-    data.cover_file_id = data.cover_file_id[0].url
-  }
 
   data.tags = data.tags.map(t => t.desc)
 
@@ -66,8 +62,8 @@ const handleSubmit = (values: Record<string, unknown>, initialValues: Record<str
 
   // 处理卡片的label标签, 保留name,description都不为空的
   if(props.formType === 'card_form') {
-    if(data.lable.length) {
-      data.lable = data.lable.filter(item => item.name && item.description)
+    if(data.customLabel.length) {
+      data.customLabel = data.customLabel.filter(item => item.name && item.description)
     }
   }
 

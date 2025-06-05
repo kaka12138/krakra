@@ -213,7 +213,7 @@ export const GUA_SHI_FORM_FIELDS = [
 export const CARD_FORM_FIELDS = [
   {
     comType: 'upload',
-    fieldName: 'cover_file_id',
+    fieldName: 'coverFileId',
     limit: 1,
     label: '上传封面',
   },
@@ -243,7 +243,7 @@ export const CARD_FORM_FIELDS = [
   },
   {
     comType: 'combination-input',
-    fieldName: 'lable',
+    fieldName: 'customLabel',
     label: '可选项',
   },
 ]

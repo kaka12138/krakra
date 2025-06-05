@@ -58,7 +58,7 @@ export const GUA_SHI_FORM_RULES = z.object({
 export const CARD_FORM_RULES = z.object({
   name: z.string().nonempty({ message: '请输入名称' }),
   category: z.number(z.string().nonempty({ message: '请选择分类' })).or(z.string().nonempty({ message: '请选择分类' })),
-  cover_file_id: z.array(z.object({
+  coverFileId: z.array(z.object({
     url: z.string().nonempty({ message: '请上传图片' }),
     id: z.string().nonempty({ message: '请上传图片' }),
   })).nonempty({ message: '请上传图片' }),
@@ -66,7 +66,7 @@ export const CARD_FORM_RULES = z.object({
   tags: z.array(z.object({
     desc: z.string().nonempty({ message: '请输入标签' }),
   })).optional(),
-  lable: z.array(z.object({
+  customLabel: z.array(z.object({
     name: z.string(),
     description: z.string(),
   })).optional(),
