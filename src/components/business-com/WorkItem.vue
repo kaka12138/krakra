@@ -125,7 +125,6 @@ const chainInfo = computed(() => {
   if(!chainData) return {}
   const zeroNode = chainData[0] || {}
   const middleNodes = chainData.slice(1, -1)
-  console.log('middleNodes', middleNodes)
   const currentNode = chainData.length > 1 ? chainData[chainData.length - 1] : {}
   return {
     zeroNode,

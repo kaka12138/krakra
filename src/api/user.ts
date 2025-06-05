@@ -72,3 +72,19 @@ export function logout(): Promise<void> {
 export function getUserList(params: { page: number; pageSize: number; keyword?: string }): Promise<{ list: UserInfo[]; total: number }> {
   return get('/user/list', params);
 }
+
+
+// 用户消息
+// 1, "私信"
+// 2, "评论"
+// 3, "回复"
+// 4, "赞"
+// 5, "扩"
+// 6,"关注"
+// 7, "收藏"
+// 8, "@"
+// 9, "系统"
+
+export function getUserMessageApi(data: any) {
+  return post('/account/msg/other', data);
+}
