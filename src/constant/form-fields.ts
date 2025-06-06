@@ -1,4 +1,4 @@
-import { PERMISSION_LIST } from './form.js'
+import { WORK_TYPE_LIST, PERMISSION_LIST } from './form.js'
 import { Card_Category_Lisy } from './common.js'
 
 export const LOGIN_FORM_FIELDS = [
@@ -142,19 +142,16 @@ export const WORK_FORM_FIELDS = [
     label: '添加标签',
   },
   {
-    comType: 'input',
-    inputOriginType: 'text',
-    placeholder: '请输入卡片名称',
+    comType: 'search-card',
     fieldName: 'card',
     label: '添加卡片',
   },
   {
     comType: 'radio',
-    fieldName: 'viewPermission',
-    label: '高级权限',
-    title: '允许展示范围',
-    options: PERMISSION_LIST,
-    optionsDec: '允许展示范围',
+    fieldName: 'isOriginal',
+    label: '发布类型',
+    options: WORK_TYPE_LIST,
+    optionsDec: '',
   },
   {
     comType: 'switch',

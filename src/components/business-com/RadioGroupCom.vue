@@ -6,7 +6,7 @@
       class="space-y-2 bg-background rounded-lg p-4"
       @update:model-value="componentField.onChange"
     >
-      <div class="text-sm font-medium text-gray-500">
+      <div v-if="componentField.optionsDec" class="text-sm font-medium text-gray-500">
         {{ componentField.optionsDec }}
       </div>
       <div

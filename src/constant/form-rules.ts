@@ -34,7 +34,7 @@ export const WORK_FORM_RULES = z.object({
   description: z.string().nonempty({ message: '请输入简介' }),
   tags: z.array(z.object({
     desc: z.string().nonempty({ message: '请输入标签' }),
-  })).nonempty({message: '请添加标签'}),
+  })).optional(),
   card: z.string().nonempty({ message: '请输入卡片' }),
   imageFileIds: z.array(z.object({
     url: z.string().nonempty({ message: '请上传图片' }),

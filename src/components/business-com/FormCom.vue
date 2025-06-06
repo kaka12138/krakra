@@ -12,6 +12,7 @@ import AddTagCom from './AddTagCom.vue'
 import UploadCom from './UploadCom.vue'
 import SelectCom from './SelectCom.vue'
 import CombinationInputCom from './CombinationInputCom.vue'
+import SeachCardCom from './SeachCardCom.vue'
 import {
   FormControl,
   FormField,
@@ -102,6 +103,13 @@ const onSubmit = form.handleSubmit((values) => {
               </template>
               <template v-else-if="field.comType === 'combination-input'">
                 <CombinationInputCom
+                  v-model="componentField.modelValue"
+                  v-bind="field"
+                  @update:model-value="(val) => form.setFieldValue(field.fieldName, val)"
+                />
+              </template>
+              <template v-else-if="field.comType === 'search-card'">
+                <SeachCardCom
                   v-model="componentField.modelValue"
                   v-bind="field"
                   @update:model-value="(val) => form.setFieldValue(field.fieldName, val)"

@@ -21,6 +21,19 @@ export const PERMISSION_LIST = [
   },
 ]
 
+export const WORK_TYPE_LIST = [
+  {
+    value: 1,
+    desc1: '原创',
+    desc2: '',
+  },
+  {
+    value: 2,
+    desc1: '同人',
+    desc2: '',
+  },
+]
+
 export const LOGIN_FORM_INITIAL_VALUES = {
   username: '',
   password: '',
@@ -55,11 +68,11 @@ export const AU_FORM_INITIAL_VALUES = Object.assign({}, OC_FORM_INITIAL_VALUES, 
 
 export const WORK_FORM_INITIAL_VALUES = Object.assign({}, BASE_FORM_INITIAL_VALUES, {
   card: '', // 卡片
-  viewPermission: 1, // 浏览权限
   imageFileIds: [], // 上传的作品图片
   isNsfw: 0, // 0: 否 1: 是 (是否敏感)
   isDerivative: 0, // 0: 否 1: 是 (是否二次创作)
-  type: 3, // 0: 作品 1: oc 2: au
+  type: 0, // 0: 作品 1: oc 2: au
+  isOriginal: 2, // 是否原创
 })
 
 export const GUA_SHI_FORM_INITIAL_VALUES = {

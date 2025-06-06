@@ -7,3 +7,7 @@ export function getHotCardListApi() {
 export function createCardApi(data: any) {
   return post('/product/card', data)
 }
+
+export function searchCardApi(params: any) {
+  return get('/product/card/getCardList', params)
+}
