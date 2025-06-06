@@ -67,5 +67,4 @@ watch(isBottom, () => {
     getList()
   }
 })
-getList()
 </script>

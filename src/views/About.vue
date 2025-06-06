@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-8/9 mx-auto h-full py-10 pt-30">
-    <div class="w-1/4 min-w-1/4 h-full mr-6">
+    <div class="w-[20%] min-w-[20%] mt-9 mr-6">
       <UserInfoCom :user-info-from-request="userInfoFromRequest" />
     </div>
     <div class="flex-1 h-full flex flex-col">
