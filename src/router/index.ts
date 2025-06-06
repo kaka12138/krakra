@@ -25,6 +25,11 @@ const routes = [
     component: () => import('../views/ChainDetail.vue'),
   },
   {
+    path: '/carddetail',
+    name: 'carddetail',
+    component: () => import('../views/CardDetail.vue'),
+  },
+  {
     path: '/about/:id',
     name: 'about',
     component: () => import('../views/About.vue'),
@@ -67,9 +72,21 @@ const routes = [
     ],
   },
   {
-    path: '/chat',
-    name: 'chat',
-    component: () => import('../components/business-com/ChatCom.vue'),
+    path: '/ocabout/:ocId',
+    name: 'ocabout',
+    component: () => import('../views/OcAbout.vue'),
+    children: [
+      {
+        path: 'mywork',
+        name: 'mywork',
+        component: () => import('../views/MyWork.vue'),
+      },
+      {
+        path: 'myfavorite',
+        name: 'myfavorite',
+        component: () => import('../views/MyFavorite.vue'),
+      },
+    ],
   },
 ];
 

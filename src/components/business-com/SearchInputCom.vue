@@ -23,7 +23,10 @@
         确认
       </button>
     </div>
-    <div v-if="isDropdownVisible" class="px-6 py-2 absolute left-0 top-10 w-full h-100 overflow-y-auto max-h-100 bg-red z-9999 bg-background rounded-lg">
+    <div
+      v-if="isDropdownVisible"
+      class="px-6 py-2 absolute left-0 top-10 w-full h-100 overflow-y-auto max-h-100 bg-red z-9999 bg-background rounded-lg"
+    >
       <slot name="dropdown" :search-res="searchRes">
         <div class="truncate text-md text-[#B0B0B0] mb-2">
           "{{ searchValue }}"相关内容

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 box-border bg-background rounded-lg p-6">
+  <div class="w-100 box-border bg-background rounded-lg p-6 shadow-lg">
     <div class="flex gap-x-2 pb-4 border-b-1 border-[rgba(148,112,219,0.5)] ">
       <div
         v-for="tab in tabs"
