@@ -81,23 +81,23 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/ocabout/:ocId',
-    name: 'ocabout',
-    component: () => import('../views/OcAbout.vue'),
-    children: [
-      {
-        path: 'mywork',
-        name: 'mywork',
-        component: () => import('../views/MyWork.vue'),
-      },
-      {
-        path: 'myfavorite',
-        name: 'myfavorite',
-        component: () => import('../views/MyFavorite.vue'),
-      },
-    ],
-  },
+  // {
+  //   path: '/ocabout/:ocId',
+  //   name: 'ocabout',
+  //   component: () => import('../views/OcAbout.vue'),
+  //   children: [
+  //     {
+  //       path: 'mywork',
+  //       name: 'mywork',
+  //       component: () => import('../views/MyWork.vue'),
+  //     },
+  //     {
+  //       path: 'myfavorite',
+  //       name: 'myfavorite',
+  //       component: () => import('../views/MyFavorite.vue'),
+  //     },
+  //   ],
+  // },
 ];
 
 const router = createRouter({

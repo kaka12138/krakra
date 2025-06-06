@@ -115,7 +115,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['handleSelectCollection', 'addLike', 'clickChain'])
+const emit = defineEmits(['handleSelectCollection', 'clickChain'])
 
 // TODO:后端判断
 const viewNsfw = ref(props.artwork.isNsfw)

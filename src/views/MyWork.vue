@@ -260,7 +260,7 @@ const groupTabs = ref([
   { value: undefined, name: '全部' },
   { value: 1, name: '同人' },
   { value: 2, name: '原创' },
-  { value: 3, name: '自定义二级分类' },
+  // { value: 3, name: '自定义二级分类' },
 ])
 const groupId = ref(undefined)
 const handleGroupClick = (value: number) => {

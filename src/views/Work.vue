@@ -35,8 +35,8 @@ import WorkItem from '@/components/business-com/WorkItem.vue'
 import { getOC_AU_WorkList_Api } from '@/api/work'
 import { ref, watch, onMounted } from 'vue'
 import { toast } from 'vue-sonner'
-import { addToMyLikeApi, addToMyRecreationApi } from '@/api/work';
-import { getUrlId } from '@/utils/common';
+import { addToMyRecreationApi } from '@/api/work';
+
 
 import BallMenuCom from '@/components/business-com/BallMenuCom.vue'
 import { useRouter } from 'vue-router';
@@ -61,21 +61,7 @@ const tabsIsNSFW = ref([
   { value: 0, name: 'SFW' },
 ])
 
-// 收藏
-const handleAddLike = (item) => {
-  const { coverFileId, id, creatorId } = item
-  const data = {
-    coverFileId: getUrlId(coverFileId),
-    creationId: id,
-    type: 1,
-    acceptId: creatorId,
-  }
-  addToMyLikeApi(data).then((res) => {
-    toast.success('收藏成功')
-    item.likeCount++
-    item.likeFlag = true
-  })
-}
+
 
 const groupId = ref(undefined)
 const isNSFW = ref(undefined)

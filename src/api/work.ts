@@ -88,3 +88,17 @@ export function searchApi(params: any) {
 
 // 卡片结果搜索
 // 用户结果搜索
+
+
+// 个人主页喜欢，扩单(二创)
+
+export function getMyFavoriteListApi(params: any) {
+  return get('/product/creation/get/like', params)
+}
+
+export function getMyRecreationListApi(params: any) {
+  return get('/product/creation/get/like', params)
+}
+
+
+

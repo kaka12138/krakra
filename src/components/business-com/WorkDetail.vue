@@ -63,7 +63,7 @@
               <span class="text-sm">说点什么...</span>
             </div>
             <div class="flex-1 flex items-center justify-evenly">
-              <div class="flex items-center gap-2 cursor-pointer" @click="handleLike(detailInfo)">
+              <div class="flex items-center gap-2 cursor-pointer" @click="handleAddLike(detailInfo)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -125,12 +125,13 @@ import CommentItem from './CommentItem.vue';
 import CommentInputCom from './CommentInputCom.vue';
 import BaseDialogCom from './BaseDialogCom.vue';
 import { CircleUserRound, MessageCircleMoreIcon } from 'lucide-vue-next';
-import { getWorkDetail_Api, getCommentListApi, thumbUpWorkApi } from '@/api/work';
+import { getWorkDetail_Api, getCommentListApi, thumbUpWorkApi, addToMyLikeApi } from '@/api/work';
 import { thumbUpCommentApi } from '@/api/comment'
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core'
 import { getUrlId } from '@/utils/common'
 import { useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
 
 const props = defineProps({
@@ -212,8 +213,19 @@ const handleThumbUpComment = (item) => {
 }
 
 // 收藏
-const handleLike = (item) => {
-  console.log('handleLike', item)
+const handleAddLike = (item) => {
+  const { coverFileId, id, creatorId } = item
+  const data = {
+    coverFileId: getUrlId(coverFileId),
+    creationId: id,
+    type: 1,
+    acceptId: creatorId,
+  }
+  addToMyLikeApi(data).then((res) => {
+    toast.success('收藏成功')
+    item.likeCount++
+    item.likeFlag = true
+  })
 }
 
 
