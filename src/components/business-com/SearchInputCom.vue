@@ -127,7 +127,9 @@ const handleSearch = () => {
     return
   }
   const apiFunc = props.searchType === 1 ? searchApi : searchCardApi
-  const data = props.searchType === 1 ? {} : {
+  const data = props.searchType === 1 ? {
+    keyword: searchValue.value,
+  } : {
     cardIdOrName: searchValue.value,
   }
   apiFunc(data).then((res) => {

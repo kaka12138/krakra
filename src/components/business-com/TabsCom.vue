@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-90 w-full flex items-center justify-center space-x-1 rounded-full bg-[#F0F0F0] p-1 border-1 border-[#D6CCEB]">
+  <div class="max-w-80 w-full flex items-center justify-center space-x-1 rounded-full p-1 border-1 border-[#D6CCEB]">
     <button
       v-for="tab in tabs"
       :key="tab.value"
       :class="[
-        'flex-1 px-2 py-1 rounded-full text-xl font-bold cursor-pointer',
+        'flex-1 py-0.5 rounded-full text-md tracking-[4px] font-bold cursor-pointer',
         active === tab.value
           ? 'bg-[#926DDE]  text-white'
           : 'text-[#D6CCEB]',

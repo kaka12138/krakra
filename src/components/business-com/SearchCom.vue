@@ -7,7 +7,7 @@
   >
     <div class="w-64 h-12 bg-[url(@/assets/logo-h.png)] bg-no-repeat bg-contain" @click="router.push('/')" />
     <div class="flex-1 max-w-2xl">
-      <SearchInputCom />
+      <SearchInputCom :search-type="1" />
     </div>
     <div class="flex items-center gap-1">
       <BellIcon class="w-8 h-8 cursor-pointer" color="#9370DB" />

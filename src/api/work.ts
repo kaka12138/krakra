@@ -81,7 +81,10 @@ export function getCollectionDetailApi(params: any) {
 }
 
 
-// 搜索
+// 首页导航搜索
 export function searchApi(params: any) {
-  return get('/seek/api/v1/search', params)
+  return get('/creation/search/suggestions', params)
 }
+
+// 卡片结果搜索
+// 用户结果搜索

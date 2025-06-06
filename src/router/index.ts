@@ -30,6 +30,16 @@ const routes = [
     component: () => import('../views/CardDetail.vue'),
   },
   {
+    path: '/searchrescard',
+    name: 'searchrescard',
+    component: () => import('../views/SearchResCard.vue'),
+  },
+  {
+    path: '/searchresuser',
+    name: 'searchresuser',
+    component: () => import('../views/SearchResUser.vue'),
+  },
+  {
     path: '/about/:id',
     name: 'about',
     component: () => import('../views/About.vue'),
