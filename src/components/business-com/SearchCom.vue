@@ -36,12 +36,18 @@
         >
           <UserIcon color="#fff" />
         </div>
-        <img
-          v-else
-          class="w-8 h-8 rounded-full"
-          :src="userStore.userInfo.avatarUrl"
-          @click="toMyHome"
-        >
+        <div v-else ref="accountDropdownContainerRef">
+          <div v-if="isAccountDropdownVisible" class="absolute top-0 translate-y-[15%] right-0 z-2">
+            <AccountList />
+          </div>
+          <img
+
+            class="w-8 h-8 rounded-full"
+            :src="userStore.userInfo.avatarUrl"
+            @click="isAccountDropdownVisible = !isAccountDropdownVisible"
+          >
+        </div>
+
         <AlignJustifyIcon class="w-8 h-8" color="#9370DB" />
       </div>
     </div>
@@ -50,11 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import {  computed, ref, watch, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, onBeforeUnmount } from 'vue'
 import { UserIcon, BellIcon, AlignJustifyIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import SearchInputCom from './SearchInputCom.vue'
 import NotificationCom from './NotificationCom.vue'
+import AccountList from './AccountList.vue'
 
 import { useLoginSignin } from '@/hooks/useLoginSignin'
 import { useUserStore } from '@/stores/user'
@@ -64,31 +71,43 @@ const { open } = useLoginSignin()
 
 const router = useRouter()
 const isLogin = computed(() => userStore.token)
-const toMyHome = () => {
-  router.push(`/about/${userStore.userInfo.userId}/mywork`)
-}
 
 const dropdownContainerRef = ref(null)
 const isDropdownVisible = ref(false)
+
+const accountDropdownContainerRef = ref(null)
+const isAccountDropdownVisible = ref(false)
 
 const handleClickOutside = (event) => {
   if (dropdownContainerRef.value && !dropdownContainerRef.value.contains(event.target)) {
     isDropdownVisible.value = false
   }
 };
+const handleAccountClickOutside = (event) => {
+  if (accountDropdownContainerRef.value && !accountDropdownContainerRef.value.contains(event.target)) {
+    isAccountDropdownVisible.value = false
+  }
+};
 
-watch(isDropdownVisible, (newValue) => {
-  if (newValue) {
+watch([isDropdownVisible, isAccountDropdownVisible], ([isDropdownVisible, isAccountDropdownVisible]) => {
+  if (isDropdownVisible) {
     // Using 'mousedown' is often preferred over 'click' for "click outside"
     // as it fires before blur events, which can sometimes interfere.
     document.addEventListener('mousedown', handleClickOutside);
   } else {
     document.removeEventListener('mousedown', handleClickOutside);
   }
+  if (isAccountDropdownVisible) {
+    document.addEventListener('mousedown', handleAccountClickOutside);
+  } else {
+    document.removeEventListener('mousedown', handleAccountClickOutside);
+  }
 });
+
 
 onBeforeUnmount(() => {
   document.removeEventListener('mousedown', handleClickOutside);
+  document.removeEventListener('mousedown', handleAccountClickOutside);
 });
 
 </script>
