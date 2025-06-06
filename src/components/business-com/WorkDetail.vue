@@ -67,8 +67,8 @@
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
-                  width="24"
-                  height="24"
+                  width="30"
+                  height="30"
                   viewBox="0 0 17.6666259765625 15.30224609375"
                   :fill="detailInfo.likeFlag ? '#926DDE' : 'none'"
                 >
@@ -82,7 +82,7 @@
                 </svg>
                 <span class="text-lg text-[#666]">{{ detailInfo.likeCount }}</span>
               </div>
-              <div class="flex items-center gap-2 cursor-pointer">
+              <div class="flex items-center gap-2 cursor-pointer" @click="handleWorkThumbUp(detailInfo)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -100,7 +100,7 @@
               </div>
             </div>
           </div>
-          <div class="absolute bottom-0 left-0 z-99">
+          <div class="absolute w-full bottom-0 left-0 z-99">
             <CommentInputCom
               v-if="showCommentInput"
               :id="detailInfo.id"

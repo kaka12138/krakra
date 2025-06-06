@@ -47,7 +47,7 @@
       <div class="flex" @click.stop="handleClickChain">
         <!-- zero -->
         <div class="flex flex-col items-center justify-center">
-          <img class="w-10 h-10 rounded-full border-2 border-[#FFD700]" :src="chainInfo.zeroNode.coverFileId" alt="chain">
+          <img class="w-10 h-10 rounded-full border-2 border-[#FFD700]" :src="chainInfo.zeroNode.avatar" alt="chain">
           <div class="text-xs bg-[#FFD700] text-[#9370DB] px-1 py-0.5 rounded-full mt-1 scale-90">
             零号位
           </div>
@@ -151,8 +151,8 @@ const handleClick = () => {
 }
 
 const handleClickChain = () => {
-  // router.push(`/chaindetail?id=${chainInfo.value.highlightNodes}`)
-  emit('clickChain', chainInfo.value.highlightNodes)
+  console.log('handleClickChain', props.artwork.id)
+  emit('clickChain', props.artwork.id)
 }
 
 // const toMyWorkPage = (id: string | number) => {}
