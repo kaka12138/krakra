@@ -10,7 +10,7 @@
       @click="handleSelectCollection"
     >
       <img
-        :src="artwork.coverFileId"
+        :src="artwork.coverUrl"
         alt="Artwork Image"
         class="w-full h-auto"
         :class="[isCreateCollectionMode && artwork.isSelected ? 'brightness-125' : '', viewNsfw ? 'blur-sm' : '']"
@@ -105,7 +105,7 @@
           class="flex flex-col items-center gap-y-2"
         >
           <img
-            :src="item.coverFileId"
+            :src="item.coverUrl"
             class="rounded-full"
             :class="[chainInfo.highlightNodes == item.id ? 'border-[#FFD700] w-10 h-10 opacity-100 border-3' : chainInfo.currentNodeId == item.id ? 'w-10 h-10 border-3 border-[#9370DB]' : 'w-10 h-10 opacity-50']"
           >

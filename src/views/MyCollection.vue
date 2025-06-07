@@ -12,7 +12,7 @@
         @click="handleViewCollection(item)"
       >
         <div class="w-full h-auto bg-gray-200 rounded-lg overflow-hidden">
-          <img :src="item.coverFileId" alt="" class="w-full h-full object-cover">
+          <img :src="item.coverUrl" alt="" class="w-full h-full object-cover">
         </div>
         <p class="truncate text-lg font-medium text-[#9370DB]">
           {{ item.name }}

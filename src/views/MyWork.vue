@@ -148,7 +148,7 @@
       <h1 class="text-2xl font-bold text-[#926DDE]">
         创建合集
       </h1>
-      <UploadCom v-model="collectionCoverFileIdArr" upload-id="createCollection" :limit="1" />
+      <UploadCom v-model="collectioncoverUrlArr" upload-id="createCollection" :limit="1" />
       <div class="text-sm font-medium text-[#926DDE] my-2">
         合集标题
       </div>
@@ -187,9 +187,9 @@ onMounted(() => {
 
 // 收藏
 const handleAddLike = (item) => {
-  const { coverFileId, id, creatorId } = item
+  const { coverUrl, id, creatorId } = item
   const data = {
-    coverFileId: getUrlId(coverFileId),
+    coverUrl: getUrlId(coverUrl),
     creationId: id,
     type: 1,
     acceptId: creatorId,
@@ -205,7 +205,7 @@ const handleAddLike = (item) => {
 // collection
 const isCreateCollectionMode = ref(false)
 const selectedCollectionIds = ref([])
-const collectionCoverFileIdArr = ref([])
+const collectioncoverUrlArr = ref([])
 const collectionName = ref('')
 const showCreateCollectionDialog = ref(false)
 const handleSelectCollection = (item) => {
@@ -227,7 +227,7 @@ const backToSelect = () => {
 
 const handleCancelSelect = () => {
   selectedCollectionIds.value = []
-  collectionCoverFileIdArr.value = []
+  collectioncoverUrlArr.value = []
   collectionName.value = ''
   tableData.value.forEach(item => {
     item.isSelected = false
@@ -239,7 +239,7 @@ const handleCancelSelect = () => {
 const handleCreateCollection = () => {
   const data = {
     name: collectionName.value,
-    coverFileId: collectionCoverFileIdArr.value[0].url,
+    coverUrl: collectioncoverUrlArr.value[0].url,
     creationIds: selectedCollectionIds.value,
   }
   createCollectionApi(data).then((res) => {

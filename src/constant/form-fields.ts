@@ -1,4 +1,4 @@
-import { PERMISSION_LIST } from './form.js'
+import { PERMISSION_LIST, MANIFESTATION_TYPE_LIST } from './form.js'
 
 export const LOGIN_FORM_FIELDS = [
   {
@@ -50,7 +50,7 @@ export const SIGNIN_FORM_FIELDS = [
 export const OC_FORM_FIELDS = [
   {
     comType: 'upload',
-    fieldName: 'coverFileId',
+    fieldName: 'coverUrl',
     limit: 1,
     label: '上传图片',
   },
@@ -112,15 +112,36 @@ export const AU_FORM_FIELDS = [...OC_FORM_FIELDS]
 export const WORK_FORM_FIELDS = [
   {
     comType: 'upload',
-    fieldName: 'coverFileId',
+    fieldName: 'coverUrl',
     limit: 1,
     label: '上传封面',
   },
   {
-    comType: 'upload',
-    fieldName: 'imageFileIds',
-    limit: 9,
+    fieldName: 'content',
     label: '上传作品',
+    nestedFields: [
+      {
+        comType: 'radio',
+        fieldName: 'manifestationType',
+        label: '作品类型',
+        title: '请选择作品类型',
+        options: MANIFESTATION_TYPE_LIST,
+        optionsDec: '请选择作品类型',
+      },
+      {
+        comType: 'textarea',
+        fieldName: 'description',
+        label: '简介',
+        placeholder: '请输入简介',
+      },
+      {
+        comType: 'upload',
+        fieldName: 'value',
+        limit: 9,
+        label: '作品上传',
+      },
+    ],
+    nestedPath: 'content',
   },
   {
     comType: 'input',
@@ -128,12 +149,6 @@ export const WORK_FORM_FIELDS = [
     inputOriginType: 'text',
     placeholder: '请输入标题名称',
     label: '标题名称',
-  },
-  {
-    comType: 'textarea',
-    fieldName: 'description',
-    label: '简介',
-    placeholder: '请输入简介',
   },
   {
     comType: 'add-tag',
@@ -144,16 +159,8 @@ export const WORK_FORM_FIELDS = [
     comType: 'input',
     inputOriginType: 'text',
     placeholder: '请输入卡片名称',
-    fieldName: 'card',
+    fieldName: 'associationIds',
     label: '添加卡片',
-  },
-  {
-    comType: 'radio',
-    fieldName: 'viewPermission',
-    label: '高级权限',
-    title: '允许展示范围',
-    options: PERMISSION_LIST,
-    optionsDec: '允许展示范围',
   },
   {
     comType: 'switch',
@@ -165,7 +172,7 @@ export const WORK_FORM_FIELDS = [
 export const GUA_SHI_FORM_FIELDS = [
   {
     comType: 'upload',
-    fieldName: 'imageFileIds',
+    fieldName: 'content',
     limit: 9,
     label: '作品上传',
   },
@@ -178,7 +185,7 @@ export const GUA_SHI_FORM_FIELDS = [
   },
   {
     comType: 'textarea',
-    fieldName: 'content',
+    fieldName: 'description',
     label: '简介',
     placeholder: '请输入内容',
   },

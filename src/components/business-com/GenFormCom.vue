@@ -48,14 +48,28 @@ const formTitle = computed(() => FORM_TITLE_MAP[props.formType])
 
 const handleSubmit = (values: Record<string, unknown>, initialValues: Record<string, unknown>) => {
   const data = Object.assign({}, initialValues, values)
-  if(data.coverFileId?.length) {
-    data.coverFileId = data.coverFileId[0].url
+  if(Array.isArray(data.coverUrl) && data.coverUrl.length) {
+    data.coverUrl = (data.coverUrl as { url: string }[])[0].url
   }
 
-  data.tags = data.tags.map(t => t.desc)
+  // 处理content.imageUrls字段，将UploadCom返回的{id, url}格式转换为url数组
+  if (data.content && typeof data.content === 'object' && data.content !== null) {
+    const content = data.content as Record<string, unknown>
+    if (Array.isArray(content.imageUrls)) {
+      if (content.imageUrls.length > 0) {
+        // 如果有数据，转换格式
+        content.imageUrls = (content.imageUrls as { url: string }[]).map((item: { url: string }) => item.url)
+      }
+      // 如果是空数组，保持空数组
+    } else {
+      // 如果imageUrls不存在或不是数组，设置为空数组
+      content.imageUrls = []
+    }
+  }
 
-  if(data.imageFileIds?.length) {
-    data.imageFileIds = data.imageFileIds.map(item => item.url)
+  // 兼容处理旧的imageFileIds字段（如果存在）
+  if(Array.isArray(data.imageFileIds) && data.imageFileIds.length) {
+    data.imageFileIds = data.imageFileIds.map((item: { url: string }) => item.url)
   }
   const apiFunc = props.formType === 'guashi_form' ? createGuashiApi : createOC_AU_Work_Api
 

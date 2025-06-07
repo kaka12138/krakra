@@ -13,7 +13,7 @@
     <div class="flex flex-wrap my-2 gap-2">
       <div v-for="tag in labelList" :key="tag.id" class="flex items-center mr-2 justify-center gap-2 rounded-full bg-[#9370DB] px-3 py-1 text-white font-medium text-lg">
         <span @click="handleDel(tag.id)">X</span>
-        <span>{{ tag.desc }}</span>
+        <span>{{ tag.name }}</span>
       </div>
     </div>
   </div>
@@ -33,16 +33,16 @@ const labelList = ref(props.modelValue || [])
 const inputLabel = ref('')
 const handleInputChange = (e) => {
   const value = e.target.value
-  console.log('ss', value)
+
   if(labelList.value.length >= 5) return
-  const exist = labelList.value.find(item => item.desc === value)
+  const exist = labelList.value.find(item => item.name === value)
   if(exist) {
     toast('标签已存在')
     return
   }
   labelList.value.push({
-    desc: value,
-    id: Date.now(),
+    name: value,
+    id: Date.now(),// TODO: 从接口获取
   })
   inputLabel.value = ''
   emit('update:modelValue', labelList.value)

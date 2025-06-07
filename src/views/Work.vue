@@ -58,9 +58,9 @@ const tabsIsNSFW = ref([
 
 // 收藏
 const handleAddLike = (item) => {
-  const { coverFileId, id, creatorId } = item
+  const { coverUrl, id, creatorId } = item
   const data = {
-    coverFileId: getUrlId(coverFileId),
+    coverUrl: getUrlId(coverUrl),
     creationId: id,
     type: 1,
     acceptId: creatorId,

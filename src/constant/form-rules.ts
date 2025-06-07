@@ -12,7 +12,7 @@ export const SIGNIN_FORM_RULES = z.object({
 })
 
 export const OC_FORM_RULES = z.object({
-  coverFileId: z.array(z.object({
+  coverUrl: z.array(z.object({
     url: z.string().nonempty({ message: '请上传图片' }),
     id: z.string().nonempty({ message: '请上传图片' }),
   })).nonempty({ message: '请上传图片' }),
@@ -26,7 +26,7 @@ export const OC_FORM_RULES = z.object({
 })
 
 export const WORK_FORM_RULES = z.object({
-  coverFileId: z.array(z.object({
+  coverUrl: z.array(z.object({
     url: z.string().nonempty({ message: '请上传图片' }),
     id: z.string().nonempty({ message: '请上传图片' }),
   })).nonempty({ message: '请上传图片' }),
