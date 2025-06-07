@@ -4,7 +4,7 @@
       <div class="container mx-auto max-w-6xl">
         <div class="flex gap-x-10">
           <div class="w-1/3">
-            <img :src="workDetail.coverFileId" alt="Character" class="h-auto rounded-lg">
+            <img :src="workDetail.coverUrl" alt="Character" class="h-auto rounded-lg">
           </div>
           <div class="w-2/3">
             <div class="bg-background rounded-lg p-4 space-y-2">
@@ -31,7 +31,7 @@
                   class="inline-block"
                 >
                   <div class="min-w-32 h-32 rounded">
-                    <img :src="item.coverFileId" class="w-full h-full object-cover rounded-lg">
+                    <img :src="item.coverUrl" class="w-full h-full object-cover rounded-lg">
                   </div>
                 </div>
               </div>

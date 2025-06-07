@@ -7,7 +7,7 @@
         class="rounded-full border-3 relative overflow-hidden"
         :class="[item.isHighlight? 'border-[#FFD700] w-16 h-16 opacity-100' : 'h-10 w-10 border-[#9370DB] opacity-50', item.isCurrent ? 'w-16 h-16 opacity-100' : '']"
       >
-        <img :src="item.coverFileId" class="w-full h-full object-cover">
+        <img :src="item.coverUrl" class="w-full h-full object-cover">
       </div>
       <div v-if="chainListComputed.length > 1" class="w-full h-1 absolute z-[-1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#9370DB] opacity-50" />
     </div>

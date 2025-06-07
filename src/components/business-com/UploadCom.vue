@@ -65,10 +65,10 @@ const handleFileChange = (e: Event) => {
   formData.append('file', file)
   uploadFileApi(formData).then(res => {
     console.log('res', res)
-    const {  id, url } = res
+    const {  id, url, lofiUrl } = res
     fileList.value.push({
       id,
-      url,
+      url: lofiUrl,
     })
     emit('update:modelValue', fileList.value)
     console.log('fileList', fileList.value)

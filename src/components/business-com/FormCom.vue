@@ -23,6 +23,8 @@ interface FormFieldConfig {
   fieldName: string;
   inputOriginType?: string;
   placeholder?: string;
+  nestedFields?: FormFieldConfig[]; // 添加嵌套字段配置
+  nestedPath?: string; // 嵌套对象的路径
   [key: string]: unknown;
 }
 
@@ -41,7 +43,7 @@ const formSchema = toTypedSchema(props.formRules)
 
 // 使用 useForm 创建表单控制器
 const form = useForm({
-  validationSchema: formSchema,
+  // validationSchema: formSchema,
   initialValues: props.formInitialValues,
 })
 
@@ -58,7 +60,59 @@ const onSubmit = form.handleSubmit((values) => {
   <div>
     <form class="space-y-5 sm:space-y-6">
       <template v-for="field in formFieldsConfig" :key="field.fieldName">
-        <FormField v-slot="{ componentField, errorMessage='' }" :name="field.fieldName">
+        <!-- 处理嵌套字段 -->
+        <template v-if="field.nestedFields && field.nestedFields.length">
+          <div class="space-y-4">
+            <h3 v-if="field.label" class="text-sm font-medium">{{ field.label }}</h3>
+            <div class="pl-4 border-l-2 border-gray-200">
+              <!-- 递归渲染嵌套字段 -->
+              <template v-for="nestedField in field.nestedFields" :key="nestedField.fieldName">
+                <FormField 
+                  v-slot="{ componentField, errorMessage='' }" 
+                  :name="`${field.fieldName}.${nestedField.fieldName}`"
+                >
+                  <!-- 调试信息 -->
+                  <div v-if="true" class="text-xs text-gray-400">
+                    字段名: {{ `${field.fieldName}.${nestedField.fieldName}` }}
+                    值: {{ componentField?.modelValue }}
+                  </div>
+                  <FormItem>
+                    <FormControl>
+                      <!-- 复用下面的逻辑 -->
+                      <template v-if="nestedField.comType === 'input'">
+                        <InputCom
+                          :is-error="errorMessage.length > 0"
+                          v-bind="{ ...componentField, ...nestedField }"
+                        />
+                      </template>
+                      <template v-else-if="nestedField.comType === 'textarea'">
+                        <TextareaCom :is-error="errorMessage.length > 0" v-bind="{ ...componentField, ...nestedField }" />
+                      </template>
+                      <template v-else-if="nestedField.comType === 'switch'">
+                        <SwitchCom v-bind="{ ...componentField, ...nestedField }" />
+                      </template>
+                      <template v-else-if="nestedField.comType === 'radio'">
+                        <RadioGroupCom
+                          v-bind="{ ...componentField, ...nestedField }"
+                        />
+                      </template>
+                      <template v-else-if="nestedField.comType === 'add-tag'">
+                        <AddTagCom v-model="componentField.modelValue" v-bind="nestedField" />
+                      </template>
+                      <template v-else-if="nestedField.comType === 'upload'">
+                        <UploadCom v-model="componentField.modelValue" :upload-id="nestedField.fieldName" v-bind="nestedField" />
+                      </template>
+                    </FormControl>
+                    <FormMessage class="text-red-500 text-sm font-medium pl-1 mt-1" />
+                  </FormItem>
+                </FormField>
+              </template>
+            </div>
+          </div>
+        </template>
+        
+        <!-- 原有的非嵌套字段处理 -->
+        <FormField v-else v-slot="{ componentField, errorMessage='' }" :name="field.fieldName">
           <FormItem>
             <FormControl>
               <template v-if="field.comType === 'input'">

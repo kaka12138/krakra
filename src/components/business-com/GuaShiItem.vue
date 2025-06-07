@@ -148,7 +148,7 @@ const thumbUpGuashiDebounce = useDebounceFn((item) => {
   thumbUpGuashiApi({
     postId: id,
     acceptId: creatorId,
-    coverFileId: getUrlId(imageFileIds[0]),
+    coverUrl: getUrlId(imageFileIds[0]),
   })
 }, 1000)
 

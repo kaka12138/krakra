@@ -3,7 +3,7 @@
     <div v-if="detailInfo" class="flex gap-4">
       <div class="min-w-1/2 max-w-1/2 overflow-hidden">
         <!-- TODO: 这里是轮播 -->
-        <img :src="detailInfo.coverFileId" class="w-full h-auto rounded-lg">
+        <img :src="detailInfo.coverUrl" class="w-full h-auto rounded-lg">
       </div>
       <div class="relative w-1/2">
         <div class="h-[70vh] overflow-y-auto">
@@ -185,7 +185,7 @@ const thumbUpWorkDebounce = useDebounceFn((item) => {
   thumbUpWorkApi({
     postId: id,
     acceptId: creatorId,
-    coverFileId: getUrlId(imageFileIds[0]),
+    coverUrl: getUrlId(imageFileIds[0]),
   })
 }, 1000)
 
